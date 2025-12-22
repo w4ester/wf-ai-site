@@ -5,14 +5,29 @@
     <link>https://w4ester.github.io/wf-ai-site</link>
     <description>A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Dec 2025 14:58:38 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Dec 2025 15:07:56 +0000</lastBuildDate>
     <atom:link href="https://w4ester.github.io/wf-ai-site/feed.xml" rel="self" type="application/rss+xml"/>
     <author>Will Capellaro</author>
     <item>
       <title>Guardian Protocol: Family Digital Wellbeing</title>
       <link>https://w4ester.github.io/wf-ai-site</link>
       <description><![CDATA[<p>Building tools for families to <strong>own their digital lives</strong>, not rent them.</p>
-<p>Guardian Protocol is our approach to family-centered AI that keeps data local, respects consent, and puts parents in control without surveillance capitalism.</p>
+<p>Guardian Protocol is our approach to family-centered AI that keeps data local, respects consent, and puts parents/guardians in control without surveillance capitalism.</p>
+<p>Core principles:<br />
+- <strong>Local-first</strong>: Your family's data stays on your devices<br />
+- <strong>Consent-based</strong>: Kids learn digital autonomy, not just restriction<br />
+- <strong>Transparent</strong>: No black-box algorithms deciding what your kids see<br />
+- <strong>Sovereign</strong>: Export everything, delete everything, own everything</p>
+<p>Part of the Baltimore AI Producers Lab mission: teaching families to be AI <em>producers</em>, not just consumers.</p>
+<p>More coming soon. 🛡️</p>]]></description>
+      <pubDate>Mon, 22 Dec 2025 15:01:12 +0000</pubDate>
+      <guid>https://w4ester.github.io/wf-ai-site#guardian-protocol:-family-digital-wellbeing</guid>
+    </item>
+    <item>
+      <title>Guardian Protocol: Family Digital Wellbeing</title>
+      <link>https://w4ester.github.io/wf-ai-site</link>
+      <description><![CDATA[<p>Building tools for families to <strong>own their digital lives</strong>, not rent them.</p>
+<p>Guardian Protocol is our approach to family-centered AI that keeps data local, respects consent, and puts parents/guardians in control without surveillance capitalism.</p>
 <p>Core principles:<br />
 - <strong>Local-first</strong>: Your family's data stays on your devices<br />
 - <strong>Consent-based</strong>: Kids learn digital autonomy, not just restriction<br />
