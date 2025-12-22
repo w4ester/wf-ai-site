@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WF-AI Site</title>
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="WF-AI Site Feed" href="feed.xml">
+    
+    <!-- Distinctive Typography: JetBrains Mono for that terminal/AI aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        // Dark mode initialization - check localStorage before page renders to prevent flash
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            foreground: "hsl(var(--primary-foreground))",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(var(--accent))",
+                            foreground: "hsl(var(--accent-foreground))",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(var(--muted))",
+                            foreground: "hsl(var(--muted-foreground))",
+                        },
+                        card: {
+                            DEFAULT: "hsl(var(--card))",
+                            foreground: "hsl(var(--card-foreground))",
+                        },
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 0 0 hsla(var(--accent), 0.4)' },
+                            '50%': { boxShadow: '0 0 20px 4px hsla(var(--accent), 0.2)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --background: 60 9% 98%;
+                --foreground: 24 10% 10%;
+                --card: 60 9% 98%;
+                --card-foreground: 24 10% 10%;
+                --primary: 24 10% 10%;
+                --primary-foreground: 60 9% 98%;
+                --accent: 142 76% 36%;
+                --accent-foreground: 60 9% 98%;
+                --muted: 60 5% 92%;
+                --muted-foreground: 24 5% 45%;
+                --border: 24 6% 83%;
+                --input: 24 6% 83%;
+                --ring: 142 76% 36%;
+            }
+            .dark {
+                --background: 240 6% 10%;
+                --foreground: 60 9% 98%;
+                --card: 240 5% 13%;
+                --card-foreground: 60 9% 98%;
+                --primary: 60 9% 98%;
+                --primary-foreground: 240 6% 10%;
+                --accent: 142 70% 45%;
+                --accent-foreground: 240 6% 10%;
+                --muted: 240 4% 18%;
+                --muted-foreground: 240 5% 65%;
+                --border: 240 4% 20%;
+                --input: 240 4% 20%;
+                --ring: 142 70% 45%;
+            }
+            body {
+                @apply bg-background text-foreground antialiased font-sans;
+            }
+            /* Markdown Styling */
+            .prose h1 { @apply text-2xl font-bold mt-6 mb-4 font-mono; }
+            .prose h2 { @apply text-xl font-semibold mt-5 mb-3 font-mono; }
+            .prose h3 { @apply text-lg font-semibold mt-4 mb-2 font-mono; }
+            .prose p { @apply leading-7 mb-4; }
+            .prose ul { @apply list-disc list-inside mb-4 space-y-1; }
+            .prose ol { @apply list-decimal list-inside mb-4 space-y-1; }
+            .prose a { @apply text-accent underline underline-offset-4 hover:opacity-80 transition-opacity; }
+            .prose code { @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono; }
+            .prose pre { @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4 font-mono text-sm; }
+            .prose blockquote { @apply border-l-4 border-accent pl-4 italic my-4 text-muted-foreground; }
+            .prose strong { @apply font-semibold text-foreground; }
+            .prose em { @apply italic; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Subtle grid background pattern -->
+    <div class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
+    
+    <div class="max-w-2xl mx-auto py-12 px-6">
+        
+        <header class="mb-16 space-y-6 animate-fade-in">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <!-- Terminal-style indicator -->
+                    <div class="w-3 h-3 rounded-full bg-accent animate-pulse-glow"></div>
+                    <h1 class="text-3xl font-bold tracking-tight font-mono">WF-AI Site</h1>
+                </div>
+                
+                <!-- Dark Mode Toggle -->
+                <button 
+                    id="theme-toggle" 
+                    class="p-2 rounded-lg border border-border hover:bg-muted transition-colors group"
+                    aria-label="Toggle dark mode"
+                >
+                    <!-- Sun icon (shown in dark mode) -->
+                    <svg class="w-5 h-5 hidden dark:block text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <!-- Moon icon (shown in light mode) -->
+                    <svg class="w-5 h-5 block dark:hidden text-foreground group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <p class="text-muted-foreground text-lg">A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</p>
+            
+            <nav class="flex gap-6 pt-2">
+                <a href="#" class="text-sm font-medium font-mono hover:text-accent transition-colors">[index]</a>
+                <a href="feed.xml" class="text-sm font-medium font-mono text-muted-foreground hover:text-accent transition-colors">[rss]</a>
+                <a href="https://github.com/w4ester" class="text-sm font-medium font-mono text-muted-foreground hover:text-accent transition-colors">[github]</a>
+            </nav>
+            
+            <div class="h-px bg-gradient-to-r from-accent via-border to-transparent w-full mt-8"></div>
+        </header>
+
+        <main id="content-feed" class="space-y-6">
+            
+            <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <div class="flex justify-between items-start gap-4">
+                        <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">System Initialized</h3>
+                        <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">genesis::init</span>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 text-muted-foreground prose">
+                    <p>The workspace is ready. Push updates directly from your terminal with <code>python manager.py</code>. Let's GrOw!</p>
+                </div>
+                <div class="px-6 pb-4 flex gap-2">
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#setup</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai</span>
+                </div>
+            </article>
+
+        </main>
+
+        <footer class="mt-20 py-6 text-center text-sm text-muted-foreground border-t border-border font-mono animate-fade-in" style="animation-delay: 0.3s; opacity: 0;">
+            <p>Maintained via Terminal & AI · <a href="https://w4ester.github.io/wf-ai-site" class="hover:text-accent transition-colors">w4ester.github.io/wf-ai-site</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+
+        // Stagger animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const articles = document.querySelectorAll('article');
+            articles.forEach((article, index) => {
+                article.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+            });
+        });
+    </script>
+</body>
+</html>

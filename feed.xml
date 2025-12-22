@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WF-AI Site</title>
+    <link>https://w4ester.github.io/wf-ai-site</link>
+    <description>A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://w4ester.github.io/wf-ai-site/feed.xml" rel="self" type="application/rss+xml"/>
+    <author>Will Capellaro</author>
+    <item>
+      <title>System Initialized</title>
+      <link>https://w4ester.github.io/wf-ai-site</link>
+      <description><![CDATA[<p>The workspace is ready. Push updates directly from your terminal with <code>python manager.py</code>. Let's GrOw!</p>]]></description>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://w4ester.github.io/wf-ai-site#system-initialized</guid>
+    </item>
+  </channel>
+</rss>
