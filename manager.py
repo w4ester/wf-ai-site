@@ -8,23 +8,31 @@ Features:
 - Markdown support for rich content
 - Automatic RSS feed generation
 - Tag support for categorization
-- Staggered animation delays on new posts
+- BEADS (bd) integration for task tracking
 
 Usage:
     python manager.py post "Title" "Content" --tags tag1,tag2
     python manager.py rss                           # Regenerate RSS feed
     python manager.py list                          # List recent posts
-    
+
+    # BEADS workflow (recommended):
+    python manager.py idea "Topic to write about"   # Create post task in bd
+    python manager.py ready                         # See what's ready to write
+    python manager.py publish                       # Interactive: pick task, write, publish
+
 Examples:
-    python manager.py post "My First AI Experiment" "Built a **RAG system** today!" --tags ai,rag
-    python manager.py post "Quick Note" "Just a thought about local LLMs."
+    python manager.py idea "Local LLMs on Mac" -p 1
+    python manager.py publish
+    python manager.py post "Quick Note" "Just a thought." --tags ai
 """
 
 import sys
 import os
 import re
+import json
 import datetime
 import argparse
+import subprocess
 from html import escape
 from pathlib import Path
 
@@ -71,6 +79,154 @@ def print_banner():
     print("\n╔═══════════════════════════════════════╗")
     print("║         WF-AI Site Manager            ║")
     print("╚═══════════════════════════════════════╝\n")
+
+
+# =============================================================================
+# BEADS (bd) Integration
+# =============================================================================
+
+def run_bd(args: list[str], json_output: bool = True) -> dict | str | None:
+    """Run a bd command and return the result."""
+    cmd = ['bd'] + args
+    if json_output and '--json' not in args:
+        cmd.append('--json')
+
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            if result.stderr:
+                print(f"⚠️  bd error: {result.stderr.strip()}")
+            return None
+
+        if json_output:
+            try:
+                return json.loads(result.stdout)
+            except json.JSONDecodeError:
+                return result.stdout.strip()
+        return result.stdout.strip()
+    except FileNotFoundError:
+        print("⚠️  bd not found. Install with: brew install steveyegge/beads/bd")
+        return None
+
+
+def bd_ready() -> list[dict]:
+    """Get list of ready (unblocked) tasks from bd."""
+    result = run_bd(['ready'])
+    if result and isinstance(result, list):
+        return result
+    return []
+
+
+def bd_create_post_task(title: str, priority: int = 2) -> str | None:
+    """Create a bd task for a post idea. Returns task ID."""
+    result = run_bd(['create', f'Write post: {title}', '-t', 'task', '-p', str(priority)])
+    if result and isinstance(result, dict):
+        return result.get('id')
+    return None
+
+
+def bd_close_task(task_id: str, reason: str = "Published") -> bool:
+    """Close a bd task."""
+    result = run_bd(['close', task_id, '--reason', reason])
+    return result is not None
+
+
+def bd_list_ready():
+    """Display ready tasks for posting."""
+    tasks = bd_ready()
+
+    if not tasks:
+        print("📭 No ready tasks. Create one with:")
+        print("   python manager.py idea 'Post title'")
+        print("   or: bd create 'Write post: Topic' -t task -p 2")
+        return []
+
+    print(f"📋 Ready to write ({len(tasks)} tasks):\n")
+    for i, task in enumerate(tasks, 1):
+        task_id = task.get('id', 'unknown')
+        title = task.get('title', 'Untitled')
+        priority = task.get('priority', 2)
+        print(f"   {i}. [{task_id}] (P{priority}) {title}")
+
+    return tasks
+
+
+def bd_publish_flow():
+    """Interactive flow: pick a ready task, write post, close task."""
+    tasks = bd_ready()
+
+    if not tasks:
+        print("📭 No ready tasks to publish.")
+        print("   Create post ideas with: python manager.py idea 'Topic'")
+        return False
+
+    print(f"\n📋 Ready tasks ({len(tasks)}):\n")
+    for i, task in enumerate(tasks, 1):
+        task_id = task.get('id', 'unknown')
+        title = task.get('title', 'Untitled')
+        print(f"   {i}. [{task_id}] {title}")
+
+    print("\n   0. Cancel")
+
+    try:
+        choice = input("\nSelect task number: ").strip()
+        if choice == '0' or not choice:
+            print("Cancelled.")
+            return False
+
+        idx = int(choice) - 1
+        if idx < 0 or idx >= len(tasks):
+            print("Invalid selection.")
+            return False
+
+        task = tasks[idx]
+        task_id = task.get('id')
+        task_title = task.get('title', 'Untitled')
+
+        # Remove "Write post: " prefix if present
+        post_title = task_title
+        if post_title.lower().startswith('write post:'):
+            post_title = post_title[11:].strip()
+
+        print(f"\n✏️  Writing post: {post_title}")
+        print("   Enter content (Markdown supported). End with an empty line:\n")
+
+        lines = []
+        while True:
+            line = input()
+            if line == '':
+                break
+            lines.append(line)
+
+        content = '\n'.join(lines)
+
+        if not content.strip():
+            print("❌ No content provided. Cancelled.")
+            return False
+
+        # Get tags
+        tags_input = input("\nTags (comma-separated, or Enter to skip): ").strip()
+        tags = [t.strip() for t in tags_input.split(',') if t.strip()] if tags_input else []
+
+        # Create the post
+        success = create_post(post_title, content, tags)
+
+        if success:
+            # Close the bd task
+            if bd_close_task(task_id, "Published to site"):
+                print(f"   ✅ Closed task {task_id}")
+
+            # Regenerate RSS
+            generate_rss()
+
+            print("\n💡 Ready to deploy:")
+            print("   git add . && git commit -m 'New post' && git push")
+
+        return success
+
+    except (ValueError, KeyboardInterrupt):
+        print("\nCancelled.")
+        return False
 
 
 def convert_markdown(raw_content: str) -> str:
@@ -266,9 +422,17 @@ Examples:
     
     # RSS command
     subparsers.add_parser('rss', help='Regenerate RSS feed')
-    
+
     # List command
     subparsers.add_parser('list', help='List recent posts')
+
+    # BEADS integration commands
+    idea_parser = subparsers.add_parser('idea', help='Create a post idea (bd task)')
+    idea_parser.add_argument('title', help='Post idea/topic')
+    idea_parser.add_argument('--priority', '-p', type=int, default=2, help='Priority 0-4 (default: 2)')
+
+    subparsers.add_parser('ready', help='List ready post ideas from bd')
+    subparsers.add_parser('publish', help='Interactive: pick task, write post, close task')
     
     # Parse args
     args = parser.parse_args()
@@ -291,7 +455,20 @@ Examples:
     
     elif args.command == 'list':
         list_posts()
-    
+
+    elif args.command == 'idea':
+        task_id = bd_create_post_task(args.title, args.priority)
+        if task_id:
+            print(f"✅ Post idea created: {task_id}")
+            print(f"   '{args.title}' (priority {args.priority})")
+            print("\n💡 When ready to write: python manager.py publish")
+
+    elif args.command == 'ready':
+        bd_list_ready()
+
+    elif args.command == 'publish':
+        bd_publish_flow()
+
     else:
         # Legacy mode: support old "python manager.py 'Title' 'Content'" syntax
         if len(sys.argv) >= 3:
