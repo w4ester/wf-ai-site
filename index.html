@@ -122,6 +122,33 @@
             .prose blockquote { @apply border-l-4 border-accent pl-4 italic my-4 text-muted-foreground; }
             .prose strong { @apply font-semibold text-foreground; }
             .prose em { @apply italic; }
+
+            /* Collapsible content */
+            .post-content {
+                @apply relative overflow-hidden transition-all duration-500 ease-in-out;
+            }
+            .post-content.collapsed {
+                max-height: 280px;
+            }
+            .post-content.expanded {
+                max-height: none;
+            }
+            .post-fade {
+                @apply absolute bottom-0 left-0 right-0 h-24 pointer-events-none transition-opacity duration-300;
+                background: linear-gradient(to bottom, transparent, hsl(var(--card)));
+            }
+            .post-content.expanded .post-fade {
+                @apply opacity-0;
+            }
+            .read-more-btn {
+                @apply text-sm font-mono text-accent hover:text-accent/80 cursor-pointer transition-colors flex items-center gap-2;
+            }
+            .read-more-btn svg {
+                @apply w-4 h-4 transition-transform duration-300;
+            }
+            .read-more-btn.expanded svg {
+                @apply rotate-180;
+            }
         }
     </style>
 </head>
@@ -176,7 +203,7 @@
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-29::16:55</span>
         </div>
     </div>
-    <div class="p-6 pt-0 text-muted-foreground prose">
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
         <p>A reference implementation for AI-assisted content publishing</p>
 <p>This post documents the architecture behind wf-ai-site—a pattern that any AI platform can adopt to give users a simple, owned publishing outlet.</p>
 <hr />
@@ -349,6 +376,13 @@ snapshot = browser.snapshot()
 <p>Your ideas deserve a space you own.</p>
 <hr />
 <p><em>This post was created using the architecture it describes.</em> 🔄</p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
     </div>
     <div class="px-6 pb-4 flex gap-2 flex-wrap">
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#architecture</span>
@@ -367,7 +401,7 @@ snapshot = browser.snapshot()
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-29::16:35</span>
         </div>
     </div>
-    <div class="p-6 pt-0 text-muted-foreground prose">
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
         <p>A vision for family-centered technology that teaches instead of surveils</p>
 <p><strong>Project:</strong> <a href="https://github.com/w4ester/WF-AI-Platform">WF-AI-Platform</a><br />
 <strong>Issue:</strong> WF-AI-Platform-nl9<br />
@@ -546,6 +580,13 @@ Not tools that replace caregiving with algorithms.</p>
 <p><em>Let's GrOw.</em> 🌱</p>
 <hr />
 <p><em>This post documents an open epic in the WF-AI-Platform project. Collaboration welcome.</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
     </div>
     <div class="px-6 pb-4 flex gap-2 flex-wrap">
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#fsp</span>
@@ -565,7 +606,7 @@ Not tools that replace caregiving with algorithms.</p>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-22::15:01</span>
         </div>
     </div>
-    <div class="p-6 pt-0 text-muted-foreground prose">
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
         <p>Building tools for families to <strong>own their digital lives</strong>, not rent them.</p>
 <p>Guardian Protocol is our approach to family-centered AI that keeps data local, respects consent, and puts parents/guardians in control without surveillance capitalism.</p>
 <p>Core principles:<br />
@@ -575,6 +616,13 @@ Not tools that replace caregiving with algorithms.</p>
 - <strong>Sovereign</strong>: Export everything, delete everything, own everything</p>
 <p>Part of the Baltimore AI Producers Lab mission: teaching families to be AI <em>producers</em>, not just consumers.</p>
 <p>More coming soon. 🛡️</p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
     </div>
     <div class="px-6 pb-4 flex gap-2 flex-wrap">
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#guardian</span>
@@ -592,8 +640,15 @@ Not tools that replace caregiving with algorithms.</p>
                         <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">genesis::init</span>
                     </div>
                 </div>
-                <div class="p-6 pt-0 text-muted-foreground prose">
+                <div class="p-6 pt-0 text-muted-foreground prose post-content">
                     <p>The workspace is ready. Push updates directly from your terminal with <code>python manager.py</code>. Let's GrOw!</p>
+                    <div class="post-fade"></div>
+                </div>
+                <div class="px-6 pb-2">
+                    <button class="read-more-btn" onclick="togglePost(this)">
+                        <span>Continue reading...</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
                 </div>
                 <div class="px-6 pb-4 flex gap-2">
                     <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#setup</span>
@@ -611,7 +666,7 @@ Not tools that replace caregiving with algorithms.</p>
     <script>
         // Dark Mode Toggle
         const themeToggle = document.getElementById('theme-toggle');
-        
+
         themeToggle.addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -622,11 +677,51 @@ Not tools that replace caregiving with algorithms.</p>
             }
         });
 
-        // Stagger animation on page load
+        // Collapsible Posts
+        function togglePost(btn) {
+            const article = btn.closest('article');
+            const content = article.querySelector('.post-content');
+            const isExpanded = content.classList.contains('expanded');
+
+            if (isExpanded) {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                btn.classList.remove('expanded');
+                btn.querySelector('span').textContent = btn.dataset.collapsedText;
+            } else {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                btn.classList.add('expanded');
+                btn.querySelector('span').textContent = 'Show less';
+            }
+        }
+
+        // Initialize collapsible posts on page load
         document.addEventListener('DOMContentLoaded', () => {
             const articles = document.querySelectorAll('article');
             articles.forEach((article, index) => {
                 article.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+
+                // Setup collapsible content
+                const content = article.querySelector('.post-content');
+                const btn = article.querySelector('.read-more-btn');
+                if (content && btn) {
+                    // Count words
+                    const text = content.textContent || '';
+                    const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                    const readTime = Math.max(1, Math.ceil(wordCount / 200));
+
+                    // Only show toggle for longer posts (>150 words)
+                    if (wordCount > 150) {
+                        content.classList.add('collapsed');
+                        btn.style.display = 'flex';
+                        btn.dataset.collapsedText = `Continue reading (${wordCount} words · ${readTime} min)`;
+                        btn.querySelector('span').textContent = btn.dataset.collapsedText;
+                    } else {
+                        content.classList.add('expanded');
+                        btn.style.display = 'none';
+                    }
+                }
             });
         });
     </script>

@@ -51,7 +51,7 @@ try:
 except ImportError:
     HAS_MARKDOWN = False
 
-# HTML Template for posts
+# HTML Template for posts (with collapsible content)
 POST_TEMPLATE = """
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="{iso_date}">
     <div class="flex flex-col space-y-1.5 p-6">
@@ -60,8 +60,15 @@ POST_TEMPLATE = """
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">{date_display}</span>
         </div>
     </div>
-    <div class="p-6 pt-0 text-muted-foreground prose">
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
         {content}
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
     </div>
     {tags_html}
 </article>
