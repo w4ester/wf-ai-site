@@ -34,6 +34,21 @@ You are helping the user create a new post for their wf-ai-site blog (https://w4
 - Keep posts concise - this is a digital garden, not long-form essays
 - Good tags: ai, local-llm, projects, thoughts, tools, baltimore-ai
 
+## Inclusive Language Guidelines
+
+Always review content for inclusive language before posting:
+
+- **"parents/guardians"** - never just "parents" (acknowledges grandparents, foster families, aunts/uncles, chosen family)
+- **"children and young people"** - not just "kids" when discussing teens
+- **"families"** - acknowledge diverse structures (single-parent, blended, multigenerational, chosen)
+- **Economic access** - don't assume everyone can "buy" solutions; include free/low-cost alternatives
+- **Technical access** - acknowledge varying technical skill levels; avoid gatekeeping language
+- **Cultural awareness** - recognize different cultural perspectives on family dynamics and child autonomy
+- **Disability inclusion** - consider accessibility in digital tools discussions
+- **Geographic diversity** - not everyone is in the US or has the same infrastructure
+
+When editing, search for: "parents", "kids", "buy", "family" and review each for inclusivity.
+
 ## Start Now
 
 Ask the user: "What would you like to post about? Give me a title and your content (markdown supported), and optionally some tags."

@@ -5,9 +5,187 @@
     <link>https://w4ester.github.io/wf-ai-site</link>
     <description>A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Dec 2025 16:36:38 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Dec 2025 16:55:58 +0000</lastBuildDate>
     <atom:link href="https://w4ester.github.io/wf-ai-site/feed.xml" rel="self" type="application/rss+xml"/>
     <author>Will Capellaro</author>
+    <item>
+      <title>Publishing Architecture: How Any AI Platform Can Post to a Static Site</title>
+      <link>https://w4ester.github.io/wf-ai-site</link>
+      <description><![CDATA[<p>A reference implementation for AI-assisted content publishing</p>
+<p>This post documents the architecture behind wf-ai-site—a pattern that any AI platform can adopt to give users a simple, owned publishing outlet.</p>
+<hr />
+<h2>The Problem</h2>
+<p>Most AI platforms are walled gardens. You chat, you generate, you... lose it all when you close the tab. Even with history features, your ideas stay trapped in someone else's database.</p>
+<p><strong>What if every AI session could publish to a place you own?</strong></p>
+<hr />
+<h2>The Architecture</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     AI-ASSISTED PUBLISHING                       │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
+│  │  AI Platform │───►│  CLI/API     │───►│ Static Site  │       │
+│  │  (Ollama,    │    │  (manager.py)│    │ (GitHub      │       │
+│  │   llama.cpp, │    │              │    │  Pages)      │       │
+│  │   WF-AI)     │    └──────────────┘    └──────────────┘       │
+│  └──────────────┘           │                    │               │
+│                             ▼                    ▼               │
+│                    ┌──────────────┐    ┌──────────────┐         │
+│                    │ index.html   │    │  feed.xml    │         │
+│                    │ (content)    │    │  (RSS)       │         │
+│                    └──────────────┘    └──────────────┘         │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>Components:</strong></p>
+<ol>
+<li><strong>AI Platform</strong> - Any conversational AI (Ollama, llama.cpp, custom agents)</li>
+<li><strong>CLI Tool</strong> - <code>manager.py</code> handles post creation, RSS generation</li>
+<li><strong>Static Site</strong> - Single <code>index.html</code> hosted on GitHub Pages (free, no backend)</li>
+<li><strong>RSS Feed</strong> - Auto-generated for subscribers</li>
+</ol>
+<hr />
+<h2>Integration Points</h2>
+<h3>For AI Agent Platforms</h3>
+<p>Create a command or skill in your agent's configuration:</p>
+<pre><code class="language-yaml">---
+description: Create and publish a new post
+---
+
+# Post to your site
+
+Gather title, content, tags from user.
+Run: python manager.py post &quot;TITLE&quot; &quot;CONTENT&quot; --tags TAGS
+Run: python manager.py rss
+Offer: git add . &amp;&amp; git commit &amp;&amp; git push
+</code></pre>
+<p>Now your agent can trigger AI-assisted publishing through a simple command.</p>
+<h3>For Any AI Platform</h3>
+<p>The pattern is simple:</p>
+<pre><code class="language-python"># 1. Accept content from AI conversation
+title = &quot;My Post Title&quot;
+content = &quot;Markdown content here...&quot;
+tags = [&quot;ai&quot;, &quot;thoughts&quot;]
+
+# 2. Call the manager
+import subprocess
+subprocess.run([
+    &quot;python&quot;, &quot;manager.py&quot;, &quot;post&quot;,
+    title, content,
+    &quot;--tags&quot;, &quot;,&quot;.join(tags)
+])
+
+# 3. Update RSS
+subprocess.run([&quot;python&quot;, &quot;manager.py&quot;, &quot;rss&quot;])
+
+# 4. Deploy (optional - could be automated)
+subprocess.run([&quot;git&quot;, &quot;add&quot;, &quot;.&quot;])
+subprocess.run([&quot;git&quot;, &quot;commit&quot;, &quot;-m&quot;, f&quot;New post: {title}&quot;])
+subprocess.run([&quot;git&quot;, &quot;push&quot;])
+</code></pre>
+<h3>For MCP Integration</h3>
+<p>Expose as an MCP tool:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;publish_post&quot;,
+  &quot;description&quot;: &quot;Publish content to user's static site&quot;,
+  &quot;parameters&quot;: {
+    &quot;title&quot;: { &quot;type&quot;: &quot;string&quot; },
+    &quot;content&quot;: { &quot;type&quot;: &quot;string&quot; },
+    &quot;tags&quot;: { &quot;type&quot;: &quot;array&quot; }
+  }
+}
+</code></pre>
+<p>Any MCP-compatible AI can now publish.</p>
+<hr />
+<h2>Why Static?</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Static Site</th>
+<th>CMS/Database</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost</td>
+<td>Free (GitHub Pages)</td>
+<td>$5-50/month</td>
+</tr>
+<tr>
+<td>Complexity</td>
+<td>One HTML file</td>
+<td>Server, DB, auth</td>
+</tr>
+<tr>
+<td>Ownership</td>
+<td>Git repo you control</td>
+<td>Platform lock-in</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Instant (CDN)</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>No attack surface</td>
+<td>Constant patching</td>
+</tr>
+<tr>
+<td>Portability</td>
+<td>Copy files anywhere</td>
+<td>Migration pain</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The constraint is the feature.</strong> A single HTML file forces simplicity.</p>
+<hr />
+<h2>The manager.py Contract</h2>
+<p>Any AI platform can integrate if it can call these commands:</p>
+<pre><code class="language-bash"># Create post (returns success/failure)
+python manager.py post &quot;Title&quot; &quot;Content&quot; --tags tag1,tag2
+
+# Regenerate RSS feed
+python manager.py rss
+
+# List recent posts
+python manager.py list
+</code></pre>
+<p>That's it. Three commands. Universal integration.</p>
+<hr />
+<h2>Browser Automation Bonus</h2>
+<p>For AI platforms with browser access (Playwright, Puppeteer, etc.):</p>
+<pre><code class="language-python"># Verify published content
+browser.navigate(&quot;https://yoursite.github.io&quot;)
+snapshot = browser.snapshot()
+# AI can now confirm post appears correctly
+</code></pre>
+<p>The AI can verify its own publishing worked.</p>
+<hr />
+<h2>Extending the Pattern</h2>
+<p>This architecture supports:</p>
+<ul>
+<li><strong>Multiple sites</strong> - Different manager.py configs for different audiences</li>
+<li><strong>Scheduling</strong> - BEADS integration for post queues</li>
+<li><strong>Review workflows</strong> - AI drafts, human approves, then publishes</li>
+<li><strong>Cross-posting</strong> - One source, publish to multiple platforms</li>
+<li><strong>Analytics</strong> - RSS subscriber counts, no invasive tracking</li>
+</ul>
+<hr />
+<h2>Get Started</h2>
+<ol>
+<li>Fork <a href="https://github.com/w4ester/wf-ai-site">wf-ai-site</a></li>
+<li>Enable GitHub Pages on your fork</li>
+<li>Add a publishing command to your AI agent</li>
+<li>Start publishing</li>
+</ol>
+<p>Your ideas deserve a space you own.</p>
+<hr />
+<p><em>This post was created using the architecture it describes.</em> 🔄</p>]]></description>
+      <pubDate>Mon, 29 Dec 2025 16:55:39 +0000</pubDate>
+      <guid>https://w4ester.github.io/wf-ai-site#publishing-architecture:-how-any-ai-platform-can-post-to-a-static-site</guid>
+    </item>
     <item>
       <title>The Family Safety Protocol: What If We Built Digital Wellbeing Like We Built Language Servers?</title>
       <link>https://w4ester.github.io/wf-ai-site</link>
@@ -18,7 +196,7 @@
 <hr />
 <h2>The Problem Nobody Talks About</h2>
 <p>Every parenting app on the market shares the same DNA: surveillance capitalism dressed up as safety.</p>
-<p>Circle. Bark. Qustodio. Net Nanny. They all promise to "protect your children" but what they deliver is a panopticon with a friendly UI. Parents spy on kids. Kids learn to evade. Trust erodes. The only winner is the company harvesting your family's data.</p>
+<p>Circle. Bark. Qustodio. Net Nanny. They all promise to "protect your children" but what they deliver is a panopticon with a friendly UI. Parents/guardians spy on children. Children learn to evade. Trust erodes. The only winner is the company harvesting your family's data.</p>
 <p>We've accepted this as normal. It isn't.</p>
 <hr />
 <h2>A Better Analogy: What LSP Did for Editors</h2>
@@ -42,7 +220,7 @@
 │                                                                  │
 │  LOCAL-FIRST: All data stays on family hardware                  │
 │  OPEN: Protocol is open, anyone can implement                    │
-│  TRANSPARENT: Kids can see what parents see                      │
+│  TRANSPARENT: Children can see what parents/guardians see                      │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 </code></pre>
@@ -66,7 +244,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Parents spy on kids</td>
+<td>Parents/guardians spy on children</td>
 <td>Families learn together</td>
 </tr>
 <tr>
@@ -95,9 +273,9 @@
 <hr />
 <h2>Three Pillars</h2>
 <h3>1. Transparency Over Surveillance</h3>
-<p>Kids see the same dashboard parents see. There are no secret reports. No hidden tracking. No gotcha moments.</p>
-<p><strong>Why?</strong> Because surveillance destroys trust. And trust is the actual thing that keeps kids safe—not filters.</p>
-<p>When a child knows exactly what data exists and who can see it, they learn to make informed decisions. When parents model transparency, they teach integrity.</p>
+<p>Children and young people see the same dashboard parents/guardians see. There are no secret reports. No hidden tracking. No gotcha moments.</p>
+<p><strong>Why?</strong> Because surveillance destroys trust. And trust is the actual thing that keeps children safe—not filters.</p>
+<p>When a child knows exactly what data exists and who can see it, they learn to make informed decisions. When parents/guardians model transparency, they teach integrity.</p>
 <h3>2. Teaching Over Blocking</h3>
 <p>Every block is a conversation starter.</p>
 <p><strong>Current tools:</strong> "This site is blocked." End of story.</p>
@@ -133,7 +311,7 @@
 <p><strong>Digital Literacy Curriculum:</strong><br />
 Personalized learning paths based on age, interests, and family values. Not one-size-fits-all fear mongering.</p>
 <p><strong>Family Agreement Drafting:</strong><br />
-AI helps families write technology agreements together. Not rules imposed by parents—agreements negotiated as a family.</p>
+AI helps families write technology agreements together. Not rules imposed by parents/guardians—agreements negotiated as a family.</p>
 <hr />
 <h2>The Technical Shape</h2>
 <pre><code class="language-typescript">interface WellbeingProfile {
@@ -149,14 +327,14 @@ AI helps families write technology agreements together. Not rules imposed by par
 - <strong>Goals</strong>, not limits<br />
 - <strong>Guidance</strong>, not restrictions<br />
 - <strong>Transparency levels</strong> that respect growing autonomy</p>
-<p>A 7-year-old might have <code>transparencyLevel: 'full'</code>—parents see everything, and so does the child.</p>
-<p>A 16-year-old might negotiate <code>transparencyLevel: 'summary'</code>—parents see aggregate patterns, not individual sites. Trust, verified.</p>
+<p>A 7-year-old might have <code>transparencyLevel: 'full'</code>—parents/guardians see everything, and so does the child.</p>
+<p>A 16-year-old might negotiate <code>transparencyLevel: 'summary'</code>—parents/guardians see aggregate patterns, not individual sites. Trust, verified.</p>
 <hr />
 <h2>Open Questions</h2>
 <p>This is a vision, not a finished product. Hard questions remain:</p>
 <ol>
 <li><strong>Scope:</strong> Start with Baltimore AI Producers Lab? Or design for scale from day one?</li>
-<li><strong>Hardware:</strong> Should there be a "reference device" families can buy or build?</li>
+<li><strong>Hardware:</strong> Should there be a "reference device" families can build, buy, or access through community lending?</li>
 <li><strong>AI:</strong> Local-only (llama.cpp) for privacy? Or hybrid with cloud for complex tasks?</li>
 <li><strong>Sustainability:</strong> Open source with services? Grant-funded? Community-supported?</li>
 <li><strong>Governance:</strong> How do families participate in protocol development?</li>
@@ -180,9 +358,9 @@ AI helps families write technology agreements together. Not rules imposed by par
 <blockquote>
 <p><strong>"Digital tools that help humans grow up healthy."</strong></p>
 </blockquote>
-<p>Not tools that spy on kids for parents.<br />
+<p>Not tools that spy on children for parents/guardians.<br />
 Not tools that extract data for corporations.<br />
-Not tools that replace parenting with algorithms.</p>
+Not tools that replace caregiving with algorithms.</p>
 <p>Tools that support families in raising humans who can navigate the digital world with wisdom, judgment, and integrity.</p>
 <p><strong>That's the vision. Now let's build it.</strong></p>
 <hr />
