@@ -5,9 +5,193 @@
     <link>https://w4ester.github.io/wf-ai-site</link>
     <description>A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Dec 2025 15:07:56 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Dec 2025 16:36:38 +0000</lastBuildDate>
     <atom:link href="https://w4ester.github.io/wf-ai-site/feed.xml" rel="self" type="application/rss+xml"/>
     <author>Will Capellaro</author>
+    <item>
+      <title>The Family Safety Protocol: What If We Built Digital Wellbeing Like We Built Language Servers?</title>
+      <link>https://w4ester.github.io/wf-ai-site</link>
+      <description><![CDATA[<p>A vision for family-centered technology that teaches instead of surveils</p>
+<p><strong>Project:</strong> <a href="https://github.com/w4ester/WF-AI-Platform">WF-AI-Platform</a><br />
+<strong>Issue:</strong> WF-AI-Platform-nl9<br />
+<strong>Status:</strong> Open Epic (P2)</p>
+<hr />
+<h2>The Problem Nobody Talks About</h2>
+<p>Every parenting app on the market shares the same DNA: surveillance capitalism dressed up as safety.</p>
+<p>Circle. Bark. Qustodio. Net Nanny. They all promise to "protect your children" but what they deliver is a panopticon with a friendly UI. Parents spy on kids. Kids learn to evade. Trust erodes. The only winner is the company harvesting your family's data.</p>
+<p>We've accepted this as normal. It isn't.</p>
+<hr />
+<h2>A Better Analogy: What LSP Did for Editors</h2>
+<p>In the early days of programming, every text editor had to reinvent language support. Vim had its own Python integration. Emacs had its own. VS Code had its own. Sublime had its own. It was wasteful, inconsistent, and held back innovation.</p>
+<p>Then Microsoft created the Language Server Protocol (LSP). One protocol. Any editor. Any language.</p>
+<p>Suddenly, a single Python language server could power Vim, Emacs, VS Code, and everything else. The ecosystem exploded. Quality went up. Duplication went down.</p>
+<p><strong>What if we did the same thing for family digital safety?</strong></p>
+<hr />
+<h2>Introducing FSP: The Family Safety Protocol</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    FAMILY WELLBEING PLATFORM                     │
+│         &quot;Digital tools that help humans grow up healthy&quot;         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  AI Agents (wf-ai) ◄──► FSP Protocol ◄──► Family Dashboard      │
+│                              │                                   │
+│                              ▼                                   │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ FSP Implementations: OpenWrt, ASUS, Gryphon, Pi-hole    │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  LOCAL-FIRST: All data stays on family hardware                  │
+│  OPEN: Protocol is open, anyone can implement                    │
+│  TRANSPARENT: Kids can see what parents see                      │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>FSP isn't a product. It's a protocol. Like LSP, it defines how components talk to each other:</p>
+<ul>
+<li>Router plugins (OpenWrt, ASUS, Pi-hole) implement FSP</li>
+<li>Dashboards consume FSP data</li>
+<li>AI agents configure and explain using FSP</li>
+<li>Families own everything—the hardware, the data, the rules</li>
+</ul>
+<p><strong>One protocol. Any router. Any dashboard. Any AI assistant.</strong></p>
+<hr />
+<h2>The Philosophy: Wellbeing, Not Surveillance</h2>
+<p>This isn't a rebrand. It's a fundamental shift in values.</p>
+<table>
+<thead>
+<tr>
+<th>Surveillance Model</th>
+<th>Wellbeing Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parents spy on kids</td>
+<td>Families learn together</td>
+</tr>
+<tr>
+<td>Block and control</td>
+<td>Understand and grow</td>
+</tr>
+<tr>
+<td>Opaque rules</td>
+<td>Transparent agreements</td>
+</tr>
+<tr>
+<td>"Caught you!"</td>
+<td>"Let's talk about this"</td>
+</tr>
+<tr>
+<td>Corporate data extraction</td>
+<td>Local-first, family-owned</td>
+</tr>
+<tr>
+<td>Consumer mindset</td>
+<td>Producer mindset</td>
+</tr>
+</tbody>
+</table>
+<p>The last row matters most. Today's parenting apps treat families as <em>consumers</em> of safety. FSP treats families as <em>producers</em> of their own digital culture.</p>
+<hr />
+<h2>Three Pillars</h2>
+<h3>1. Transparency Over Surveillance</h3>
+<p>Kids see the same dashboard parents see. There are no secret reports. No hidden tracking. No gotcha moments.</p>
+<p><strong>Why?</strong> Because surveillance destroys trust. And trust is the actual thing that keeps kids safe—not filters.</p>
+<p>When a child knows exactly what data exists and who can see it, they learn to make informed decisions. When parents model transparency, they teach integrity.</p>
+<h3>2. Teaching Over Blocking</h3>
+<p>Every block is a conversation starter.</p>
+<p><strong>Current tools:</strong> "This site is blocked." End of story.</p>
+<p><strong>FSP approach:</strong> "This site was filtered because it contains content we agreed wasn't appropriate yet. Here's why. Here are some questions to think about. Want to talk about it at dinner?"</p>
+<p>The AI generates age-appropriate explanations. The goal isn't to hide the internet—it's to develop the judgment to navigate it.</p>
+<h3>3. Growth Over Control</h3>
+<p>Screen time is a garbage metric. It tells you nothing about what a child learned, created, or experienced.</p>
+<p>FSP tracks <em>development</em>:<br />
+- What skills are emerging?<br />
+- What curiosities are they following?<br />
+- What creative work are they producing?<br />
+- What digital literacy milestones have they reached?</p>
+<p><strong>Celebrate progress. Don't just count minutes.</strong></p>
+<hr />
+<h2>What the AI Does</h2>
+<p>This is where WF-AI-Platform comes in.</p>
+<p>Local AI agents (running on family hardware via llama.cpp) provide:</p>
+<p><strong>Configuration in Plain English:</strong><br />
+"Block social media during homework time but allow Khan Academy and Wikipedia"</p>
+<p>The AI translates this to router rules via FSP.</p>
+<p><strong>Conversation Starters:</strong></p>
+<pre><code class="language-typescript">interface FamilyConversation {
+  topic: &quot;YouTube Usage&quot;;
+  context: &quot;Emma spent 2 hours watching science videos today&quot;;
+  questions: [
+    &quot;What did you discover?&quot;,
+    &quot;Was there anything surprising?&quot;,
+    &quot;Want to try that experiment together?&quot;
+  ];
+  resources: [/* related books, activities, videos */];
+}
+</code></pre>
+<p><strong>Digital Literacy Curriculum:</strong><br />
+Personalized learning paths based on age, interests, and family values. Not one-size-fits-all fear mongering.</p>
+<p><strong>Family Agreement Drafting:</strong><br />
+AI helps families write technology agreements together. Not rules imposed by parents—agreements negotiated as a family.</p>
+<hr />
+<h2>The Technical Shape</h2>
+<pre><code class="language-typescript">interface WellbeingProfile {
+  name: string;                  // &quot;Emma's Learning Profile&quot;
+  dailyScreenGoals: Duration;    // Goals, not limits
+  focusTime: Schedule;           // Homework, creative time
+  restTime: Schedule;            // Wind-down, sleep
+  contentGuidance: ContentLevel; // Age-appropriate guidance
+  transparencyLevel: 'full' | 'summary' | 'private';
+}
+</code></pre>
+<p>Notice the language:<br />
+- <strong>Goals</strong>, not limits<br />
+- <strong>Guidance</strong>, not restrictions<br />
+- <strong>Transparency levels</strong> that respect growing autonomy</p>
+<p>A 7-year-old might have <code>transparencyLevel: 'full'</code>—parents see everything, and so does the child.</p>
+<p>A 16-year-old might negotiate <code>transparencyLevel: 'summary'</code>—parents see aggregate patterns, not individual sites. Trust, verified.</p>
+<hr />
+<h2>Open Questions</h2>
+<p>This is a vision, not a finished product. Hard questions remain:</p>
+<ol>
+<li><strong>Scope:</strong> Start with Baltimore AI Producers Lab? Or design for scale from day one?</li>
+<li><strong>Hardware:</strong> Should there be a "reference device" families can buy or build?</li>
+<li><strong>AI:</strong> Local-only (llama.cpp) for privacy? Or hybrid with cloud for complex tasks?</li>
+<li><strong>Sustainability:</strong> Open source with services? Grant-funded? Community-supported?</li>
+<li><strong>Governance:</strong> How do families participate in protocol development?</li>
+<li><strong>Privacy Verification:</strong> How do we prove data stays local?</li>
+<li><strong>Partnerships:</strong> Schools? Pediatricians? Family therapists?</li>
+</ol>
+<hr />
+<h2>Possible Names</h2>
+<p>The protocol needs a name that captures its spirit:</p>
+<ul>
+<li><strong>Guardian Protocol</strong> — protective but not controlling</li>
+<li><strong>Family Wellbeing Protocol (FWP)</strong> — clinical but clear</li>
+<li><strong>Digital Hearth</strong> — home, warmth, gathering</li>
+<li><strong>Lighthouse</strong> — guidance through darkness</li>
+<li><strong>Campfire</strong> — families gathering, sharing, learning</li>
+</ul>
+<hr />
+<h2>The Heart of It</h2>
+<p>This project grew out of building WF-AI-Platform—a local-first AI platform where humans use AI, not the other way around.</p>
+<p>The same philosophy applies to families:</p>
+<blockquote>
+<p><strong>"Digital tools that help humans grow up healthy."</strong></p>
+</blockquote>
+<p>Not tools that spy on kids for parents.<br />
+Not tools that extract data for corporations.<br />
+Not tools that replace parenting with algorithms.</p>
+<p>Tools that support families in raising humans who can navigate the digital world with wisdom, judgment, and integrity.</p>
+<p><strong>That's the vision. Now let's build it.</strong></p>
+<hr />
+<p><em>Let's GrOw.</em> 🌱</p>
+<hr />
+<p><em>This post documents an open epic in the WF-AI-Platform project. Collaboration welcome.</em></p>]]></description>
+      <pubDate>Mon, 29 Dec 2025 16:35:42 +0000</pubDate>
+      <guid>https://w4ester.github.io/wf-ai-site#the-family-safety-protocol:-what-if-we-built-digital-wellbeing-like-we-built-language-servers?</guid>
+    </item>
     <item>
       <title>Guardian Protocol: Family Digital Wellbeing</title>
       <link>https://w4ester.github.io/wf-ai-site</link>
@@ -21,21 +205,6 @@
 <p>Part of the Baltimore AI Producers Lab mission: teaching families to be AI <em>producers</em>, not just consumers.</p>
 <p>More coming soon. 🛡️</p>]]></description>
       <pubDate>Mon, 22 Dec 2025 15:01:12 +0000</pubDate>
-      <guid>https://w4ester.github.io/wf-ai-site#guardian-protocol:-family-digital-wellbeing</guid>
-    </item>
-    <item>
-      <title>Guardian Protocol: Family Digital Wellbeing</title>
-      <link>https://w4ester.github.io/wf-ai-site</link>
-      <description><![CDATA[<p>Building tools for families to <strong>own their digital lives</strong>, not rent them.</p>
-<p>Guardian Protocol is our approach to family-centered AI that keeps data local, respects consent, and puts parents/guardians in control without surveillance capitalism.</p>
-<p>Core principles:<br />
-- <strong>Local-first</strong>: Your family's data stays on your devices<br />
-- <strong>Consent-based</strong>: Kids learn digital autonomy, not just restriction<br />
-- <strong>Transparent</strong>: No black-box algorithms deciding what your kids see<br />
-- <strong>Sovereign</strong>: Export everything, delete everything, own everything</p>
-<p>Part of the Baltimore AI Producers Lab mission: teaching 150 families to be AI <em>producers</em>, not just consumers.</p>
-<p>More coming soon. 🛡️</p>]]></description>
-      <pubDate>Mon, 22 Dec 2025 14:58:26 +0000</pubDate>
       <guid>https://w4ester.github.io/wf-ai-site#guardian-protocol:-family-digital-wellbeing</guid>
     </item>
   </channel>
