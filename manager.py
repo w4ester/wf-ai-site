@@ -40,7 +40,7 @@ from pathlib import Path
 SITE_URL = "https://w4ester.github.io/wf-ai-site"
 SITE_TITLE = "WF-AI Site"
 SITE_DESCRIPTION = "A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab."
-AUTHOR = "Will Capellaro"
+AUTHOR = "w4ester"
 
 # Try to import markdown, fallback to plain text if not installed
 try:
