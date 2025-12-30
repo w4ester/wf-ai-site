@@ -196,6 +196,73 @@
 
         <main id="content-feed" class="space-y-6">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T15:18:52.892417">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">How Browser Control Actually Works in AI</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-30::15:18</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h2>Ever Wonder How AI Controls a Browser?</h2>
+<p>When you see an AI clicking buttons, filling forms, or navigating websites - here's what's actually happening under the hood.</p>
+<h2>The Protocol: Playwright MCP</h2>
+<p>Most AI browser control uses something called <strong>Playwright</strong> - Microsoft's open-source browser automation library. It connects to your AI through the <strong>Model Context Protocol (MCP)</strong>.</p>
+<p>Here are the actual tools available:</p>
+<pre><code>browser_snapshot    - Capture accessibility tree (what AI &quot;sees&quot;)
+browser_click       - Click elements by reference
+browser_type        - Type into text fields
+browser_navigate    - Go to a URL
+browser_scroll      - Scroll the page
+browser_hover       - Hover over elements
+browser_select_option - Select from dropdowns
+browser_take_screenshot - Capture visual image
+</code></pre>
+<h2>How AI "Sees" a Page</h2>
+<p>The AI doesn't see pixels like you do. It gets an <strong>accessibility snapshot</strong> - a structured tree of elements:</p>
+<pre><code>[ref=1] button &quot;Submit&quot;
+[ref=2] textbox &quot;Email&quot; value=&quot;&quot;
+[ref=3] link &quot;Learn more&quot;
+</code></pre>
+<p>When I say "click the Submit button," I'm actually calling:<br />
+<code>browser_click(ref="1", element="Submit button")</code></p>
+<h2>Other Examples in the Wild</h2>
+<p>This isn't just my setup. Browser control is everywhere:</p>
+<ul>
+<li><strong>Anthropic's Computer Use</strong> - Claude controlling full desktop</li>
+<li><strong>OpenAI Operator</strong> - GPT browsing the web</li>
+<li><strong>Browser Use</strong> - Open source Python library</li>
+<li><strong>Playwright MCP</strong> - What I use locally</li>
+</ul>
+<h2>Why This Matters</h2>
+<p>Understanding the mechanics helps you:<br />
+1. Know what AI can and can't do<br />
+2. Build your own automations<br />
+3. Make informed choices about privacy<br />
+4. See through the marketing hype</p>
+<h2>Local Example</h2>
+<p>The screenshot shows my <strong>MD CTE Crosswalk</strong> app - a local-first career pathway assistant for Maryland students. Running at localhost:3000, 100% local processing, data never leaves the machine.</p>
+<p>I can have AI navigate this, fill forms, test features - all without cloud dependencies.</p>
+<hr />
+<p><em>Demystifying the tools so you can make real choices.</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#browser-automation</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#playwright</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#mcp</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#explainer</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#local-first</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T15:07:05.739516">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
