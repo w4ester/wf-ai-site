@@ -236,6 +236,22 @@ def bd_publish_flow():
         return False
 
 
+def style_images(html: str) -> str:
+    """Add responsive styling to images in HTML."""
+    # Match <img> tags and add styling classes
+    img_pattern = re.compile(r'<img\s+([^>]*)>', re.IGNORECASE)
+
+    def add_classes(match):
+        attrs = match.group(1)
+        # Don't add classes if already has class attribute
+        if 'class=' in attrs:
+            return match.group(0)
+        # Add responsive, rounded styling
+        return f'<img class="w-full max-w-2xl rounded-lg shadow-md my-4 mx-auto" {attrs}>'
+
+    return img_pattern.sub(add_classes, html)
+
+
 def convert_markdown(raw_content: str) -> str:
     """Convert markdown to HTML if available."""
     if HAS_MARKDOWN:
@@ -244,7 +260,10 @@ def convert_markdown(raw_content: str) -> str:
             TableExtension(),
             'nl2br'  # Convert newlines to <br>
         ])
-        return md.convert(raw_content)
+        html = md.convert(raw_content)
+        # Add styling to images
+        html = style_images(html)
+        return html
     else:
         # Basic fallback: escape HTML and wrap in paragraph
         paragraphs = raw_content.split('\n\n')
