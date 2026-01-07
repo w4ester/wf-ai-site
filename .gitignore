@@ -25,3 +25,13 @@ Thumbs.db
 *.bak
 *.backup
 .venv/
+
+# Large media files
+*.aax
+*.mp3
+*.mp4
+*.wav
+books/
+
+# Unrelated projects (moved here by accident)
+podcast-transcription-ai-chat-pipeline/
