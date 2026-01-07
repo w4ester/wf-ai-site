@@ -196,6 +196,234 @@
 
         <main id="content-feed" class="space-y-6">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-07T09:37:52.376927">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Platform: Complete Architecture</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-07::09:37</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>Guardian Platform: Complete Architecture</h1>
+<h2>The Vision</h2>
+<p><strong>Guardian is not parental control software. It's a family learning network.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Traditional Tools (Bark, Gryphon, ASUS)</th>
+<th>Guardian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Track behavior</td>
+<td>Teach behavior</td>
+</tr>
+<tr>
+<td>Block/allow binary</td>
+<td>Conversation about why</td>
+</tr>
+<tr>
+<td>Punitive notifications</td>
+<td>Supportive coaching</td>
+</tr>
+<tr>
+<td>Data goes to company</td>
+<td>Data stays local</td>
+</tr>
+<tr>
+<td>One-size-fits-all</td>
+<td>Family creates their own contracts</td>
+</tr>
+<tr>
+<td>Admin dashboard (warden)</td>
+<td>Chat interface (guide)</td>
+</tr>
+<tr>
+<td>Reactive alerts</td>
+<td>Proactive learning</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Core Philosophy</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    GUARDIAN PRINCIPLES                          │
+├─────────────────────────────────────────────────────────────────┤
+│  1. LOCAL-FIRST: Data never leaves the home network            │
+│  2. AI AS TEACHER: Not surveillance, but supportive learning   │
+│  3. FAMILY CONTRACTS: Families define their own agreements     │
+│  4. CONVERSATION &gt; CONFIGURATION: Chat to manage, not dashboards│
+│  5. MODEL AGNOSTIC: Works with any LLM (local or cloud)        │
+│  6. CONSENT-BASED: Kids understand and participate in rules    │
+│  7. NETWORK-LEVEL: One place to manage all devices             │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h2>Architecture Overview</h2>
+<pre><code>                         ┌─────────────────────────────────────┐
+                         │         GUARDIAN NETWORK            │
+                         │      (Home Router/Pi/NAS)           │
+                         │                                     │
+                         │  ┌─────────────────────────────┐   │
+                         │  │     Local AI Runtime        │   │
+                         │  │  (llama.cpp / Ollama)       │   │
+                         │  │                             │   │
+                         │  │  Models:                    │   │
+                         │  │  - Llama 3.2 (fast)        │   │
+                         │  │  - Mistral (reasoning)     │   │
+                         │  │  - Custom fine-tuned       │   │
+                         │  └──────────┬──────────────────┘   │
+                         │             │                       │
+                         │  ┌──────────▼──────────────────┐   │
+                         │  │     Guardian Core           │   │
+                         │  │                             │   │
+                         │  │  - Family Contracts Engine  │   │
+                         │  │  - Network Policy Manager   │   │
+                         │  │  - Consent Protocol         │   │
+                         │  │  - Learning Tracker         │   │
+                         │  │  - MCP Server Hub           │   │
+                         │  └──────────┬──────────────────┘   │
+                         │             │                       │
+                         └─────────────┼───────────────────────┘
+                                       │
+          ┌────────────────────────────┼────────────────────────────┐
+          │                            │                            │
+          ▼                            ▼                            ▼
+   ┌─────────────┐            ┌─────────────┐            ┌─────────────┐
+   │ Guardian CLI│            │Guardian App │            │Guardian Web │
+   │             │            │  (Desktop)  │            │   (Local)   │
+   │ Parents/    │            │             │            │             │
+   │ Tech-savvy  │            │ Family Hub  │            │ Any Device  │
+   │             │            │ Dashboard   │            │ Browser     │
+   └─────────────┘            └─────────────┘            └─────────────┘
+</code></pre>
+<hr />
+<h2>Why This Matters</h2>
+<p><strong>Comparison: Guardian vs Current Tools</strong></p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Bark</th>
+<th>Gryphon</th>
+<th>ASUS</th>
+<th>Guardian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monitoring</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Conversation</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Teaching</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Family contracts</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Earned time</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Local AI</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Data stays home</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Open source</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Chat interface</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Kid participation</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>The Key Insight</h2>
+<p>Guardian helps families raise healthy humans in a digital world - not by blocking and tracking, but by teaching, conversing, and growing together.</p>
+<ul>
+<li><strong>Local-first</strong>: Your data never leaves home</li>
+<li><strong>AI as teacher</strong>: Not surveillance, but support</li>
+<li><strong>Family contracts</strong>: Kids participate in rules</li>
+<li><strong>Conversation &gt; Configuration</strong>: Chat, don't dashboard</li>
+<li><strong>Model agnostic</strong>: Use any LLM (local or cloud)</li>
+<li><strong>Open source</strong>: Community-driven, transparent</li>
+</ul>
+<hr />
+<p><em>This is what the Baltimore AI Producers Lab philosophy demands: not consumers of surveillance tech, but producers of supportive family technology.</em></p>
+<p><strong>Let's GrOw!</strong></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#guardian</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#family</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#local-first</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#architecture</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#privacy</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T15:18:52.892417">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">

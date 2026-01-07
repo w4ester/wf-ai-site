@@ -414,16 +414,124 @@ def generate_rss():
 def list_posts():
     """List recent posts from index.html."""
     posts = extract_posts_from_html()
-    
+
     if not posts:
         print("📭 No posts found.")
         return
-    
+
     print(f"📋 Found {len(posts)} post(s):\n")
     for i, post in enumerate(posts[:10], 1):
         title = post['title'][:50] + "..." if len(post['title']) > 50 else post['title']
         date = post['date'][:10] if post['date'] else "unknown"
         print(f"   {i}. [{date}] {title}")
+
+
+# =============================================================================
+# Drafts Workflow (New!)
+# =============================================================================
+
+def parse_frontmatter(content: str) -> tuple[dict, str]:
+    """Parse YAML frontmatter from markdown content."""
+    if not content.startswith('---'):
+        return {}, content
+
+    parts = content.split('---', 2)
+    if len(parts) < 3:
+        return {}, content
+
+    frontmatter_text = parts[1].strip()
+    body = parts[2].strip()
+
+    # Simple YAML parsing (title, tags)
+    frontmatter = {}
+    for line in frontmatter_text.split('\n'):
+        if ':' in line:
+            key, value = line.split(':', 1)
+            key = key.strip()
+            value = value.strip().strip('"\'')
+            if key == 'tags':
+                frontmatter[key] = [t.strip() for t in value.split(',')]
+            else:
+                frontmatter[key] = value
+
+    return frontmatter, body
+
+
+def list_drafts():
+    """List all drafts in drafts/ folder."""
+    drafts_dir = Path("drafts")
+    if not drafts_dir.exists():
+        print("📭 No drafts folder. Create one with: mkdir drafts")
+        return []
+
+    drafts = list(drafts_dir.glob("*.md"))
+
+    if not drafts:
+        print("📭 No drafts found in drafts/")
+        print("   AI can save drafts here, then you publish with:")
+        print("   python manager.py publish-draft <name>")
+        return []
+
+    print(f"📝 Drafts ({len(drafts)}):\n")
+    for i, draft in enumerate(sorted(drafts), 1):
+        content = draft.read_text(encoding='utf-8')
+        frontmatter, _ = parse_frontmatter(content)
+        title = frontmatter.get('title', draft.stem)
+        print(f"   {i}. {draft.name}")
+        print(f"      Title: {title}")
+        if frontmatter.get('tags'):
+            print(f"      Tags: {', '.join(frontmatter['tags'])}")
+        print()
+
+    return drafts
+
+
+def publish_draft(draft_name: str):
+    """Publish a draft from drafts/ folder."""
+    drafts_dir = Path("drafts")
+    posts_dir = Path("posts")
+
+    # Find the draft
+    if not draft_name.endswith('.md'):
+        draft_name += '.md'
+
+    draft_path = drafts_dir / draft_name
+
+    if not draft_path.exists():
+        print(f"❌ Draft not found: {draft_path}")
+        print("\n   Available drafts:")
+        list_drafts()
+        return False
+
+    # Parse the draft
+    content = draft_path.read_text(encoding='utf-8')
+    frontmatter, body = parse_frontmatter(content)
+
+    title = frontmatter.get('title', draft_path.stem.replace('-', ' ').title())
+    tags = frontmatter.get('tags', [])
+
+    print(f"📄 Publishing: {title}")
+    print(f"   Tags: {', '.join(tags) if tags else 'none'}")
+
+    # Create the post (using existing function)
+    success = create_post(title, body, tags)
+
+    if success:
+        # Move draft to posts/ for archive
+        posts_dir.mkdir(exist_ok=True)
+        date_prefix = datetime.datetime.now().strftime("%Y-%m-%d")
+        archive_name = f"{date_prefix}-{draft_path.stem}.md"
+        archive_path = posts_dir / archive_name
+        draft_path.rename(archive_path)
+        print(f"   📁 Draft archived to: posts/{archive_name}")
+
+        # Generate RSS
+        generate_rss()
+
+        print("\n💡 Ready to deploy:")
+        print("   git add . && git commit -m 'New post' && git push")
+
+    return success
 
 
 def main():
@@ -459,6 +567,11 @@ Examples:
 
     subparsers.add_parser('ready', help='List ready post ideas from bd')
     subparsers.add_parser('publish', help='Interactive: pick task, write post, close task')
+
+    # Drafts workflow commands (NEW!)
+    subparsers.add_parser('drafts', help='List drafts in drafts/ folder')
+    publish_draft_parser = subparsers.add_parser('publish-draft', help='Publish a draft from drafts/')
+    publish_draft_parser.add_argument('name', help='Draft filename (without .md)')
     
     # Parse args
     args = parser.parse_args()
@@ -494,6 +607,12 @@ Examples:
 
     elif args.command == 'publish':
         bd_publish_flow()
+
+    elif args.command == 'drafts':
+        list_drafts()
+
+    elif args.command == 'publish-draft':
+        publish_draft(args.name)
 
     else:
         # Legacy mode: support old "python manager.py 'Title' 'Content'" syntax
