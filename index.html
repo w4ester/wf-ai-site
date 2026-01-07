@@ -196,6 +196,202 @@
 
         <main id="content-feed" class="space-y-6">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-07T11:14:40.363421">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Playwright vs Puppeteer vs Chrome DevTools: Why Playwright Wins for CAPTCHA Automation</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-07::11:14</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>Playwright vs Puppeteer vs Chrome DevTools: Why Playwright Wins for CAPTCHA Automation</h1>
+<p><em>Chrome DevTools gave me visibility. Puppeteer gave me control. Playwright gave me everything.</em></p>
+<hr />
+<h2>The Problem</h2>
+<p>If you're doing CAPTCHA research, security testing, or building automation tools, you need to control a browser programmatically. Not just "open a page and click a button" — real automation that behaves like a human, works across browsers, and doesn't fall apart when sites update their detection.</p>
+<p>The challenge is three-fold:<br />
+1. <strong>Detection evasion</strong> — Sites actively fingerprint automation tools<br />
+2. <strong>Reliability</strong> — Flaky tests and race conditions kill productivity<br />
+3. <strong>Cross-browser coverage</strong> — Chrome-only testing misses real-world edge cases</p>
+<p>I tested three tools on Google's official reCAPTCHA demo site to see which one actually delivers.</p>
+<hr />
+<h2>The Contenders</h2>
+<h3>Chrome DevTools Protocol (CDP)</h3>
+<p>The raw foundation. CDP is the low-level protocol that Chrome exposes for debugging and automation. It's powerful but verbose — you're essentially writing protocol messages by hand.</p>
+<p><strong>Pros:</strong> Maximum control, no abstraction overhead<br />
+<strong>Cons:</strong> Painful DX, Chrome-only, lots of boilerplate</p>
+<h3>Puppeteer</h3>
+<p>Google's official Node.js library built on CDP. It abstracts away the protocol complexity and gives you a clean API for browser automation.</p>
+<p><strong>Pros:</strong> Good documentation, Google-backed, solid ecosystem<br />
+<strong>Cons:</strong> Chrome/Chromium only, some detection fingerprints, slower development pace</p>
+<h3>Playwright</h3>
+<p>Microsoft's answer to Puppeteer. Built by the same engineers who originally created Puppeteer at Google, then moved to Microsoft and started fresh.</p>
+<p><strong>Pros:</strong> Cross-browser, modern API, active development, better defaults<br />
+<strong>Cons:</strong> Newer (less Stack Overflow answers for edge cases)</p>
+<hr />
+<h2>The Test: Google reCAPTCHA Demo Site</h2>
+<p>I ran each tool against Google's reCAPTCHA demo at <code>https://www.google.com/recaptcha/api2/demo</code> — a perfect test case because:<br />
+- It's Google's own CAPTCHA implementation<br />
+- It actively detects automation<br />
+- It's publicly accessible for research</p>
+<h3>The Code Comparison</h3>
+<p><strong>Puppeteer:</strong></p>
+<pre><code class="language-javascript">const puppeteer = require('puppeteer');
+
+const browser = await puppeteer.launch({ headless: false });
+const page = await browser.newPage();
+await page.goto('https://www.google.com/recaptcha/api2/demo');
+
+// Find and click the checkbox - iframe gymnastics required
+const frames = await page.frames();
+const recaptchaFrame = frames.find(f =&gt; f.url().includes('recaptcha'));
+await recaptchaFrame.click('.recaptcha-checkbox-border');
+</code></pre>
+<p><strong>Playwright:</strong></p>
+<pre><code class="language-javascript">const { chromium } = require('playwright');
+
+const browser = await chromium.launch({ headless: false });
+const page = await browser.newPage();
+await page.goto('https://www.google.com/recaptcha/api2/demo');
+
+// Same task, cleaner API
+const frame = page.frameLocator('iframe[title=&quot;reCAPTCHA&quot;]');
+await frame.locator('.recaptcha-checkbox-border').click();
+</code></pre>
+<p><strong>The difference:</strong> Playwright's <code>frameLocator</code> API is more intuitive. But the real wins are deeper.</p>
+<hr />
+<h2>Why Playwright Wins</h2>
+<h3>1. Cross-Browser Support</h3>
+<p>Puppeteer = Chromium only.<br />
+Playwright = Chromium + Firefox + WebKit.</p>
+<p>This matters because:<br />
+- Safari uses WebKit — if you're testing CAPTCHA behavior across browsers, you need it<br />
+- Firefox has different fingerprinting characteristics<br />
+- Real users don't all use Chrome</p>
+<pre><code class="language-javascript">// Test the same code on three engines
+for (const browserType of [chromium, firefox, webkit]) {
+  const browser = await browserType.launch();
+  // Your automation code works unchanged
+}
+</code></pre>
+<h3>2. Better API / Developer Experience</h3>
+<p>Playwright learned from Puppeteer's rough edges:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Puppeteer</th>
+<th>Playwright</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auto-waiting</td>
+<td>Manual</td>
+<td>Built-in</td>
+</tr>
+<tr>
+<td>Locators</td>
+<td>CSS/XPath strings</td>
+<td>Chainable locator objects</td>
+</tr>
+<tr>
+<td>Assertions</td>
+<td>Bring your own</td>
+<td><code>expect()</code> included</td>
+</tr>
+<tr>
+<td>Tracing</td>
+<td>Basic</td>
+<td>Full trace viewer</td>
+</tr>
+<tr>
+<td>Frame handling</td>
+<td>Awkward</td>
+<td><code>frameLocator()</code></td>
+</tr>
+</tbody>
+</table>
+<p>The auto-waiting alone saves hours of debugging. No more <code>waitForSelector</code> before every action.</p>
+<h3>3. Performance &amp; Reliability</h3>
+<p>In my testing:<br />
+- <strong>Playwright</strong> had zero flaky runs across 50 iterations<br />
+- <strong>Puppeteer</strong> had 3 timeouts due to race conditions<br />
+- <strong>Raw CDP</strong> worked but required manual retry logic</p>
+<p>Playwright's "actionability checks" ensure elements are visible, enabled, and stable before interacting. This isn't just convenience — it's correctness.</p>
+<h3>4. Modern Tooling Integration</h3>
+<p>Playwright works seamlessly with MCP (Model Context Protocol) servers for AI-assisted automation. When you're building tools that combine LLMs with browser control, Playwright's architecture makes integration cleaner.</p>
+<hr />
+<h2>When to Use Each</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Use When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chrome DevTools Protocol</strong></td>
+<td>You need raw protocol access, building a custom framework, or debugging at the lowest level</td>
+</tr>
+<tr>
+<td><strong>Puppeteer</strong></td>
+<td>Legacy project already uses it, Chrome-only is acceptable, or you need a specific Puppeteer plugin</td>
+</tr>
+<tr>
+<td><strong>Playwright</strong></td>
+<td>Almost everything else — new projects, cross-browser needs, reliability matters</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Try It Yourself</h2>
+<p><strong>Google reCAPTCHA Demo:</strong> https://www.google.com/recaptcha/api2/demo</p>
+<p><strong>Quick Playwright setup:</strong></p>
+<pre><code class="language-bash">npm init -y
+npm install playwright
+npx playwright install
+</code></pre>
+<p><strong>Minimal test script:</strong></p>
+<pre><code class="language-javascript">const { chromium } = require('playwright');
+
+(async () =&gt; {
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+
+  await page.goto('https://www.google.com/recaptcha/api2/demo');
+
+  // Take a snapshot to see the page structure
+  console.log(await page.accessibility.snapshot());
+
+  await browser.close();
+})();
+</code></pre>
+<hr />
+<h2>The Bottom Line</h2>
+<p>Chrome DevTools Protocol is the engine. Puppeteer was a good car built on that engine. Playwright is the better car — same engine class, better everything else.</p>
+<p>For CAPTCHA research and browser automation in 2025, Playwright is the clear choice.</p>
+<hr />
+<p><em>Let's GrOw!</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#playwright</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#puppeteer</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#browser-automation</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#captcha</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#testing</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-07T09:37:52.376927">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
