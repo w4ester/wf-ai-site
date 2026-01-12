@@ -217,7 +217,7 @@ This isn't just about software — it's about belief.
 - "Children deserve protection, not exploitation"
 - "Technology should serve families, not extract from them"
 
-Most parental control software is built BY companies, FOR data extraction, WITH surveillance as the business model.
+Most family monitoring software is built BY companies, FOR data extraction, WITH surveillance as the business model.
 
 Guardian is different:
 - The family controls the infrastructure

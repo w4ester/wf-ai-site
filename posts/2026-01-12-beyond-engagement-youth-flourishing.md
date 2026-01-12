@@ -1,6 +1,6 @@
 ---
 title: "Beyond Engagement: Building Technology for Youth Flourishing"
-tags: guardian, philosophy, research, youth, flourishing, self-determination, ai, ethics
+tags: guardian, philosophy, research, youth, flourishing, self-determination, ai, ethics, accessibility
 date: 2026-01-12
 ---
 
@@ -76,6 +76,8 @@ The question researchers are now asking: **"How can technology be designed to su
 
 The [METUX model](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00797/full) (Motivation, Engagement and Thriving in User Experience) provides a framework for designing technology that supports psychological needs across multiple "spheres" of impact:
 
+<!-- Diagram: METUX Spheres - For screen readers: This diagram shows four spheres of technology impact flowing from left to right: Interface, Task, Behavior, and Life, representing short-term to long-term impact. The key insight is that an app might satisfy needs at the interface level while undermining needs at the life level. -->
+
 ```
 METUX SPHERES:
 
@@ -119,7 +121,9 @@ This is a paradigm shift: **design WITH child development in mind, not against i
 
 ### What Guardian Is Building
 
-Guardian Protocol isn't just another parental control app. It's an attempt to embody different incentives in the architecture itself.
+Guardian Protocol isn't just another family digital wellness tool. It's an attempt to embody different incentives in the architecture itself.
+
+<!-- Diagram: Comparison table - For screen readers: This compares engagement-optimized apps with Guardian's approach across six dimensions. Engagement apps: maximize time, capture attention, create dependency, extract data, same AI for all, aligned with advertisers. Guardian: support self-regulation, develop attention, build autonomy, data stays home, age-appropriate values-aligned AI, aligned with family. -->
 
 ```
 ENGAGEMENT-OPTIMIZED APPS          GUARDIAN'S APPROACH
@@ -156,7 +160,7 @@ Contracts are agreements, not impositions. Kids have voice in the process.
 
 > "Monitoring and tracking students' online conversations and actions may limit their participation and make them feel unsafe to take ownership for their ideas." — [PMC research](https://pmc.ncbi.nlm.nih.gov/articles/PMC8455229/)
 
-Kids see the same dashboard as parents. No secret monitoring.
+Young people see the same dashboard as their caregivers. No secret monitoring.
 
 **3. Eudaimonic Goals Over Hedonic Engagement**
 
@@ -183,6 +187,8 @@ AI that knows pet names, traditions, school context — not generic AI that trea
 The problem isn't just individual apps. It's the entire ecosystem of incentives.
 
 [Platform cooperatives](https://platform.coop/blog/cooperatives-and-the-digital-commons-governance-sustainability-and-shared-infrastructure/) offer an alternative model:
+
+<!-- Diagram: Platform comparison - For screen readers: Compares extractive platforms (owned by VCs, data as product, maximize extraction, misaligned incentives) with cooperative models (owned by users, data as commons, maximize member benefit, aligned incentives). -->
 
 ```
 EXTRACTIVE PLATFORM                COOPERATIVE MODEL
@@ -255,6 +261,8 @@ We're at an inflection point.
 
 AI is being integrated into every product our children use. The question isn't whether AI will shape childhood — it's **whose AI, with what incentives**.
 
+<!-- Diagram: AI comparison - For screen readers: Compares corporate AI (optimizes for engagement, same for everyone, aligned with advertisers, data feeds their models, their values) with family-aligned AI (optimizes for flourishing, knows your child, aligned with you, data stays home, your values embedded). -->
+
 ```
 CORPORATE AI                       FAMILY-ALIGNED AI
 ───────────                        ─────────────────
@@ -271,11 +279,11 @@ The window is closing. In 18 months, "AI for children" will mean something. Eith
 
 ## What You Can Do
 
-### For Parents
+### For Caregivers (Parents, Guardians, and Caring Adults)
 
 1. **Question the incentives** — Before any app, ask: how does this company make money? What behavior does that incentivize?
 2. **Support alternatives** — Look for tools aligned with your values, even if less polished
-3. **Talk about it** — Help your kids understand the attention economy
+3. **Talk about it** — Help young people in your life understand the attention economy
 
 ### For Builders
 

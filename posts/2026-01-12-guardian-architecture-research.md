@@ -198,7 +198,7 @@ This is where it gets interesting.
 ├──────────────────────────┼────────────────────────┤
 │ Same AI for everyone     │ Curated for YOUR child │
 ├──────────────────────────┼────────────────────────┤
-│ Aligned with advertisers │ Aligned with parents   │
+│ Aligned with advertisers │ Aligned with caregivers│
 └──────────────────────────┴────────────────────────┘
 ```
 
@@ -221,10 +221,10 @@ Local AI (Ollama)                "Hey Guardian AI,
 ### Key Features
 
 1. **Age-Appropriate Boundaries** — 10-year-old gets different boundaries than 15-year-old
-2. **Sensitivity Detection** — Flags concerning topics, notifies parents
-3. **Transparency** — Kid knows parents can see conversations (not secret surveillance)
+2. **Sensitivity Detection** — Flags concerning topics, notifies caregivers
+3. **Transparency** — Young person knows caregivers can see conversations (not secret surveillance)
 4. **Family Knowledge** — AI knows pet names, traditions, school info
-5. **Values Configuration** — Parents set honesty, kindness, growth mindset, etc.
+5. **Values Configuration** — Caregivers set honesty, kindness, growth mindset, etc.
 
 ---
 
