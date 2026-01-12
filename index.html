@@ -289,9 +289,22 @@
 - ⚠️ Younger project</p>
 <p><strong>Best for:</strong> Enterprise features, future scaling to help other families</p>
 <hr />
-<h2>The Recommended Strategy: Dual-Track</h2>
-<p>The research suggests a dual-track approach:</p>
-<pre><code>DUAL-TRACK EVALUATION:
+<h2>The Key Insight: Mesh Unlocks Portable Family AI</h2>
+<p>Here's what crystallized during research: <strong>Without the mesh, family AI only works at home. The mesh transforms local AI into portable AI.</strong></p>
+<pre><code>Without Mesh:                    With Mesh:
+─────────────                    ──────────
+Home: AI ✓                       Home: AI ✓
+School: Use ChatGPT ✗            School: Family AI via mesh ✓
+Friend's: Use Gemini ✗           Friend's: Family AI via mesh ✓
+
+Corporate values                 YOUR values
+Corporate data collection        Data stays home
+</code></pre>
+<p>The mesh isn't just about knowing where your kid is—it's about <strong>extending your family's values and support to wherever they are.</strong></p>
+<hr />
+<h2>The Recommended Strategy: Tri-Track</h2>
+<p>The research points to three tracks working together:</p>
+<pre><code>COMPLETE ARCHITECTURE:
 
 Track A: SPR for Home
 ├─ Solves MAC randomization completely
@@ -302,10 +315,76 @@ Track B: Headscale/NetBird for Remote
 ├─ Cryptographic identity everywhere
 ├─ Support kids at school, friend's house
 └─ Could overlay on SPR for complete coverage
+
+Track C: Family AI Extension
+├─ Local AI with family values
+├─ Age-appropriate boundaries per child
+├─ Accessible anywhere via mesh
+└─ Data never leaves family control
 </code></pre>
 <p><strong>At home:</strong> SPR gives each device a unique password. No more MAC randomization problems. Guardian doesn't need to track device identity—SPR handles it.</p>
 <p><strong>Away from home:</strong> Headscale or NetBird creates an encrypted tunnel back to the family network. Kid at school can still reach home. Contracts still apply.</p>
-<p><strong>Combined:</strong> Complete coverage. Identity solved everywhere. No external company dependencies.</p>
+<p><strong>Family AI everywhere:</strong> Local AI runs at home, accessible through the mesh. Kid at friend's house asks for homework help—gets YOUR family's AI, with YOUR values, not corporate AI optimized for engagement.</p>
+<p><strong>Combined:</strong> Complete coverage. Identity solved everywhere. No external company dependencies. Your values, portable.</p>
+<hr />
+<h2>Track C: Family AI Extension</h2>
+<p>This is where it gets interesting.</p>
+<h3>The Problem with Corporate AI</h3>
+<pre><code>┌──────────────────────────┬────────────────────────┐
+│       Corporate AI       │      Guardian AI       │
+├──────────────────────────┼────────────────────────┤
+│ Optimize for engagement  │ Optimize for wellbeing │
+├──────────────────────────┼────────────────────────┤
+│ Data is the product      │ Data stays home        │
+├──────────────────────────┼────────────────────────┤
+│ Same AI for everyone     │ Curated for YOUR child │
+├──────────────────────────┼────────────────────────┤
+│ Aligned with advertisers │ Aligned with parents   │
+└──────────────────────────┴────────────────────────┘
+</code></pre>
+<p>When your kid uses ChatGPT at school, they're using AI optimized for OpenAI's goals. When they use Gemini at a friend's house, Google's goals. The AI doesn't know your family values, your kid's age, your boundaries.</p>
+<h3>The Architecture</h3>
+<pre><code>HOME SERVER                      KID'S PHONE (anywhere)
+───────────                      ────────────────────
+Local AI                         "Hey Guardian AI,
+├─ Family values embedded         help me with homework"
+├─ Age-appropriate                      │
+├─ Knows each child's context           │
+└─ Transparency log              MESH TUNNEL (encrypted)
+         ▲                              │
+         └──────────────────────────────┘
+</code></pre>
+<h3>Key Features</h3>
+<ol>
+<li><strong>Age-Appropriate Boundaries</strong> — 10-year-old gets different boundaries than 15-year-old</li>
+<li><strong>Sensitivity Detection</strong> — Flags concerning topics, notifies parents</li>
+<li><strong>Transparency</strong> — Kid knows parents can see conversations (not secret surveillance)</li>
+<li><strong>Family Knowledge</strong> — AI knows pet names, traditions, school info</li>
+<li><strong>Values Configuration</strong> — Parents set honesty, kindness, growth mindset, etc.</li>
+</ol>
+<hr />
+<h2>Implementation Timeline</h2>
+<pre><code>┌───────┬──────────────────────┬─────────────────────────┐
+│ Phase │        Focus         │          Goal           │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 1-2   │ SPR Foundation       │ Home network identity   │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 3-4   │ Mesh Overlay         │ Remote identity         │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 5-6   │ Unified Identity     │ Single view across both │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 7-8   │ Contract Enforcement │ Policies that work      │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 9-10  │ Family AI Foundation │ Local AI running        │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 11-12 │ Portable AI          │ AI via mesh anywhere    │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 13-14 │ AI Curation          │ Family values embedded  │
+├───────┼──────────────────────┼─────────────────────────┤
+│ 15-16 │ Polish & Testing     │ Real family ready       │
+└───────┴──────────────────────┴─────────────────────────┘
+</code></pre>
+<p><strong>The full architecture:</strong> SPR + Mesh + Family AI = Complete support for kids, on your terms, with your values, everywhere they go.</p>
 <hr />
 <h2>Why This Matters</h2>
 <p>The current parental control market is built on fear.</p>
@@ -366,6 +445,8 @@ Track B: Headscale/NetBird for Remote
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#netbird</span>
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#privacy</span>
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#families</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#local-llms</span>
 </div>
 </article>
 
