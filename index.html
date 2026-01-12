@@ -2561,11 +2561,23 @@ Not tools that replace caregiving with algorithms.</p>
             });
 
             // Accessibility: Make scrollable code blocks keyboard focusable (WCAG 2.1.1)
+            // Use nearby heading for unique, descriptive labels
             document.querySelectorAll('pre').forEach(pre => {
                 if (pre.scrollWidth > pre.clientWidth) {
                     pre.setAttribute('tabindex', '0');
                     pre.setAttribute('role', 'region');
-                    pre.setAttribute('aria-label', 'Scrollable code block');
+
+                    // Find nearest preceding heading for context
+                    let context = 'Code example';
+                    let sibling = pre.previousElementSibling;
+                    while (sibling) {
+                        if (/^H[2-6]$/.test(sibling.tagName)) {
+                            context = sibling.textContent.trim();
+                            break;
+                        }
+                        sibling = sibling.previousElementSibling;
+                    }
+                    pre.setAttribute('aria-label', `Code: ${context}`);
                 }
             });
         });
