@@ -183,12 +183,8 @@
                 }
             }
 
-            /* Accessibility: External Link Indicator - subtle, no underline */
-            a[target="_blank"]::after {
-                content: " ⧉";
-                @apply text-xs opacity-50 no-underline inline-block ml-0.5;
-                text-decoration: none !important;
-            }
+            /* Accessibility: External links use aria-labels for screen readers
+               No visual indicator - cleaner design, accessibility handled via JS */
         }
     </style>
 </head>
