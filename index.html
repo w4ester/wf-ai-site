@@ -2559,6 +2559,15 @@ Not tools that replace caregiving with algorithms.</p>
                 h2.className = h1.className;
                 h1.parentNode.replaceChild(h2, h1);
             });
+
+            // Accessibility: Make scrollable code blocks keyboard focusable (WCAG 2.1.1)
+            document.querySelectorAll('pre').forEach(pre => {
+                if (pre.scrollWidth > pre.clientWidth) {
+                    pre.setAttribute('tabindex', '0');
+                    pre.setAttribute('role', 'region');
+                    pre.setAttribute('aria-label', 'Scrollable code block');
+                }
+            });
         });
     </script>
 </body>
