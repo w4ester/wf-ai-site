@@ -37,6 +37,29 @@ This hook ensures all blog posts meet accessibility standards and use inclusive 
 - Diminishing language that removes agency
 - Assuming all children have the same family structure
 
+### Person-First Language (Disability)
+
+**Use person-first language** — put the person before the condition:
+
+| Instead of | Use |
+|------------|-----|
+| screen reader users | users of screen readers |
+| disabled users | users with disabilities |
+| visually impaired users | users with visual impairments |
+| blind users | users who are blind |
+| keyboard users | users who navigate by keyboard |
+| the disabled | people with disabilities |
+
+**Important nuance:** Some communities prefer identity-first language:
+- Many Deaf individuals prefer "Deaf person" (capital D indicates cultural identity)
+- Many autistic individuals prefer "autistic person" over "person with autism"
+- When in doubt, follow the stated preference of the community
+
+**Why this matters:**
+- Person-first language emphasizes personhood over condition
+- It avoids defining people solely by their disability
+- It reflects that disability is one aspect of a person, not their whole identity
+
 ---
 
 ## Accessibility Standards (WCAG 2.2 Level AA)
@@ -46,7 +69,7 @@ This hook ensures all blog posts meet accessibility standards and use inclusive 
 - Use proper heading hierarchy: H1 → H2 → H3 (never skip levels)
 - One H1 per page (the title)
 - Headings should describe content, not just look nice
-- Screen readers use headings for navigation
+- Users of screen readers navigate by headings
 
 ### Plain Language
 
@@ -60,7 +83,7 @@ This hook ensures all blog posts meet accessibility standards and use inclusive 
 
 ### Diagrams and ASCII Art
 
-**All ASCII diagrams need a text description** for screen reader users.
+**All ASCII diagrams need a text description** for users of screen readers.
 
 Format:
 ```markdown
