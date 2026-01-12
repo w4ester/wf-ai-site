@@ -196,6 +196,180 @@
 
         <main id="content-feed" class="space-y-6">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-12T00:07:20.155816">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Architecture: What the Research Actually Says</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-12::00:07</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>Guardian Architecture: What the Research Actually Says</h1>
+<p><em>Academic research validates "support not surveillance." The technical research points to a dual-track solution.</em></p>
+<hr />
+<h2>The Striking Discovery</h2>
+<p>I spent the week diving into academic research on parental monitoring technology. The findings weren't just interesting—they were vindicating.</p>
+<p>Studies from arXiv, PMC, and Cambridge consistently show that <strong>surveillance-based parental control apps harm parent-teen relationships and foster paranoia</strong>. The research explicitly calls for "collaborative technologies that move beyond surveillance."</p>
+<p>That's exactly what Guardian is building.</p>
+<hr />
+<h2>What the Research Says About Monitoring</h2>
+<pre><code>┌───────────────────────────────┬─────────────────────────────┐
+│      What Research Says       │     Guardian's Approach     │
+├───────────────────────────────┼─────────────────────────────┤
+│ Surveillance backfires        │ Transparency instead        │
+├───────────────────────────────┼─────────────────────────────┤
+│ Secret tracking damages trust │ Kids see same dashboard     │
+├───────────────────────────────┼─────────────────────────────┤
+│ Blocking everything fails     │ Contract-based access       │
+├───────────────────────────────┼─────────────────────────────┤
+│ Teens become more secretive   │ Collaborative communication │
+└───────────────────────────────┴─────────────────────────────┘
+</code></pre>
+<p>The academic literature doesn't just suggest Guardian's philosophy might work—it explicitly validates that surveillance approaches cause harm.</p>
+<hr />
+<h2>The Technical Research</h2>
+<p>The technical side is equally clear.</p>
+<p><strong>TU Dresden</strong> found that microsegmentation reduces attack surface by <strong>65.85%</strong>. This is the approach SPR (Secure Private Router) uses—giving each device its own WiFi password and network segment.</p>
+<p><strong>WireGuard benchmarks</strong> show <strong>1-3ms latency overhead</strong> vs 8-12ms for OpenVPN, with <strong>600% better throughput</strong>. This matters for solutions like Headscale and NetBird that use WireGuard for encrypted tunnels.</p>
+<hr />
+<h2>Three Paths Forward</h2>
+<p>The research points to three viable technical approaches, each with different tradeoffs.</p>
+<h3>Path 1: SPR Router</h3>
+<p><strong>What it does:</strong> Per-device WiFi passwords + microsegmentation</p>
+<p><strong>Research support:</strong><br />
+- TU Dresden: 65% attack surface reduction<br />
+- WPA3 research: "individualized data security"</p>
+<p><strong>Tradeoffs:</strong><br />
+- ✅ Zero clients needed at home<br />
+- ✅ Solves MAC randomization completely (each device has unique password)<br />
+- ✅ Guardian becomes pure family support layer<br />
+- ⚠️ Only works at home</p>
+<p><strong>Best for:</strong> Home network identity, simplicity</p>
+<p><strong>Hardware (~$150-230):</strong></p>
+<pre><code>┌──────────────────────────┬────────┐
+│           Item           │ Price  │
+├──────────────────────────┼────────┤
+│ Raspberry Pi 4/5 8GB     │ $75-80 │
+├──────────────────────────┼────────┤
+│ Official Pi power supply │ $15    │
+├──────────────────────────┼────────┤
+│ 32-64GB USB SSD          │ $15-30 │
+├──────────────────────────┼────────┤
+│ ALFA WiFi adapter        │ $35-90 │
+├──────────────────────────┼────────┤
+│ Ethernet cable           │ $5     │
+└──────────────────────────┴────────┘
+</code></pre>
+<hr />
+<h3>Path 2: Headscale</h3>
+<p><strong>What it does:</strong> Self-hosted Tailscale coordination server</p>
+<p><strong>Research support:</strong><br />
+- WireGuard performance benchmarks<br />
+- 34k GitHub stars, mature community<br />
+- Tailscale employee contributes officially</p>
+<p><strong>Tradeoffs:</strong><br />
+- ✅ Works everywhere (school, friend's house, cellular)<br />
+- ✅ Privacy-focused (no external company sees metadata)<br />
+- ✅ Escape hatch to Tailscale if needed<br />
+- ⚠️ Requires VPN client on each device<br />
+- ⚠️ No built-in activity logging</p>
+<p><strong>Best for:</strong> Privacy-focused families who want devices connected everywhere</p>
+<hr />
+<h3>Path 3: NetBird</h3>
+<p><strong>What it does:</strong> Full zero-trust networking platform</p>
+<p><strong>Research support:</strong><br />
+- WireGuard foundation<br />
+- 21k GitHub stars, rapid growth<br />
+- Built-in activity logging (Headscale lacks this)</p>
+<p><strong>Tradeoffs:</strong><br />
+- ✅ Activity logging built-in<br />
+- ✅ MSP portal for multi-family potential<br />
+- ✅ Enterprise features if Guardian scales<br />
+- ⚠️ More complex than Headscale<br />
+- ⚠️ Younger project</p>
+<p><strong>Best for:</strong> Enterprise features, future scaling to help other families</p>
+<hr />
+<h2>The Recommended Strategy: Dual-Track</h2>
+<p>The research suggests a dual-track approach:</p>
+<pre><code>DUAL-TRACK EVALUATION:
+
+Track A: SPR for Home
+├─ Solves MAC randomization completely
+├─ No VPN client needed for home devices
+└─ Guardian becomes pure family layer
+
+Track B: Headscale/NetBird for Remote
+├─ Cryptographic identity everywhere
+├─ Support kids at school, friend's house
+└─ Could overlay on SPR for complete coverage
+</code></pre>
+<p><strong>At home:</strong> SPR gives each device a unique password. No more MAC randomization problems. Guardian doesn't need to track device identity—SPR handles it.</p>
+<p><strong>Away from home:</strong> Headscale or NetBird creates an encrypted tunnel back to the family network. Kid at school can still reach home. Contracts still apply.</p>
+<p><strong>Combined:</strong> Complete coverage. Identity solved everywhere. No external company dependencies.</p>
+<hr />
+<h2>Why This Matters</h2>
+<p>The current parental control market is built on fear.</p>
+<p>Companies profit when caregivers feel anxious. They build surveillance tools because surveillance creates engagement—every "alert" drives a parent back to the app. The business model requires maintaining fear.</p>
+<p>But the research is clear: this approach backfires. Kids become more secretive. Trust erodes. The technology becomes adversarial.</p>
+<p>Guardian takes a different path:</p>
+<ul>
+<li><strong>Transparency over surveillance</strong> — Kids see the same dashboard</li>
+<li><strong>Contracts over control</strong> — Agreements made together, with mutual commitments</li>
+<li><strong>Support over monitoring</strong> — Helping kids develop self-regulation, not dependence</li>
+</ul>
+<p>The academic research validates this philosophy. The technical research shows how to build it.</p>
+<hr />
+<h2>Hardware Shopping List</h2>
+<p>If you want to start experimenting:</p>
+<p><strong>Budget SPR Setup (~$150)</strong><br />
+- Raspberry Pi 4 8GB: $75<br />
+- Official power supply: $15<br />
+- 32GB microSD: $15<br />
+- ALFA AWUS036ACM (WiFi 5): $35<br />
+- Ethernet cable: $5</p>
+<p><strong>Performance Setup (~$230)</strong><br />
+- Raspberry Pi 5 8GB: $80<br />
+- Official Pi 5 power supply: $15<br />
+- 64GB USB SSD: $25<br />
+- Netgear A8000 (WiFi 6E): $90<br />
+- TP-Link UE300 (extra LAN): $15<br />
+- Ethernet cable: $5</p>
+<p><strong>Network topology:</strong></p>
+<pre><code>INTERNET ──▶ [Pi Ethernet] ──▶ SPR ──▶ [USB WiFi] ──▶ YOUR DEVICES
+              (WAN/uplink)              (LAN/AP mode)
+</code></pre>
+<hr />
+<h2>What's Next</h2>
+<p>I'm building both tracks in parallel:</p>
+<ol>
+<li><strong>SPR evaluation</strong> — Setting up per-device passwords, integrating with Guardian's contract system</li>
+<li><strong>Headscale deployment</strong> — Self-hosted coordination, WireGuard tunnels for remote access</li>
+<li><strong>Integration layer</strong> — Guardian as the family support layer on top of either/both</li>
+</ol>
+<p>The goal: families can choose their comfort level. Want simple home-only? SPR. Want everywhere coverage? Add Headscale. Want to avoid all external dependencies? Both, self-hosted.</p>
+<p>The architecture should encode our values. Support, not surveillance. Family control, not corporate extraction.</p>
+<hr />
+<p><em>Let's GrOw!</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#guardian</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#research</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#spr</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#headscale</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#netbird</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#privacy</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#families</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-11T23:35:53.426403">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
