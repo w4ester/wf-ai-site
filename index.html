@@ -149,10 +149,52 @@
             .read-more-btn.expanded svg {
                 @apply rotate-180;
             }
+
+            /* Accessibility: Skip Link */
+            .skip-link {
+                @apply absolute -top-10 left-4 bg-accent text-accent-foreground px-4 py-2 rounded-md font-mono text-sm z-50 transition-all;
+            }
+            .skip-link:focus {
+                @apply top-4;
+            }
+
+            /* Accessibility: Focus Styles */
+            a:focus-visible,
+            button:focus-visible,
+            [tabindex]:focus-visible {
+                @apply outline-2 outline-offset-2 outline-accent ring-2 ring-accent/30;
+            }
+
+            /* Accessibility: Touch Target Minimum Size */
+            .prose a,
+            nav a,
+            .read-more-btn {
+                @apply min-h-[44px] inline-flex items-center;
+            }
+
+            /* Accessibility: Reduced Motion */
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+
+            /* Accessibility: External Link Indicator */
+            a[target="_blank"]::after {
+                content: " ↗";
+                @apply text-xs opacity-70;
+            }
         }
     </style>
 </head>
 <body class="min-h-screen">
+    <!-- Accessibility: Skip Link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Subtle grid background pattern -->
     <div class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
     
@@ -194,12 +236,12 @@
             <div class="h-px bg-gradient-to-r from-accent via-border to-transparent w-full mt-8"></div>
         </header>
 
-        <main id="content-feed" class="space-y-6">
+        <main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">
 
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-12T00:50:15.956181">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Beyond Engagement: Building Technology for Youth Flourishing</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Beyond Engagement: Building Technology for Youth Flourishing</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-12::00:50</span>
         </div>
     </div>
@@ -518,7 +560,7 @@ Their values embedded              Your values embedded
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-12T00:07:20.155816">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Architecture: What the Research Actually Says</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Architecture: What the Research Actually Says</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-12::00:07</span>
         </div>
     </div>
@@ -773,7 +815,7 @@ Local AI                         "Hey Guardian AI,
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-11T23:35:53.426403">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Headscale: Why Your Family&#x27;s Data Shouldn&#x27;t Depend on Anyone&#x27;s Promises</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Headscale: Why Your Family&#x27;s Data Shouldn&#x27;t Depend on Anyone&#x27;s Promises</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-11::23:35</span>
         </div>
     </div>
@@ -991,7 +1033,7 @@ FAR FUTURE (mesh network, no ISP)
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-11T23:35:46.696769">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Tracking Paradox: Why MAC Randomization is a Red Herring</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Tracking Paradox: Why MAC Randomization is a Red Herring</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-11::23:35</span>
         </div>
     </div>
@@ -1199,7 +1241,7 @@ family_member.devices = [...]    # Multiple devices, one identity
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-10T22:15:36.312638">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Window Is Closing</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Window Is Closing</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-10::22:15</span>
         </div>
     </div>
@@ -1308,7 +1350,7 @@ family_member.devices = [...]    # Multiple devices, one identity
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-07T11:14:40.363421">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Playwright vs Puppeteer vs Chrome DevTools: Why Playwright Wins for CAPTCHA Automation</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Playwright vs Puppeteer vs Chrome DevTools: Why Playwright Wins for CAPTCHA Automation</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-07::11:14</span>
         </div>
     </div>
@@ -1504,7 +1546,7 @@ npx playwright install
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-07T09:37:52.376927">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Platform: Complete Architecture</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Platform: Complete Architecture</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-07::09:37</span>
         </div>
     </div>
@@ -1732,7 +1774,7 @@ npx playwright install
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T15:18:52.892417">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">How Browser Control Actually Works in AI</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">How Browser Control Actually Works in AI</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-30::15:18</span>
         </div>
     </div>
@@ -1799,7 +1841,7 @@ browser_take_screenshot - Capture visual image
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T15:07:05.739516">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Local Tools, Real Choice: My WF-AI-Platform Setup</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Local Tools, Real Choice: My WF-AI-Platform Setup</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-30::15:07</span>
         </div>
     </div>
@@ -1877,7 +1919,7 @@ npm run build
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-30T14:13:22.619757">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">OS-LSP: What If Your Operating System Had a Language Server?</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">OS-LSP: What If Your Operating System Had a Language Server?</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-30::14:13</span>
         </div>
     </div>
@@ -1947,7 +1989,7 @@ npm run build
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-29T16:55:39.201681">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Publishing Architecture: How Any AI Platform Can Post to a Static Site</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Publishing Architecture: How Any AI Platform Can Post to a Static Site</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-29::16:55</span>
         </div>
     </div>
@@ -2145,7 +2187,7 @@ snapshot = browser.snapshot()
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-29T16:35:42.840420">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Family Safety Protocol: What If We Built Digital Wellbeing Like We Built Language Servers?</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">The Family Safety Protocol: What If We Built Digital Wellbeing Like We Built Language Servers?</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-29::16:35</span>
         </div>
     </div>
@@ -2350,7 +2392,7 @@ Not tools that replace caregiving with algorithms.</p>
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2025-12-22T15:01:12.716326">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Protocol: Family Digital Wellbeing</h3>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Guardian Protocol: Family Digital Wellbeing</h2>
             <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2025-12-22::15:01</span>
         </div>
     </div>
@@ -2384,7 +2426,7 @@ Not tools that replace caregiving with algorithms.</p>
             <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;">
                 <div class="flex flex-col space-y-1.5 p-6">
                     <div class="flex justify-between items-start gap-4">
-                        <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">System Initialized</h3>
+                        <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">System Initialized</h2>
                         <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">genesis::init</span>
                     </div>
                 </div>
@@ -2470,6 +2512,55 @@ Not tools that replace caregiving with algorithms.</p>
                         btn.style.display = 'none';
                     }
                 }
+            });
+
+            // Accessibility: Fix external links
+            document.querySelectorAll('a[href^="http"]').forEach(link => {
+                const href = link.getAttribute('href');
+                // Skip internal links to this site
+                if (href.includes('w4ester.github.io')) return;
+
+                // Add security attributes
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+
+                // Add aria-label if not present
+                if (!link.getAttribute('aria-label')) {
+                    const text = link.textContent.trim();
+                    link.setAttribute('aria-label', `${text} (opens in new tab)`);
+                }
+            });
+
+            // Accessibility: Fix table headers
+            document.querySelectorAll('table').forEach((table, i) => {
+                // Add aria-label if not present
+                if (!table.getAttribute('aria-label')) {
+                    const prevHeading = table.previousElementSibling;
+                    if (prevHeading && /^H[1-6]$/.test(prevHeading.tagName)) {
+                        table.setAttribute('aria-label', prevHeading.textContent.trim());
+                    } else {
+                        table.setAttribute('aria-label', `Data table ${i + 1}`);
+                    }
+                }
+
+                // Add scope to th elements
+                table.querySelectorAll('th').forEach(th => {
+                    if (!th.getAttribute('scope')) {
+                        th.setAttribute('scope', 'col');
+                    }
+                });
+            });
+
+            // Accessibility: Fix heading hierarchy in prose content
+            // Change H1s in prose to H2s (since page already has an H1)
+            document.querySelectorAll('.prose h1').forEach(h1 => {
+                const h2 = document.createElement('h2');
+                // Copy all child nodes safely
+                while (h1.firstChild) {
+                    h2.appendChild(h1.firstChild);
+                }
+                h2.className = h1.className;
+                h1.parentNode.replaceChild(h2, h1);
             });
         });
     </script>
