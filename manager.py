@@ -314,7 +314,7 @@ def create_post(title: str, raw_content: str, tags: list[str] = None):
     html = file_path.read_text(encoding='utf-8')
     
     # Find injection point
-    marker = '<main id="content-feed" class="space-y-6">'
+    marker = '<main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">'
     
     if marker not in html:
         print("❌ Error: Could not find injection marker in index.html")
