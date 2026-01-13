@@ -35,3 +35,6 @@ books/
 
 # Unrelated projects (moved here by accident)
 podcast-transcription-ai-chat-pipeline/
+
+# Claude hooks with AI model references (avoid leaking)
+.claude/hooks/commit-signature.md
