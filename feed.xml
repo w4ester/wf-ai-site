@@ -1,13 +1,394 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="feed.xsl"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>WF-AI Site</title>
     <link>https://w4ester.github.io/wf-ai-site</link>
     <description>A digital garden for AI experiments, projects, and ideas from the Baltimore AI Producers Lab.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Dec 2025 16:55:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Jan 2026 02:35:17 +0000</lastBuildDate>
     <atom:link href="https://w4ester.github.io/wf-ai-site/feed.xml" rel="self" type="application/rss+xml"/>
     <author>w4ester</author>
+    <item>
+      <title>Four Years of Local AI: From Experiment to Infrastructure</title>
+      <link>https://w4ester.github.io/wf-ai-site</link>
+      <description><![CDATA[<h1>Four Years of Local AI: From Experiment to Infrastructure</h1>
+<p><em>2026-01-13</em></p>
+<p>I ran my first local LLM in 2022. Back then it felt like tinkering—an expensive curiosity. Now it's the foundation of how I believe we all deserve to access and build AI actions.</p>
+<hr />
+<h2>The Journey: 2022 to 2026</h2>
+<p>When I started running language models locally in 2022, GPT-3 was the standard. Local inference (for me) meant serious hardware and output that was… cute, but not dependable.</p>
+<p>Four years later, the landscape has inverted:</p>
+<p><strong>2022</strong>: Local AI was an experiment. Serious hardware, inconsistent results.
+<strong>2024</strong>: Local AI became viable. A "normal" computer could run something useful.
+<strong>2026</strong>: Local AI is increasingly the default. It runs on laptops. The output is genuinely good for daily use.</p>
+<p>The shift was both technical and philosophical. Technical because the models got dramatically better at handling tools, long contexts, and real workflows—especially with a good harness. Philosophical because the question changed from "can I run this locally?" to:</p>
+<p><strong>"Why would I let someone else control the AI I or my loved ones depend on?"</strong></p>
+<hr />
+<h2>Why Local-First Matters Now</h2>
+<p>A lot of "AI privacy" talk stays abstract until it hits family life.</p>
+<p>When you or a loved one ask an AI for help—learning support, creative projects, tough questions—that interaction is usually processed on someone else's servers in the cloud. Depending on the provider and plan, prompts may be logged for safety/abuse prevention, debugging, and product improvement. Policies differ, retention windows differ, opt-outs differ—but the core reality is the same:</p>
+<p><strong>cloud-first puts your most human questions inside someone else's systems.</strong></p>
+<p>For families, it gets real fast.</p>
+<p>When a kid asks awkward questions about growing up, or someone needs a patient, judgment-free conversation during a hard week… I want those moments to be handled like a private conversation, not a product event.</p>
+<p>So I went to work building something different.</p>
+<p><strong>Cloud AI often means:</strong></p>
+<ul>
+<li>Prompts processed remotely (internet dependency)</li>
+<li>Logs retained for some period (policies vary)</li>
+<li>Provider-defined content rules and defaults</li>
+<li>Provider-defined incentives (business model matters)</li>
+<li>Subject to outages and account lockouts</li>
+</ul>
+<p><strong>Local AI means you can choose:</strong></p>
+<ul>
+<li>Prompts stay on your hardware (or your home server)</li>
+<li>Your data doesn't have to train anything</li>
+<li>Your policies, your values, your boundaries</li>
+<li>Works offline (or works "home-first" over a private tunnel)</li>
+<li>More control over availability and failure modes</li>
+</ul>
+<p>That word <strong>choose</strong> is the point.</p>
+<hr />
+<h2>What I Actually Built: Guardian Protocol</h2>
+<p>Guardian Protocol started as a question:</p>
+<p><strong>What if "parental controls" were about wellbeing and skill-building—without a surveillance model?</strong></p>
+<p>Most parental monitoring software is built on surveillance: caregivers see everything, kids see nothing. That creates an adversarial relationship. Kids learn to hide rather than learn.</p>
+<p>I want to flip it.</p>
+<p><strong>Transparency over surveillance.</strong> Kids see the same dashboard guardians do.
+<strong>Conversation over punishment.</strong> Each block is a conversation opportunity, not a gotcha.
+<strong>Digital development over screen-time obsession.</strong></p>
+<p>The architecture mirrors the harness patterns we see in bigger LLM stacks:</p>
+<pre><code class="language-text">Guardian Code (CLI)     = CLI equivalent
+Guardian Desktop (App)  = Desktop equivalent
+Guardian.ai (Web)       = Web.ai equivalent
+Guardian Network        = Router/Pi running local AI
+</code></pre>
+<p>The differentiator is incentives: Guardian is built for family wellbeing, not ad targeting.</p>
+<p>And the key capability is <em>local-first routing</em>: every AI query from any family device can route through <strong>your home server</strong>.</p>
+<p>Kid at school asks a question → it can tunnel back to your home AI → responds with your family's boundaries and values embedded.</p>
+<p>That's not hypothetical. That's exactly what mesh networking is for.</p>
+<hr />
+<h2>The 2026 Stack: What Actually Works</h2>
+<p>After four years of experimentation, here's what I run daily.</p>
+<h3>The Foundation: Many Good Options</h3>
+<p>Starting out, <strong>Ollama</strong> makes local AI accessible in the simplest possible way.</p>
+<p>On Linux, the official install is literally a one-liner: (<a href="https://docs.ollama.com/linux" title="Linux">Ollama Docs</a>)</p>
+<pre><code class="language-bash">curl -fsSL https://ollama.com/install.sh | sh
+</code></pre>
+<p>Then pull and run a model:</p>
+<pre><code class="language-bash">ollama run qwen3:14b
+</code></pre>
+<p>That's it. You're running a local model. (And yes, Ollama supports macOS/Windows too—but the key point is: setup is now minutes, not days.) (<a href="https://docs.ollama.com/linux" title="Linux">Ollama Docs</a>)</p>
+<h3>llama.cpp: Production-Grade Control</h3>
+<p>When I need more control—more tuning, more deployment options, more harness work—<strong>llama.cpp</strong> is my go-to.</p>
+<p>Its stated goal is straight-up what local-first builders care about: minimal setup, strong performance, wide hardware support, and support for many quantization levels to reduce memory use. (<a href="https://github.com/ggml-org/llama.cpp" title="GitHub - ggml-org/llama.cpp: LLM inference in C/C++">GitHub</a>)</p>
+<p>In practice, this is where "local AI as infrastructure" becomes real: repeatable installs, reproducible model formats (GGUF), and a stack you can ship as a service inside your home or your org.</p>
+<hr />
+<h2>Models Worth Running (January 2026)</h2>
+<p>I'm not interested in model fandom. I'm interested in: <em>what runs well, what's licensable, what's teachable, and what families can actually own.</em></p>
+<h3>Qwen3: My default open-weight family right now</h3>
+<p>The Qwen team explicitly "open-weighted" <strong>six dense models</strong> (0.6B, 1.7B, 4B, 8B, 14B, 32B) plus two MoE models (including <strong>Qwen3-30B-A3B</strong> and <strong>Qwen3-235B-A22B</strong>) under the <strong>Apache 2.0 license</strong>. (<a href="https://qwenlm.github.io/blog/qwen3/" title="Qwen3: Think Deeper, Act Faster">Qwen</a>)</p>
+<p>They also report a real "parameter efficiency" jump: Qwen3 base models performing comparably to larger Qwen2.5 base models (e.g., 1.7B ≈ 3B; 4B ≈ 7B; 8B ≈ 14B; 14B ≈ 32B; 32B ≈ 72B). That's not me hyping—it's their published claim, and it tracks with what I see in day-to-day work: you get a lot more usefulness per gigabyte than you used to. (<a href="https://qwenlm.github.io/blog/qwen3/" title="Qwen3: Think Deeper, Act Faster">Qwen</a>)</p>
+<h3>What I recommend people actually run</h3>
+<p>Instead of arguing theoretical "best," I like tables you can reproduce.</p>
+<p>These are <strong>Ollama's listed download sizes and context windows</strong> for the Qwen3 tags (so readers can verify quickly). (<a href="https://ollama.com/library/qwen3" title="qwen3">Ollama</a>)</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">Approx download size</th>
+<th style="text-align: right;">Context window shown in Ollama</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Qwen3 0.6B</strong></td>
+<td style="text-align: right;">~523MB</td>
+<td style="text-align: right;">40K</td>
+<td>Edge devices, Raspberry Pi demos, "runs anywhere" helpers</td>
+</tr>
+<tr>
+<td><strong>Qwen3 1.7B</strong></td>
+<td style="text-align: right;">~1.4GB</td>
+<td style="text-align: right;">40K</td>
+<td>Quick queries, learning support, lightweight workflows</td>
+</tr>
+<tr>
+<td><strong>Qwen3 4B</strong></td>
+<td style="text-align: right;">~2.5GB</td>
+<td style="text-align: right;">256K</td>
+<td>Daily chat, drafting, surprisingly good long-context work</td>
+</tr>
+<tr>
+<td><strong>Qwen3 8B</strong></td>
+<td style="text-align: right;">~5.2GB</td>
+<td style="text-align: right;">40K</td>
+<td>Daily driver for most people (coding + general use)</td>
+</tr>
+<tr>
+<td><strong>Qwen3 14B</strong></td>
+<td style="text-align: right;">~9.3GB</td>
+<td style="text-align: right;">40K</td>
+<td>Heavier reasoning + synthesis + research support</td>
+</tr>
+<tr>
+<td><strong>Qwen3 32B</strong></td>
+<td style="text-align: right;">~20GB</td>
+<td style="text-align: right;">40K</td>
+<td>Higher ceiling work if you have the RAM/VRAM</td>
+</tr>
+<tr>
+<td><strong>Qwen3 30B (MoE)</strong></td>
+<td style="text-align: right;">~19GB</td>
+<td style="text-align: right;">256K</td>
+<td>MoE efficiency (big feel, different cost profile)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>My daily drivers:</strong> Qwen3 8B and 14B.</p>
+<h3>Deep reasoning: DeepSeek-R1</h3>
+<p>When I want "slow thinking" for research and hard reasoning, I reach for <strong>DeepSeek-R1</strong> and distill variants.</p>
+<p>DeepSeek's own release notes frame R1 as "performance on par with OpenAI-o1," and they state that <strong>code and models are MIT-licensed</strong>, explicitly encouraging distillation and commercial use. (<a href="https://api-docs.deepseek.com/news/news250120" title="DeepSeek-R1 Release">DeepSeek API Docs</a>)</p>
+<p>Their GitHub repo also states plainly that DeepSeek-R1 supports commercial use and derivative works including distillation for training other LLMs. (<a href="https://github.com/deepseek-ai/DeepSeek-R1" title="DeepSeek-R1">GitHub</a>)</p>
+<hr />
+<h2>LocalScore: Measure Reality, Not Vibes</h2>
+<p>Benchmarks can be silly. But <strong>LocalScore</strong> is one of the rare benchmarks that's actually aligned with the user experience.</p>
+<p>LocalScore combines:</p>
+<ul>
+<li>prompt processing speed</li>
+<li>generation speed</li>
+<li>time-to-first-token</li>
+</ul>
+<p>…and turns that into a single comparable score. (<a href="https://www.localscore.ai/about" title="About LocalScore">LocalScore</a>)</p>
+<p>Their interpretation is also refreshingly practical:</p>
+<ul>
+<li><strong>1,000 is excellent</strong></li>
+<li><strong>250 is passable</strong></li>
+<li><strong>below 100 is likely a poor experience</strong> (<a href="https://www.localscore.ai/about" title="About LocalScore">LocalScore</a>)</li>
+</ul>
+<p>LocalScore is labeled as <strong>"A Mozilla Builders Project"</strong> on the site and accelerator pages, and it notes that it leverages <strong>llamafile</strong> under the hood for portability. (<a href="https://www.localscore.ai/accelerator/1704" title="NVIDIA GeForce RTX 4090 Results">LocalScore</a>)</p>
+<p>If you're teaching families, running workshops, or building anything you want to be repeatable, this matters: you can stop arguing and start measuring.</p>
+<hr />
+<h2>Real Hardware, Real Numbers</h2>
+<p>Instead of "trust me," here are <strong>public LocalScore submissions</strong> you can click and verify.</p>
+<h3>Example: RTX 4090</h3>
+<p>On a published RTX 4090 entry (23GB), LocalScore reports:</p>
+<ul>
+<li><strong>~1727</strong> on the 8B-class test</li>
+<li><strong>~972</strong> on the 14B-class test (<a href="https://www.localscore.ai/accelerator/1704" title="NVIDIA GeForce RTX 4090 Results">LocalScore</a>)</li>
+</ul>
+<p>A different RTX 4090 entry (24GB) shows:</p>
+<ul>
+<li><strong>~1421</strong> (8B-class)</li>
+<li><strong>~714</strong> (14B-class) (<a href="https://www.localscore.ai/accelerator/77" title="NVIDIA GeForce RTX 4090 Results">LocalScore</a>)</li>
+</ul>
+<p>That variance is the point: settings and configs matter, but the order-of-magnitude story is stable.</p>
+<h3>Example: Mac Studio M3 Ultra (256GB)</h3>
+<p>A published Apple M3 Ultra entry (256GB) reports:</p>
+<ul>
+<li><strong>~394</strong> on the 8B-class test</li>
+<li><strong>~216</strong> on the 14B-class test (<a href="https://www.localscore.ai/accelerator/1359" title="Apple M3 Ultra 24P+8E+80GPU Results">LocalScore</a>)</li>
+</ul>
+<p>This is why I like LocalScore: it forces honesty. Some machines are monsters at certain classes of workloads, and merely "fine" at others.</p>
+<h3>What I tell people now</h3>
+<ul>
+<li>If you want local AI to feel "normal," aim for <strong>~250+ on the 8B test</strong> on <em>your hardware</em>, with your runtime. (<a href="https://www.localscore.ai/about" title="About LocalScore">LocalScore</a>)</li>
+<li>If you're building for a household or workshop (multiple users), you want more headroom than "passable."</li>
+</ul>
+<hr />
+<h2>Licensing: Ownership Is a Feature</h2>
+<p>This is where a lot of local-first writing gets hand-wavy. I'm not willing to be hand-wavy here.</p>
+<h3>Qwen3: Apache 2.0</h3>
+<p>Qwen3 is published as Apache 2.0 in the official release. (<a href="https://qwenlm.github.io/blog/qwen3/" title="Qwen3: Think Deeper, Act Faster">Qwen</a>)</p>
+<p>Apache 2.0 is permissive and widely used, but it does have real obligations around including the license text and handling notices. (Normal, manageable stuff.) (<a href="https://www.apache.org/licenses/LICENSE-2.0" title="Apache License, Version 2.0">Apache Software Foundation</a>)</p>
+<h3>DeepSeek-R1: MIT</h3>
+<p>DeepSeek-R1 states that the code and weights are MIT-licensed, and explicitly permits commercial use and derivative works including distillation. (<a href="https://github.com/deepseek-ai/DeepSeek-R1" title="DeepSeek-R1">GitHub</a>)</p>
+<p>MIT is also permissive, with minimal conditions (generally: keep the copyright + license text). (<a href="https://opensource.org/license/mit" title="The MIT License">Open Source Initiative</a>)</p>
+<h3>Why I moved away from Meta's Llama for "build it and own it forever"</h3>
+<p>Meta's Llama models are strong. This is not a model-quality complaint.</p>
+<p>It's a licensing and downstream simplicity complaint.</p>
+<p>For example, the Llama 3.1 Community License (as published on the model card) includes redistribution requirements like:</p>
+<ul>
+<li>include the agreement when you redistribute</li>
+<li><strong>prominently display "Built with Llama"</strong> in certain product/documentation contexts</li>
+<li>include "Llama" at the beginning of a model name if you use Llama materials/outputs to train a distributed model</li>
+<li>additional commercial terms tied to a <strong>700 million monthly active user</strong> threshold (<a href="https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct" title="meta-llama/Llama-3.1-8B-Instruct · Hugging Face">Hugging Face</a>)</li>
+</ul>
+<p>Separately, the Open Source Initiative has publicly argued that Meta's Llama licensing does <strong>not</strong> meet the Open Source Definition (they frame it as "open washing"). (<a href="https://opensource.org/blog/metas-llama-license-is-still-not-open-source" title="Meta's LLaMa license is still not Open Source – Open Source Initiative">Open Source Initiative</a>)</p>
+<p>None of this means "never use Llama." It means: if you're teaching families and community orgs to build tools they can own forever, permissive licensing is not an ideological flex—it's a durability strategy.</p>
+<hr />
+<h2>The Interface Layer</h2>
+<p>For my work, I'm primarily:</p>
+<ul>
+<li>in the terminal with llama.cpp</li>
+<li>building harnesses with FastAPI + HTMX</li>
+<li>deploying specialized setups for educators (e.g., local-first access patterns that avoid shipping student data to third parties)</li>
+</ul>
+<p>For family setups and workshops, visual interfaces matter. Beginners need something they can click before they can love the terminal.</p>
+<hr />
+<h2>The Family AI Architecture: Mobile as Mesh Node</h2>
+<p>Here's the Guardian Protocol "full picture" insight:</p>
+<p>your phone isn't just a device—it's a <strong>node</strong>.</p>
+<pre><code class="language-text">┌─────────────────────────────────────────────────────────┐
+│                      YOUR HOME                           │
+│  ┌─────────────────┐    ┌─────────────────┐             │
+│  │  llama.cpp      │    │  Guardian       │             │
+│  │  - Local LLMs   │◄──▶│  - Consent layer│             │
+│  │  - Your control │    │  - Family values│             │
+│  │                 │    │  - Transparency │             │
+│  └─────────────────┘    └────────┬────────┘             │
+│                                  │                       │
+└──────────────────────────────────┼───────────────────────┘
+                                   │
+              ┌────────────────────┼────────────────────┐
+              │                    │                    │
+        ┌─────▼─────┐        ┌─────▼─────┐       ┌─────▼─────┐
+        │Kid's phone│        │Kid's tablet│       │Kid's laptop│
+        │ at school │        │at friend's │       │at library │
+        │ (MESH NODE)│       │(MESH NODE) │       │(MESH NODE) │
+        └───────────┘        └───────────┘       └───────────┘
+
+        ALL DEVICES ARE MESH NODES
+        CONNECTING BACK TO HOME AI
+        FAMILY AI, FAMILY VALUES, ANYWHERE
+</code></pre>
+<p>Tools like <strong>Headscale</strong> (an open source, self-hosted implementation of the Tailscale control server) exist specifically to exchange WireGuard keys and coordinate private networks without requiring a cloud control plane. (<a href="https://github.com/juanfont/headscale" title="juanfont/headscale: An open source, self-hosted ...">GitHub</a>)</p>
+<p>And if you want a practical walkthrough of "local AI + secure remote access," Tailscale has published a step-by-step guide showing an offline AI lab wired up with Ollama + secure access. (<a href="https://tailscale.com/blog/self-host-a-local-ai-stack" title="Self-host a local AI stack and access it from anywhere">Tailscale</a>)</p>
+<p>This is what makes local AI portable: not "run a model on your phone," but "bring your home AI with you."</p>
+<hr />
+<h2>Teaching Families to Build</h2>
+<p>Running local AI for my own family was step one.</p>
+<p>Step two is teaching the <strong>producer mindset</strong>: families building tools, not just subscribing to someone else's interface.</p>
+<p>The success metric I care about is simple:
+<strong>every participant builds 2–3 working AI tools they own forever.</strong></p>
+<p>This only works economically because local AI works. If I had to provision cloud credits for every family, the economics would collapse.</p>
+<hr />
+<h2>What Changed My Mind</h2>
+<p>In 2022, I thought local AI was a hobby. Something for tinkerers with more time than sense.</p>
+<p>In 2026, I see it as infrastructure—like having a backup power source or a water filter.</p>
+<p><strong>Quality rose.</strong> Open-weight models got good enough to be trusted for real tasks.
+<strong>Tooling matured.</strong> What used to take days now takes minutes.
+<strong>Licensing became central.</strong> If you can't legally own what you build, you don't really own it.
+<strong>Privacy stakes rose.</strong> AI is becoming part of daily life. Families deserve control.</p>
+<p>And yes: the Axios prediction energy is real—2026 is being framed as the year AI has to prove ROI ("show me the money"). For families and communities, ROI isn't measured in dollars. It's measured in ownership, privacy, and capability. (<a href="https://www.axios.com/2026/01/01/ai-2026-money-openai-google-anthropic-agents" title="2026 is AI's \&quot;show me the money\&quot; year">Axios</a>)</p>
+<hr />
+<h2>Getting Started Today</h2>
+<h3>Minimum Viable Setup (fast)</h3>
+<ol>
+<li>Install Ollama (Linux): (<a href="https://docs.ollama.com/linux" title="Linux">Ollama Docs</a>)</li>
+</ol>
+<p><code>bash
+   curl -fsSL https://ollama.com/install.sh | sh</code>
+2. Run a model:</p>
+<p><code>bash
+   ollama run qwen3:8b</code></p>
+<p>No account. No API key. You're local.</p>
+<h3>Family Setup (home-first)</h3>
+<ul>
+<li>Put Ollama or llama.cpp on one "home" machine</li>
+<li>Add a simple UI</li>
+<li>Create shared prompts and guardrails</li>
+<li>Then add mesh access so devices can tunnel home</li>
+</ul>
+<hr />
+<h2>The Tools I've Tried (And Verdicts)</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Verdict</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>llama.cpp</strong></td>
+<td>Essential</td>
+<td>Local-first inference with strong hardware support and quantization options (<a href="https://github.com/ggml-org/llama.cpp" title="GitHub - ggml-org/llama.cpp: LLM inference in C/C++">GitHub</a>)</td>
+</tr>
+<tr>
+<td><strong>Ollama</strong></td>
+<td>Essential for starting</td>
+<td>Fast install + model library; easiest on-ramp (<a href="https://docs.ollama.com/linux" title="Linux">Ollama Docs</a>)</td>
+</tr>
+<tr>
+<td><strong>LocalScore</strong></td>
+<td>Essential for benchmarking</td>
+<td>Measures what users feel; Mozilla Builders Project (<a href="https://www.localscore.ai/about" title="About LocalScore">LocalScore</a>)</td>
+</tr>
+<tr>
+<td><strong>Tailscale/Headscale</strong></td>
+<td>Essential for mesh</td>
+<td>"Home AI everywhere" becomes real (<a href="https://github.com/juanfont/headscale" title="juanfont/headscale: An open source, self-hosted ...">GitHub</a>)</td>
+</tr>
+<tr>
+<td><strong>vLLM/SGLang</strong></td>
+<td>Production servers</td>
+<td>Great when you're serving many users (bigger org deployments)</td>
+</tr>
+<tr>
+<td><strong>LM Studio</strong></td>
+<td>Good for beginners</td>
+<td>Native UI is a huge unlock for families</td>
+</tr>
+<tr>
+<td><strong>Jan</strong></td>
+<td>Promising</td>
+<td>Privacy-first vibes, still evolving</td>
+</tr>
+<tr>
+<td>GPT4All</td>
+<td>Dated (for my use)</td>
+<td>Ollama + llama.cpp became my defaults</td>
+</tr>
+<tr>
+<td>Text Generation WebUI</td>
+<td>Too complex (for families)</td>
+<td>Powerful, but steep for workshops</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>What's Next</h2>
+<p>Local AI is now "good enough" for most daily work. And "good enough" is getting better.</p>
+<p><strong>What I'm watching:</strong></p>
+<ul>
+<li>Smaller models with better reasoning (and better post-training)</li>
+<li>Speculative decoding and other throughput boosts</li>
+<li>MoE architectures where only a fraction of parameters are active per token (Qwen3 explicitly ships MoE variants) (<a href="https://qwenlm.github.io/blog/qwen3/" title="Qwen3: Think Deeper, Act Faster">Qwen</a>)</li>
+<li>Better on-device inference across Apple Silicon and new PC chips</li>
+<li>Better family-first tooling (consent layers, transparency dashboards, shared norms)</li>
+</ul>
+<p><strong>What I'm building:</strong></p>
+<ul>
+<li>Guardian Protocol (consent-based AI for families)</li>
+<li>Curriculum that makes families producers first</li>
+<li>Local-first educational deployments that keep data sovereign</li>
+</ul>
+<p>Four years ago, running local AI took real commitment. Today, the tools are ready, the models are good, and the stakes are higher.</p>
+<p>The technology exists. The only question is whether you'll use it.</p>
+<p><strong>Let's GrOw!</strong></p>
+<hr />
+<h2>Resources</h2>
+<p>(Names + proof links you can cite in a blog.)</p>
+<ul>
+<li><strong>LocalScore</strong> (what it measures + how to interpret scores) (<a href="https://www.localscore.ai/about" title="About LocalScore">LocalScore</a>)</li>
+<li><strong>Qwen3 official release</strong> (model lineup + Apache 2.0 + base-model comparison claims) (<a href="https://qwenlm.github.io/blog/qwen3/" title="Qwen3: Think Deeper, Act Faster">Qwen</a>)</li>
+<li><strong>Ollama Linux install</strong> (official one-liner) (<a href="https://docs.ollama.com/linux" title="Linux">Ollama Docs</a>)</li>
+<li><strong>Ollama Qwen3 library listing</strong> (sizes + context windows shown) (<a href="https://ollama.com/library/qwen3" title="qwen3">Ollama</a>)</li>
+<li><strong>llama.cpp</strong> (core repo) (<a href="https://github.com/ggml-org/llama.cpp" title="GitHub - ggml-org/llama.cpp: LLM inference in C/C++">GitHub</a>)</li>
+<li><strong>Headscale</strong> (self-hosted control server; WireGuard key exchange) (<a href="https://github.com/juanfont/headscale" title="juanfont/headscale: An open source, self-hosted ...">GitHub</a>)</li>
+<li><strong>Tailscale local AI stack guide</strong> (practical "self-host local AI + access anywhere") (<a href="https://tailscale.com/blog/self-host-a-local-ai-stack" title="Self-host a local AI stack and access it from anywhere">Tailscale</a>)</li>
+<li><strong>DeepSeek-R1 release</strong> (MIT license; distill &amp; commercialize freely) (<a href="https://api-docs.deepseek.com/news/news250120" title="DeepSeek-R1 Release">DeepSeek API Docs</a>)</li>
+<li><strong>Llama 3.1 license excerpt</strong> ("Built with Llama" + 700M MAU clause) (<a href="https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct" title="meta-llama/Llama-3.1-8B-Instruct · Hugging Face">Hugging Face</a>)</li>
+<li><strong>OSI critique of Llama licensing</strong> (why they say it's not Open Source) (<a href="https://opensource.org/blog/metas-llama-license-is-still-not-open-source" title="Meta's LLaMa license is still not Open Source – Open Source Initiative">Open Source Initiative</a>)</li>
+</ul>
+<hr />]]></description>
+      <pubDate>Tue, 13 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://w4ester.github.io/wf-ai-site#four-years-of-local-ai-2026-01-13</guid>
+    </item>
     <item>
       <title>Publishing Architecture: How Any AI Platform Can Post to a Static Site</title>
       <link>https://w4ester.github.io/wf-ai-site</link>
