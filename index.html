@@ -235,66 +235,79 @@
 
         <main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">
 
-<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-12T23:42:23.086047">
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-13T01:01:54.277223">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
-            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Four Years of Local AI: From Experiment to Infrastructure</h3>
-            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-12::23:42</span>
+            <h2 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Four Years of Local AI: From Experiment to Infrastructure</h2>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-01-13::01:01</span>
         </div>
     </div>
     <div class="p-6 pt-0 text-muted-foreground prose post-content">
         <h1>Four Years of Local AI: From Experiment to Infrastructure</h1>
-<p><em>I ran my first local LLM in 2022. Back then it was a curiosity. Now it's how I protect my family.</em></p>
+<p><em>I ran my first local LLM in 2022. Back then it felt like tinkering—an expensive curiosity. Now it's the foundation of how I believe we all deserve to access and build AI actions.</em></p>
 <hr />
 <h2>The Journey: 2022 to 2026</h2>
-<p>When I started running language models locally in 2022, it felt like tinkering. GPT-3 was the standard. Running anything locally meant massive hardware requirements and mediocre results.</p>
-<p>Four years later, the landscape has completely inverted.</p>
-<!-- Diagram: Local AI Evolution - For users of screen readers: This timeline shows the progression from 2022 to 2026. In 2022: GPT-3 dominant, local models experimental, required expensive hardware. In 2023: LLaMA released, local AI becomes viable. In 2024: Ollama simplifies everything, quality approaches cloud. In 2025: Local models match most cloud use cases. In 2026: Local-first is the privacy-conscious default. -->
-
-<pre><code>LOCAL AI EVOLUTION:
-
-2022 ──────────────────────────────────────────────────────▶ 2026
-
-│ GPT-3 era           │ LLaMA moment        │ Local-first era  │
-│ Local = experiment  │ Local = viable      │ Local = default  │
-│ Needed $10k GPU     │ Needed gaming PC    │ Runs on laptop   │
-│ Output was rough    │ Output was usable   │ Output is good   │
-</code></pre>
-<p>The shift was both technical and philosophical. <strong>Who controls the AI your family interacts with?</strong></p>
+<p>When I started running language models locally in 2022, GPT-3 was the standard. Local inference meant a $10K GPU and output that barely passed muster. Four years later, the landscape has completely inverted:</p>
+<p><strong>2022</strong>: Local AI was an experiment. Serious hardware, mediocre results.
+<strong>2024</strong>: Local AI became viable. A gaming PC could run something useful.
+<strong>2026</strong>: Local AI is the default. It runs on a laptop. The output is genuinely good.</p>
+<p>The shift was both technical and philosophical. Technical because the models got better at handling features and actions, and started to gain on larger models—especially with a really good harness. Philosophical because the question changed from "can I run this locally?" to "why would I let someone else control the AI I or my loved ones depend on?"</p>
 <hr />
 <h2>Why Local-First Matters Now</h2>
-<p>Every query to a cloud AI is:<br />
-- Logged somewhere<br />
-- Training someone's model<br />
-- Subject to someone's content policies<br />
-- Dependent on someone's business model</p>
-<p>For families, this matters more than most realize.</p>
-<pre><code>CLOUD AI                           LOCAL AI
-─────────                          ────────
-Query logged forever               Query stays on device
-Data trains their models           Data trains nothing
-Their content policies             YOUR content policies
-Their values embedded              Your values configurable
-Requires internet                  Works offline
-Subject to outages                 Always available
+<p>Every query to a cloud AI is logged somewhere. It's training someone else's model. It's subject to someone else's content policies. It's dependent on someone else's business model.</p>
+<p>For most users, this is an abstract concern. For families, it's concrete.</p>
+<p>When you or a loved one ask an AI for support or help—learning support, creative projects, difficult questions—that query lives in a corporate database. When they ask awkward questions about growing up, those get logged too. When they're working through something difficult and need a patient, judgment-free conversation, do you want that in someone's training data?</p>
+<p>I didn't want that for my loved ones, or for me, or for you. So I went to work building something different for those types of motivations.</p>
+<p><strong>Cloud AI gives you:</strong>
+- Queries logged forever
+- Data training their models
+- Their content policies
+- Their values embedded
+- Internet dependency
+- Subject to outages</p>
+<p><strong>Local AI gives you:</strong>
+- Queries stay on your device
+- Data trains nothing
+- YOUR content policies
+- Your values configurable
+- Works offline
+- Always available</p>
+<hr />
+<h2>What I Actually Built: Guardian Protocol</h2>
+<p>Guardian Protocol started as a question: what if parental controls were about wellbeing rather than surveillance—for teaching and supporting young people?</p>
+<p>Most parental monitoring software is built on a surveillance model. Caregivers see everything, kids see nothing. It creates an adversarial relationship. Kids learn to hide rather than think critically about their digital lives.</p>
+<p>I want to give more choice to flip this. Transparency over surveillance. Kids see the same dashboard guardians do. Each block is a conversation opportunity rather than just a restriction. Digital development over just tracking screen time.</p>
+<p>The architecture mirrors larger LLM harnesses and structures:</p>
+<pre><code>Guardian Code (CLI)     = CLI equivalent
+Guardian Desktop (App)  = Desktop equivalent
+Guardian.ai (Web)       = Web.ai equivalent
+Guardian Network        = Router/Pi running local AI
 </code></pre>
-<p>When your kid asks an AI for homework help, that query lives in a corporate database. When they ask awkward questions about growing up, those get logged too.</p>
-<p><strong>Local AI keeps those conversations in your home.</strong></p>
+<p>The key differentiator: Guardian is incentivized by family wellbeing rather than advertising.</p>
+<p>Every AI query from any family device routes through your home server. Your kid at school asks a question—it goes through your home AI, responds with your family's AI built with your child in mind and with your child (age-appropriate projects built into the AI platform), your values embedded. Secure mesh networking (Headscale/WireGuard) makes this work anywhere.</p>
+<p>This only works because the AI runs locally. If I depended on a cloud provider, I'd be back to trusting someone else's content policies, someone else's data handling, someone else's business model, and someone else's incentives.</p>
 <hr />
 <h2>The 2026 Stack: What Actually Works</h2>
 <p>After four years of experimentation, here's what I run daily.</p>
-<h3>Ollama: The Foundation</h3>
-<p><a href="https://ollama.ai">Ollama</a> made local AI accessible. One command to download, one command to run.</p>
+<h3>The Foundation: Many Good Options</h3>
+<p>Starting out, <strong>Ollama</strong> makes local AI quite accessible. One command to download, one command to run:</p>
 <pre><code class="language-bash"># Install
 curl -fsSL https://ollama.com/install.sh | sh
 
 # Run a model
-ollama run llama3.2
+ollama run qwen3:14b
 
 # That's it. You're running local AI.
 </code></pre>
-<p><strong>Why it won:</strong> Dead simple. Works on Mac, Linux, Windows. Active community. Model library keeps growing.</p>
+<p>Ollama is simple, works on Mac, Linux, Windows, and the community keeps the model library growing.</p>
+<h3>llama.cpp: Production-Grade Control</h3>
+<p><strong>llama.cpp</strong> is something I use often with more actions and features. With large language models becoming quite good with large context windows, you can trust that if you give the GitHub repo of a project and ask for support to use either platform, you will get results within the same minute to setup and have running locally on your device.</p>
+<p>I've done many workshops with many backgrounds, and within a 1-hour workshop everyone—seriously everyone—left with local AI running on their machine(s).</p>
+<p>For me this leads into languages... and well, since 2008 Python was my choice. The Zen of Python applies to local AI: explicit over implicit, simplest approach first, flat over nested. Start with zero-shot prompting, only add Chain of Thought when needed, only add RAG when you must, only reach for agents as a last resort.</p>
+<p>However, I will say that with plugins—MCP servers, tools, hooks, skills (folder/file systems explaining how to do something and chaining together with models)—the complexity ceiling has risen dramatically while the floor stays simple.</p>
 <h3>Models Worth Running (January 2026)</h3>
+<p>The Qwen3 series represents the current state of the art for open-source local AI. Six dense models are open-weighted under Apache 2.0 license: Qwen3-32B, Qwen3-14B, Qwen3-8B, Qwen3-4B, Qwen3-1.7B, and Qwen3-0.6B. The Apache 2.0 license means unrestricted commercial use—no "Built with X" branding requirements, no downstream restrictions.</p>
+<p>The overall performance of Qwen3 dense base models matches that of Qwen2.5 base models with more parameters. For instance, Qwen3-1.7B/4B/8B/14B/32B-Base performs comparably to Qwen2.5-3B/7B/14B/32B/72B-Base, respectively. That's roughly 50% density improvement—you get similar quality in half the size.</p>
 <table>
 <thead>
 <tr>
@@ -306,63 +319,74 @@ ollama run llama3.2
 </thead>
 <tbody>
 <tr>
-<td>Llama 3.2 3B</td>
-<td>2GB</td>
-<td>Quick questions, chat</td>
-<td>Any modern laptop</td>
+<td><strong>Qwen3 0.6B</strong></td>
+<td>~400MB</td>
+<td>Mobile, edge devices, Raspberry Pi</td>
+<td>Any device</td>
 </tr>
 <tr>
-<td>Llama 3.2 8B</td>
-<td>5GB</td>
-<td>General use, coding help</td>
+<td><strong>Qwen3 1.7B</strong></td>
+<td>~1GB</td>
+<td>Quick queries, learning, getting started</td>
+<td>4GB RAM</td>
+</tr>
+<tr>
+<td><strong>Qwen3 4B</strong></td>
+<td>~2.5GB</td>
+<td>Daily tasks, coding help, chat</td>
+<td>8GB RAM</td>
+</tr>
+<tr>
+<td><strong>Qwen3 8B</strong></td>
+<td>~5GB</td>
+<td>General use, reasoning, coding</td>
 <td>16GB RAM</td>
 </tr>
 <tr>
-<td>Qwen 2.5 14B</td>
-<td>9GB</td>
-<td>Complex reasoning</td>
+<td><strong>Qwen3 14B</strong></td>
+<td>~9GB</td>
+<td>Complex tasks, research, near-cloud quality</td>
+<td>16-32GB RAM</td>
+</tr>
+<tr>
+<td><strong>Qwen3 32B</strong></td>
+<td>~20GB</td>
+<td>Frontier-level reasoning, creative work</td>
+<td>32-64GB RAM</td>
+</tr>
+<tr>
+<td><strong>DeepSeek-R1-Distill 14B</strong></td>
+<td>~9GB</td>
+<td>Deep reasoning, math, research</td>
+<td>16-32GB RAM</td>
+</tr>
+<tr>
+<td><strong>Qwen3-30B-A3B</strong> (MoE)</td>
+<td>~20GB</td>
+<td>30B total, 3B active—excellent efficiency</td>
 <td>32GB RAM</td>
-</tr>
-<tr>
-<td>DeepSeek-R1 32B</td>
-<td>20GB</td>
-<td>Deep analysis, research</td>
-<td>64GB RAM or GPU</td>
-</tr>
-<tr>
-<td>Llama 3.3 70B</td>
-<td>40GB</td>
-<td>Near-cloud quality</td>
-<td>Dedicated GPU</td>
 </tr>
 </tbody>
 </table>
-<p><strong>My daily driver:</strong> Qwen 2.5 14B for most tasks, DeepSeek-R1 for research, Llama 3.2 3B for quick queries.</p>
-<h3>Open WebUI: The Interface</h3>
-<p><a href="https://github.com/open-webui/open-webui">Open WebUI</a> gives you a ChatGPT-like interface for local models.</p>
-<pre><code class="language-bash">docker run -d -p 3000:8080 \
-  -v open-webui:/app/backend/data \
-  --add-host=host.docker.internal:host-gateway \
-  ghcr.io/open-webui/open-webui:main
-</code></pre>
-<p><strong>Why it matters:</strong> Multiple users. Conversation history. Model switching. All local.</p>
-<h3>LM Studio: The Easy Path</h3>
-<p>If Docker feels like too much, <a href="https://lmstudio.ai">LM Studio</a> provides a native app experience. Download, click, chat.</p>
-<p>Good for: Getting started, family members who prefer simplicity, quick experiments.</p>
+<p>Qwen3-8B runs smoothly on laptops with 8–12GB VRAM (MacBook M3 Pro, RTX 4070 mobile). It performs competitively with larger models like Gemma-2-27B and Phi-4-14B on current benchmarks.</p>
+<p>Qwen3-14B rivals Qwen2.5-32B in efficiency. Quantized to Q4_0, it runs well on mobile devices.</p>
+<p><strong>My daily drivers:</strong> Qwen3 8B and 14B for most tasks. DeepSeek-R1 distillations for research and deep reasoning. For workshops at the Baltimore AI Producers Lab, I keep Qwen3 0.6B-4B loaded so families can see what runs on <em>their</em> hardware—phones, old laptops, Raspberry Pis.</p>
+<p><strong>Why I moved away from Meta's Llama:</strong> The licensing. The Qwen license is far more permissive than Llama. When you finetune a model built with Qwen, you can choose your license and add "built with Qwen" to the model documentation—but it's optional. DeepSeek ships under MIT with zero downstream obligations. For teaching families to build tools they own forever, license simplicity matters.</p>
+<h3>The Interface Layer</h3>
+<p>For my work, I'm primarily in the terminal with llama.cpp or building custom harnesses with FastAPI + HTMX. <strong>EduPilot</strong> is a customized deployment for Maryland educators, giving teachers access to AI without sending student data to third parties.</p>
+<p>For family setups and workshops, visual interfaces help—LM Studio for beginners who prefer native apps, or custom web interfaces for multi-user households.</p>
 <hr />
 <h2>The Family AI Architecture</h2>
-<p>Here's what I'm building toward with <a href="/posts/2026-01-12-guardian-architecture-research.html">Guardian Protocol</a>:</p>
-<!-- Diagram: Family AI Architecture - For users of screen readers: This diagram shows a home server running Ollama and Guardian, connecting to family devices anywhere via a mesh network. The key point is that AI queries from kids at school or friends' houses route back through the family's own infrastructure. -->
+<p>Here's the full picture of what Guardian Protocol enables:</p>
+<!-- Diagram: Family AI Architecture - For users of screen readers: This diagram shows a home server running llama.cpp and Guardian, connecting to family devices anywhere via a mesh network. AI queries from kids at school or friends' houses route back through the family's own infrastructure with family values embedded. -->
 
-<pre><code>FAMILY AI ARCHITECTURE:
-
-┌─────────────────────────────────────────────────────────┐
+<pre><code>┌─────────────────────────────────────────────────────────┐
 │                      YOUR HOME                           │
 │  ┌─────────────────┐    ┌─────────────────┐             │
-│  │  Ollama         │    │  Guardian       │             │
-│  │  - Local LLMs   │◄──▶│  - Family values│             │
-│  │  - Your control │    │  - Age-appropriate           │
-│  │                 │    │  - Transparency  │             │
+│  │  llama.cpp      │    │  Guardian       │             │
+│  │  - Local LLMs   │◄──▶│  - Consent layer│             │
+│  │  - Your control │    │  - Family values│             │
+│  │                 │    │  - Transparency │             │
 │  └─────────────────┘    └────────┬────────┘             │
 │                                  │                       │
 └──────────────────────────────────┼───────────────────────┘
@@ -370,60 +394,96 @@ ollama run llama3.2
               ┌────────────────────┼────────────────────┐
               │                    │                    │
         ┌─────▼─────┐        ┌─────▼─────┐       ┌─────▼─────┐
-        │Kid's phone│        │Kid's tablet       │Kid's laptop
+        │Kid's phone│        │Kid's tablet│       │Kid's laptop│
         │ at school │        │at friend's │       │at library │
         └───────────┘        └───────────┘       └───────────┘
 
         ALL AI QUERIES ROUTE HOME
         FAMILY AI, FAMILY VALUES
 </code></pre>
-<p><strong>The mesh network</strong> (Headscale/WireGuard) connects everything. Kid at school asks a question, it routes through your home AI, responds with your family's values embedded.</p>
+<p>The mesh network connects everything. Kid at school asks a question, it routes through your home AI, responds with your family's values embedded.</p>
+<p>The consent layer is key. Guardian tracks agreements between family members—what's allowed, what triggers a conversation, what's earned through responsibility. It's about teaching autonomy incrementally.</p>
+<hr />
+<h2>Teaching Families to Build</h2>
+<p>Running local AI for my own family was step one. Step two is the Baltimore AI Producers Lab—an initiative teaching families to build AI tools rather than consume them.</p>
+<p>The producer mindset matters more than the technical skills. Many teens use ChatGPT for homework, but few understand how it works. Families pay monthly subscriptions to be AI consumers with no ownership. By age 18, consumer habits are already solidified.</p>
+<p>We start at age 12. That's when producer identity forms—before consumer habits lock in. And we teach families together because household culture change sticks.</p>
+<p><strong>Youth (12-17)</strong> build AI games, homework helpers, creative tools.
+<strong>Young Adults (18-25)</strong> create resume builders, job automators, portfolio generators.
+<strong>Caregivers</strong> develop budget tools, benefits navigators, side-hustle assistants.
+<strong>Families Together</strong> solve real community problems with AI.</p>
+<p>Success metric: every participant builds 2-3 working AI tools they own forever.</p>
+<p>The hardware is modest: workshop systems for group learning, loaner laptops, take-home kits. The models that matter run on phones (Qwen3 0.6B-1.7B) and any laptop from the last five years (Qwen3 4B-8B).</p>
+<p>This only works because local AI works. If I had to provision cloud API credits for every family, the economics would collapse.</p>
+<hr />
+<h2>Real Hardware, Real Numbers</h2>
+<p>Here's what actually runs local AI in 2026:</p>
+<h3>Raspberry Pi 5 (8GB): $80-100</h3>
+<ul>
+<li><strong>Models</strong>: Models under 7 billion parameters work well. Qwen3 0.6B-1.7B, Gemma3 1B.</li>
+<li><strong>Speed</strong>: 5-15 tokens/second</li>
+<li><strong>Use case</strong>: Always-on family chat interface, edge device, learning platform</li>
+<li><strong>Note</strong>: At minimum, you'll need a Raspberry Pi 5 with 8GB of RAM. 64-bit OS required.</li>
+</ul>
+<h3>Any Laptop from 2020+ with 8GB RAM: $0 (what you have)</h3>
+<ul>
+<li><strong>Models</strong>: Qwen3 1.7B-4B (Q4 quantization)</li>
+<li><strong>Speed</strong>: 15-30 tokens/second</li>
+<li><strong>Use case</strong>: Getting started, quick queries, learning</li>
+</ul>
+<h3>Practical Family Server: 16GB RAM System: $400-800 (used ThinkPad or Mac Mini)</h3>
+<ul>
+<li><strong>Models</strong>: Qwen3 8B (Q4_K_M quantization)</li>
+<li><strong>Speed</strong>: 20-30+ tokens/sec depending on hardware</li>
+<li><strong>Use case</strong>: Daily driver, homework help, general assistant</li>
+</ul>
+<h3>Power User: 32GB+ RAM or GPU with 12GB+ VRAM: $1,500-2,500</h3>
+<ul>
+<li><strong>Models</strong>: Qwen3 14B-32B, DeepSeek-R1-Distill</li>
+<li><strong>Speed</strong>: 20-40 tokens/second</li>
+<li><strong>Use case</strong>: Near-cloud quality, research, production</li>
+</ul>
+<h3>Workshop Powerhouse: Mac Studio M3 Ultra (256GB Unified Memory): ~$8,000</h3>
+<ul>
+<li><strong>Models</strong>: Everything. Qwen3-72B at full precision. DeepSeek-R1 full 671B (quantized). Multiple 32B models simultaneously.</li>
+<li><strong>Speed</strong>: 40-80+ tokens/second on 70B models</li>
+<li><strong>Use case</strong>: Multi-family workshops, running frontier-class models locally, serving dozens of concurrent users</li>
+<li><strong>Why it matters</strong>: This is datacenter capability on a desktop. 256GB unified memory means no GPU memory limits. One machine serves an entire workshop. One machine runs what required a server rack four years ago.</li>
+</ul>
+<p>The rule of thumb: 8GB of RAM to run the 7B models, 16GB to run the 13B models, and 32GB to run the 33B models. Quantization (Q4_K_M) cuts memory requirements by ~75% while maintaining quality.</p>
 <hr />
 <h2>What Changed My Mind</h2>
-<p>In 2022, I thought local AI was a hobby. Something for tinkerers.</p>
+<p>In 2022, I thought local AI was a hobby. Something for tinkerers with more time than sense.</p>
 <p>In 2026, I see it as essential infrastructure—like having your own backup power or water filter.</p>
-<p><strong>The turning points:</strong></p>
-<ol>
-<li>
-<p><strong>Quality caught up</strong> — Local models went from "amusing" to "actually useful" to "genuinely good"</p>
-</li>
-<li>
-<p><strong>Hardware requirements dropped</strong> — A MacBook Air runs useful models. A laptop is enough.</p>
-</li>
-<li>
-<p><strong>Tooling matured</strong> — Ollama, Open WebUI, LM Studio made it accessible to everyone</p>
-</li>
-<li>
-<p><strong>Privacy stakes rose</strong> — As AI became more integrated into daily life, the data implications became clearer</p>
-</li>
-<li>
-<p><strong>Family use cases emerged</strong> — Kids using AI for homework, questions, exploration. That's data worth controlling.</p>
-</li>
-</ol>
+<p><strong>Quality is catching up—especially with fine-tuning and specific data for specific tasks with the right harness.</strong> Local models went from "amusing" to "actually useful" to "genuinely good." DeepSeek-R1 reasoning approaches frontier models. Qwen vision handles document analysis. A 4B dense model being competitive with much larger models is remarkable.</p>
+<p><strong>Hardware requirements dropped.</strong> A laptop with 16GB RAM runs genuinely useful models. A Raspberry Pi 5 (8GB, $80) can host a family chat interface. A four-year-old laptop is enough for starting out with local AI—Qwen3 4B runs on basically anything modern.</p>
+<p><strong>Tooling matured.</strong> What took weeks, then days, then hours of configuration now takes minutes. I remember when it took months.</p>
+<p><strong>AI stands for Accessible Intelligence and Accelerated Intelligence</strong> given the right mindset.</p>
+<p><strong>Privacy stakes rose.</strong> As AI became integrated into daily life, the data implications became clearer. Kids using AI for learning, for questions, for exploration. That's data worth controlling.</p>
+<p><strong>The business models clarified.</strong> Cloud AI providers need to monetize your queries. They need to train on your data. They need to align their content policies with their advertisers. The incentives favor their business rather than your family.</p>
 <hr />
 <h2>Getting Started Today</h2>
 <h3>Minimum Viable Setup (30 minutes)</h3>
 <ol>
 <li>Install Ollama: <code>curl -fsSL https://ollama.com/install.sh | sh</code></li>
-<li>Pull a model: <code>ollama pull llama3.2</code></li>
-<li>Run it: <code>ollama run llama3.2</code></li>
+<li>Pull a model: <code>ollama pull qwen3:8b</code></li>
+<li>Run it: <code>ollama run qwen3:8b</code></li>
 </ol>
 <p>You now have local AI. No account. No API key. No data leaving your machine.</p>
 <h3>Family Setup (2-3 hours)</h3>
 <ol>
 <li>Install Ollama on a home server (old laptop, Raspberry Pi 5, NAS)</li>
-<li>Run Open WebUI in Docker</li>
-<li>Create accounts for family members</li>
+<li>Set up a simple interface (LM Studio for visual, or just terminal—kids learn fast)</li>
+<li>Create shared prompts for family use cases</li>
 <li>Pull age-appropriate models</li>
-<li>Set up local network access</li>
+<li>Set up local network access so everyone can reach it</li>
 </ol>
 <h3>Guardian-Ready Setup (ongoing project)</h3>
-<ol>
-<li>Everything above, plus</li>
-<li><a href="/posts/2026-01-11-headscale-family-mesh.html">Headscale</a> for anywhere access</li>
-<li>Guardian Protocol for contracts and transparency</li>
-<li>Family values embedded in system prompts</li>
-</ol>
+<p>Everything above, plus:
+- Headscale for anywhere access
+- Guardian Protocol for contracts and transparency
+- Family values embedded in system prompts
+- Consent layer for age-appropriate boundaries</p>
 <hr />
 <h2>The Tools I've Tried (And Verdicts)</h2>
 <table>
@@ -436,74 +496,67 @@ ollama run llama3.2
 </thead>
 <tbody>
 <tr>
-<td><strong>Ollama</strong></td>
+<td><strong>llama.cpp</strong></td>
 <td>Essential</td>
-<td>Foundation of everything</td>
+<td>Production-grade, offline-first, vendor-neutral</td>
 </tr>
 <tr>
-<td><strong>Open WebUI</strong></td>
-<td>Recommended</td>
-<td>Best web interface</td>
+<td><strong>Ollama</strong></td>
+<td>Essential for starting</td>
+<td>Foundation of everything, best for workshops and getting started</td>
 </tr>
 <tr>
 <td><strong>LM Studio</strong></td>
 <td>Good for beginners</td>
-<td>Native app, easy</td>
+<td>Native app, easy to explore, auto-detects hardware</td>
 </tr>
 <tr>
-<td><strong>llama.cpp</strong></td>
-<td>For tinkerers</td>
-<td>Raw but powerful</td>
-</tr>
-<tr>
-<td><strong>LocalAI</strong></td>
-<td>Solid alternative</td>
-<td>More complex setup</td>
-</tr>
-<tr>
-<td><strong>GPT4All</strong></td>
-<td>Dated</td>
-<td>Ollama surpassed it</td>
-</tr>
-<tr>
-<td><strong>Text Generation WebUI</strong></td>
-<td>Too complex</td>
-<td>Overkill for most</td>
+<td><strong>vLLM/SGLang</strong></td>
+<td>Production servers</td>
+<td>For deployment at scale</td>
 </tr>
 <tr>
 <td><strong>Jan</strong></td>
 <td>Promising</td>
-<td>Worth watching</td>
+<td>Privacy-first, open-source, offline-first design</td>
+</tr>
+<tr>
+<td>GPT4All</td>
+<td>Dated</td>
+<td>Ollama surpassed it</td>
+</tr>
+<tr>
+<td>Text Generation WebUI</td>
+<td>Too complex</td>
+<td>Overkill for families</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2>What's Next</h2>
 <p>Local AI in 2026 is good enough for most daily use. And "good enough" keeps getting better.</p>
-<p><strong>What I'm watching:</strong><br />
-- Smaller models with better reasoning (DeepSeek-R1 distillations)<br />
-- On-device inference improvements (Apple Silicon keeps getting better)<br />
-- Specialized family-safe models<br />
+<p><strong>What I'm watching:</strong>
+- Smaller models with better reasoning (Qwen3 distillations, DeepSeek-R1 variants)
+- Speculative decoding—using tiny models to pre-predict for large models, boosting throughput
+- MoE architectures that activate only needed parameters (Qwen3-30B-A3B fits on consumer hardware)
+- On-device inference improvements (Apple Silicon, Qualcomm Snapdragon X)
 - Better tooling for families new to this</p>
-<p><strong>What I'm building:</strong><br />
-- Guardian Protocol integration with local LLMs<br />
-- Family-specific fine-tuning experiments<br />
-- Age-appropriate AI boundaries that work</p>
+<p><strong>What I'm building:</strong>
+- Guardian Protocol integration with local LLMs (consent-based AI for families)
+- Shannon Protocol (compression layer for local-first cloud acceleration—when you need cloud power, you control what leaves your device)
+- Baltimore AI Producers Lab curriculum (teaching families to be producers first, users second)
+- Maryland CTE crosswalks (local RAG for career and technical education pathways)
+- Edinfinite platform (multi-tenant educational AI that keeps data sovereign)</p>
 <hr />
 <p>Four years ago, running local AI took real commitment—expensive hardware, rough tooling, patience with mediocre output. That work laid the foundation.</p>
-<p>Today, the tools have matured. The models have caught up. And the stakes have grown.</p>
-<p><strong>The AI your family depends on daily can stay under your control.</strong> With each passing day, that matters more.</p>
+<p>Today, the tools have matured. The models have caught up. And the stakes keep rising.</p>
+<p>Here's what I know: the choice is real now. You can run AI that rivals the best cloud services on hardware you already own. You can teach your kids to build with AI rather than just consume it. You can keep your family's conversations, questions, and growth inside your own walls.</p>
+<p>This is what I built. This is what my family uses. And this is what you can have too.</p>
+<p>The technology exists. The tools are ready. The only question is whether you'll use them.</p>
 <hr />
 <p><em>Let's GrOw!</em></p>
-        <div class="post-fade"></div>
     </div>
-    <div class="px-6 pb-2">
-        <button class="read-more-btn" onclick="togglePost(this)">
-            <span>Continue reading...</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-        </button>
-    </div>
-    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+    <div class="p-6 pt-0 flex flex-wrap gap-2">
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#local-llm</span>
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai</span>
 <span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#tools</span>
