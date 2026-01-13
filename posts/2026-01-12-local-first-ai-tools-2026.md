@@ -107,34 +107,62 @@ However, I will say that with plugins—MCP servers, tools, hooks, skills (folde
 
 ### Models Worth Running (January 2026)
 
-The Qwen3 series represents the current state of the art for open-source local AI. Six dense models are open-weighted under Apache 2.0 license: Qwen3-32B, Qwen3-14B, Qwen3-8B, Qwen3-4B, Qwen3-1.7B, and Qwen3-0.6B. The Apache 2.0 license means unrestricted commercial use—no "Built with X" branding requirements, no downstream restrictions.
+If you only want to learn *one* open-weight family deeply right now, I'd bet on **Qwen3**.
 
-The overall performance of Qwen3 dense base models matches that of Qwen2.5 base models with more parameters. For instance, Qwen3-1.7B/4B/8B/14B/32B-Base performs comparably to Qwen2.5-3B/7B/14B/32B/72B-Base, respectively. That's roughly 50% density improvement—you get similar quality in half the size.
+Qwen3 is open-weighted across a full range: **six dense models** (0.6B → 32B) plus **two MoE models** (including a 30B model with ~3B activated parameters). It's released under **Apache 2.0**, and it's designed for a practical reality: sometimes you want fast answers, and sometimes you want deliberate step-by-step reasoning. Qwen3 supports **hybrid thinking modes** you can toggle depending on the moment. [1]
 
-| Model | Size | Good For | Hardware Needed |
-|-------|------|----------|-----------------|
-| **Qwen3 0.6B** | ~400MB | Mobile, edge devices, Raspberry Pi | Any device |
-| **Qwen3 1.7B** | ~1GB | Quick queries, learning, getting started | 4GB RAM |
-| **Qwen3 4B** | ~2.5GB | Daily tasks, coding help, chat | 8GB RAM |
-| **Qwen3 8B** | ~5GB | General use, reasoning, coding | 16GB RAM |
-| **Qwen3 14B** | ~9GB | Complex tasks, research, near-cloud quality | 16-32GB RAM |
-| **Qwen3 32B** | ~20GB | Frontier-level reasoning, creative work | 32-64GB RAM |
-| **DeepSeek-R1-Distill 14B** | ~9GB | Deep reasoning, math, research | 16-32GB RAM |
-| **Qwen3-30B-A3B** (MoE) | ~20GB | 30B total, 3B active—excellent efficiency | 32GB RAM |
+In the real world, I don't pick models based on internet discourse. I pick them based on *what I'm doing*:
 
-Qwen3-8B runs smoothly on laptops with 8–12GB VRAM (MacBook M3 Pro, RTX 4070 mobile). It performs competitively with larger models like Gemma-2-27B and Phi-4-14B on current benchmarks.
+* **Small + snappy**: quick questions, lightweight tutoring, "I just need a second brain."
+* **Mid-size daily driver**: homework support, life admin, coding help, writing.
+* **Bigger reasoning / multi-user**: heavier synthesis, deep research, more simultaneous users.
 
-Qwen3-14B rivals Qwen2.5-32B in efficiency. Quantized to Q4_0, it runs well on mobile devices.
+Here's a **practical Qwen3 shortlist** you can actually run (these sizes/context windows are shown in the Ollama library, which makes them easy to verify and reproduce). [2]
 
-**My daily drivers:** Qwen3 8B and 14B for most tasks. DeepSeek-R1 distillations for research and deep reasoning. For workshops at the Baltimore AI Producers Lab, I keep Qwen3 0.6B-4B loaded so families can see what runs on *their* hardware—phones, old laptops, Raspberry Pis.
+| Model (Ollama tag) | Download size | Context window | What it's great at |
+| ------------------ | ------------: | -------------: | ------------------ |
+| `qwen3:0.6b` | ~523MB | 40K | "Runs anywhere" demos, edge devices, simple helpers |
+| `qwen3:1.7b` | ~1.4GB | 40K | Fast Q&A, learning support, light drafting |
+| `qwen3:4b` | ~2.5GB | 256K | Surprisingly capable general assistant, long-context projects |
+| `qwen3:8b` | ~5.2GB | 40K | The *daily driver sweet spot* for most people |
+| `qwen3:14b` | ~9.3GB | 40K | Heavier synthesis + better "stay on task" performance |
+| `qwen3:30b` | ~19GB | 256K | MoE efficiency (big brain feel without always paying full cost) |
+| `qwen3:32b` | ~20GB | 40K | Higher ceiling reasoning + writing, when you can afford the RAM/VRAM |
+| `qwen3:235b` | ~142GB | 256K | "Bring a server" territory (included here for completeness) |
 
-**Why I moved away from Meta's Llama:** The licensing. The Qwen license is far more permissive than Llama. When you finetune a model built with Qwen, you can choose your license and add "built with Qwen" to the model documentation—but it's optional. DeepSeek ships under MIT with zero downstream obligations. For teaching families to build tools they own forever, license simplicity matters.
+**My daily drivers:** Qwen3 **8B** and **14B**.
+
+And when I want more "slow thinking" for research and reasoning tasks, I reach for **DeepSeek-R1** (or its distill variants). DeepSeek-R1's repo states the **code + weights are MIT-licensed**, and explicitly permits **commercial use, modification, derivative works, and distillation for training other LLMs** — which is exactly the kind of clarity you want when you're building tools meant to last. [3] DeepSeek also publicly framed the release as **MIT** with "distill & commercialize freely." [4]
+
+For workshops at the Baltimore AI Producers Lab, I keep Qwen3 0.6B-4B loaded so families can see what runs on *their* hardware—phones, old laptops, Raspberry Pis.
 
 ### The Interface Layer
 
 For my work, I'm primarily in the terminal with llama.cpp or building custom harnesses with FastAPI + HTMX. **EduPilot** is a customized deployment for Maryland educators, giving teachers access to AI without sending student data to third parties.
 
 For family setups and workshops, visual interfaces help—LM Studio for beginners who prefer native apps, or custom web interfaces for multi-user households.
+
+---
+
+## LocalScore: Benchmark the Experience
+
+I'm done arguing "this laptop can run local AI" in the abstract.
+
+**Run a benchmark that measures what users actually feel.** That's what **LocalScore** does: it combines three metrics into one comparable number:
+
+* **Prompt processing speed** (tokens/sec)
+* **Generation speed** (tokens/sec)
+* **Time to first token** (latency) [5]
+
+LocalScore also gives you an interpretation that maps cleanly to real life:
+
+* **1,000 = excellent**
+* **250 = passable**
+* **below 100 = likely a poor experience** [5]
+
+Under the hood, LocalScore leverages **llamafile**, which helps keep benchmarking portable across setups. [5]
+
+If you're building a family setup, a school lab, a community workshop, or anything multi-user: **LocalScore is a sanity check** before you buy gear or promise performance.
 
 ---
 
@@ -196,36 +224,69 @@ This only works because local AI works. If I had to provision cloud API credits 
 
 ## Real Hardware, Real Numbers
 
-Here's what actually runs local AI in 2026:
+Here's the part people skip: *what "good" looks like depends on the model size you care about.*
 
-### Raspberry Pi 5 (8GB): $80-100
-- **Models**: Models under 7 billion parameters work well. Qwen3 0.6B-1.7B, Gemma3 1B.
-- **Speed**: 5-15 tokens/second
-- **Use case**: Always-on family chat interface, edge device, learning platform
-- **Note**: At minimum, you'll need a Raspberry Pi 5 with 8GB of RAM. 64-bit OS required.
+LocalScore publishes real submissions by accelerator. So instead of hand-wavy claims, you can point to actual results.
 
-### Any Laptop from 2020+ with 8GB RAM: $0 (what you have)
-- **Models**: Qwen3 1.7B-4B (Q4 quantization)
-- **Speed**: 15-30 tokens/second
-- **Use case**: Getting started, quick queries, learning
+### Example: RTX 4090 (8B + 14B)
 
-### Practical Family Server: 16GB RAM System: $400-800 (used ThinkPad or Mac Mini)
-- **Models**: Qwen3 8B (Q4_K_M quantization)
-- **Speed**: 20-30+ tokens/sec depending on hardware
-- **Use case**: Daily driver, homework help, general assistant
+A submitted **RTX 4090** entry shows LocalScore around:
 
-### Power User: 32GB+ RAM or GPU with 12GB+ VRAM: $1,500-2,500
-- **Models**: Qwen3 14B-32B, DeepSeek-R1-Distill
-- **Speed**: 20-40 tokens/second
-- **Use case**: Near-cloud quality, research, production
+* **~1727** for an **8B** class test
+* **~972** for a **14B** class test [6]
 
-### Workshop Powerhouse: Mac Studio M3 Ultra (256GB Unified Memory): ~$8,000
-- **Models**: Everything. Qwen3-72B at full precision. DeepSeek-R1 full 671B (quantized). Multiple 32B models simultaneously.
-- **Speed**: 40-80+ tokens/second on 70B models
-- **Use case**: Multi-family workshops, running frontier-class models locally, serving dozens of concurrent users
-- **Why it matters**: This is datacenter capability on a desktop. 256GB unified memory means no GPU memory limits. One machine serves an entire workshop. One machine runs what required a server rack four years ago.
+Using LocalScore's own interpretation, that's **excellent** on 8B and very strong on 14B. [5]
+
+### Example: Apple M3 Ultra (8B + 14B)
+
+A submitted **Apple M3 Ultra (256GB)** entry shows LocalScore around:
+
+* **~394** for **8B**
+* **~216** for **14B** [7]
+
+That's **comfortably "passable"** on 8B and **near-passable** on 14B by LocalScore's thresholds — and that framing is way more honest than pretending every machine is "near-cloud." [5]
+
+### What I recommend in practice
+
+* If your goal is **"local AI feels normal"** for one person, aim for **250+ on the 8B score**. [5]
+* If your goal is **multi-user household / workshop**, you're looking for more headroom — and LocalScore makes that visible immediately. [5]
+
+### Quick hardware guide
+
+| Hardware | Approx. Cost | Best For |
+|----------|-------------:|----------|
+| Raspberry Pi 5 (8GB) | $80-100 | Always-on helpers, edge demos, learning |
+| Any laptop 2020+ (8GB RAM) | $0 (what you have) | Getting started, Qwen3 1.7B-4B |
+| 16GB system (used ThinkPad/Mac Mini) | $400-800 | Daily driver, Qwen3 8B |
+| 32GB+ or GPU 12GB+ VRAM | $1,500-2,500 | Qwen3 14B-32B, serious work |
+| Mac Studio M3 Ultra (256GB) | ~$8,000 | Workshop powerhouse, frontier models locally |
 
 The rule of thumb: 8GB of RAM to run the 7B models, 16GB to run the 13B models, and 32GB to run the 33B models. Quantization (Q4_K_M) cuts memory requirements by ~75% while maintaining quality.
+
+---
+
+## Licensing: Own It Forever
+
+Licenses are the difference between "we built something our family owns forever" and "we built something that becomes legally awkward the moment it leaves our laptop."
+
+### Why I bias toward Apache 2.0 and MIT for family/community tools
+
+**Qwen3 is Apache 2.0.** That's permissive, commercial-friendly, and sane for downstream builders. [1]
+
+Apache 2.0 still has real obligations (this is a feature): you generally need to **include the license text** in distributions and handle **NOTICE** requirements appropriately. The Apache Software Foundation provides clear guidance on how LICENSE/NOTICE work in real distributions. [8] [9]
+
+**DeepSeek-R1 is MIT.** MIT is also permissive and commercially usable, and DeepSeek explicitly calls out distillation and derivative works as allowed — which matters if you're teaching, fine-tuning, or shipping. [3] [4]
+
+### Why I moved away from Meta's Llama (even though the models are strong)
+
+Meta's **Llama 3 Community License** includes additional conditions that matter the moment you redistribute or productize:
+
+* You must display **"Built with Meta Llama 3"** in certain distribution contexts
+* There are **naming requirements** for derived AI model names in some cases
+* There's a restriction against using the model's **outputs to improve other LLMs**
+* And there's a special commercial clause tied to **700M monthly active users** [10]
+
+None of that makes Llama unusable. But if your mission is "families build tools they own forever," then license simplicity is part of the product.
 
 ---
 
@@ -235,9 +296,9 @@ In 2022, I thought local AI was a hobby. Something for tinkerers with more time 
 
 In 2026, I see it as essential infrastructure—like having your own backup power or water filter.
 
-**Quality is catching up—especially with fine-tuning and specific data for specific tasks with the right harness.** Local models went from "amusing" to "actually useful" to "genuinely good." DeepSeek-R1 reasoning approaches frontier models. Qwen vision handles document analysis. A 4B dense model being competitive with much larger models is remarkable.
+**Quality caught up—especially with fine-tuning and specific data for specific tasks with the right harness.** Local models went from "amusing" to "actually useful" to "genuinely good."
 
-**Hardware requirements dropped.** A laptop with 16GB RAM runs genuinely useful models. A Raspberry Pi 5 (8GB, $80) can host a family chat interface. A four-year-old laptop is enough for starting out with local AI—Qwen3 4B runs on basically anything modern.
+**Hardware requirements dropped.** A laptop with 16GB RAM runs genuinely useful models. A Raspberry Pi 5 (8GB, $80) can host a family chat interface.
 
 **Tooling matured.** What took weeks, then days, then hours of configuration now takes minutes. I remember when it took months.
 
@@ -324,3 +385,37 @@ The technology exists. The tools are ready. The only question is whether you'll 
 ---
 
 *Let's GrOw!*
+
+---
+
+## Sources
+
+[1] Qwen3 official blog (Apache 2.0, model lineup, MoE active params, hybrid thinking):
+https://qwenlm.github.io/blog/qwen3/
+
+[2] Ollama Qwen3 library (download sizes + listed context windows by tag):
+https://ollama.com/library/qwen3
+
+[3] DeepSeek-R1 GitHub (MIT license + explicitly allows distillation/derivatives):
+https://github.com/deepseek-ai/DeepSeek-R1
+
+[4] DeepSeek API docs "DeepSeek-R1 Release" (MIT, "distill & commercialize freely" framing):
+https://api-docs.deepseek.com/news/news250120
+
+[5] LocalScore "About" (what it measures + thresholds + llamafile under the hood):
+https://www.localscore.ai/about
+
+[6] LocalScore accelerator page: NVIDIA GeForce RTX 4090 (example 8B/14B LocalScore numbers):
+https://www.localscore.ai/accelerator/1704
+
+[7] LocalScore accelerator page: Apple M3 Ultra 256GB (example 8B/14B LocalScore numbers):
+https://www.localscore.ai/accelerator/1359
+
+[8] Apache License 2.0 (how to apply; include LICENSE text; NOTICE guidance):
+https://www.apache.org/licenses/LICENSE-2.0
+
+[9] Apache guidance on assembling LICENSE + NOTICE files:
+https://infra.apache.org/licensing-howto.html
+
+[10] Meta Llama 3 Community License text (redistribution requirements, "Built with Meta Llama 3", output restriction, 700M MAU clause):
+https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct
