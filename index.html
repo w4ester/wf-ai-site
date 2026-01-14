@@ -150,6 +150,25 @@
                 @apply rotate-180;
             }
 
+            /* Sticky close button for expanded posts */
+            .post-close-btn {
+                @apply fixed bottom-6 right-6 z-50 bg-accent text-accent-foreground px-4 py-2 rounded-full font-mono text-sm cursor-pointer shadow-lg transition-all duration-300 flex items-center gap-2;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(20px);
+            }
+            .post-close-btn.visible {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+            .post-close-btn:hover {
+                @apply bg-accent/90 scale-105;
+            }
+            .post-close-btn svg {
+                @apply w-4 h-4;
+            }
+
             /* Accessibility: Skip Link */
             .skip-link {
                 @apply absolute -top-10 left-4 bg-accent text-accent-foreground px-4 py-2 rounded-md font-mono text-sm z-50 transition-all;
@@ -2975,23 +2994,68 @@ Not tools that replace caregiving with algorithms.</p>
         });
 
         // Collapsible Posts
+        let currentExpandedArticle = null;
+        let closeBtn = null;
+
+        function getCloseBtn() {
+            if (!closeBtn) closeBtn = document.getElementById('post-close-btn');
+            return closeBtn;
+        }
+
         function togglePost(btn) {
             const article = btn.closest('article');
             const content = article.querySelector('.post-content');
             const isExpanded = content.classList.contains('expanded');
 
             if (isExpanded) {
-                content.classList.remove('expanded');
-                content.classList.add('collapsed');
-                btn.classList.remove('expanded');
-                btn.querySelector('span').textContent = btn.dataset.collapsedText;
+                collapsePost(article, btn);
             } else {
-                content.classList.remove('collapsed');
-                content.classList.add('expanded');
-                btn.classList.add('expanded');
-                btn.querySelector('span').textContent = 'Show less';
+                // Collapse any other expanded post first
+                if (currentExpandedArticle && currentExpandedArticle !== article) {
+                    const otherBtn = currentExpandedArticle.querySelector('.read-more-btn');
+                    collapsePost(currentExpandedArticle, otherBtn);
+                }
+                expandPost(article, btn);
             }
         }
+
+        function expandPost(article, btn) {
+            const content = article.querySelector('.post-content');
+            content.classList.remove('collapsed');
+            content.classList.add('expanded');
+            btn.classList.add('expanded');
+            btn.querySelector('span').textContent = 'Show less';
+            currentExpandedArticle = article;
+            getCloseBtn().classList.add('visible');
+        }
+
+        function collapsePost(article, btn) {
+            const content = article.querySelector('.post-content');
+            content.classList.remove('expanded');
+            content.classList.add('collapsed');
+            btn.classList.remove('expanded');
+            btn.querySelector('span').textContent = btn.dataset.collapsedText;
+            if (currentExpandedArticle === article) {
+                currentExpandedArticle = null;
+                getCloseBtn().classList.remove('visible');
+            }
+            // Scroll back to the article top
+            article.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeExpandedPost() {
+            if (currentExpandedArticle) {
+                const btn = currentExpandedArticle.querySelector('.read-more-btn');
+                collapsePost(currentExpandedArticle, btn);
+            }
+        }
+
+        // Escape key closes expanded post
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && currentExpandedArticle) {
+                closeExpandedPost();
+            }
+        });
 
         // Initialize collapsible posts on page load
         document.addEventListener('DOMContentLoaded', () => {
@@ -3092,5 +3156,14 @@ Not tools that replace caregiving with algorithms.</p>
             });
         });
     </script>
+
+    <!-- Floating close button for expanded posts -->
+    <button id="post-close-btn" class="post-close-btn" onclick="closeExpandedPost()" aria-label="Close expanded post">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <span>Close</span>
+        <kbd class="text-xs opacity-70 ml-1">Esc</kbd>
+    </button>
 </body>
 </html>
