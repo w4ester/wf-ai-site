@@ -254,6 +254,185 @@
 
         <main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-02-11T12:36:28.448133">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Zero Unauthorized Credentials: Building an Auditable Career Guidance AI</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-02-11::12:36</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>Zero Unauthorized Credentials</h1>
+<p><em>Building a career guidance AI that earns trust by showing its work.</em></p>
+<hr />
+<p>What if a career guidance tool could tell you, with certainty, that every credential it recommends is officially approved by the state?</p>
+<p>Not "we try to keep it updated." Not "sources may vary." A verifiable claim: <strong>zero unauthorized credentials</strong> out of 209 industry-recognized credentials, audited against the official Maryland State Department of Education approved list.</p>
+<p>That's not a marketing promise. It's a SQL query.</p>
+<hr />
+<h2>The World As It Is</h2>
+<p>A high school student in Maryland walks into their counselor's office. They're interested in automotive technology, or cybersecurity, or nursing. They want to know: <em>What credentials can I earn? Where do they lead? Which colleges accept them?</em></p>
+<p>The counselor has a PDF from 2022. Maybe a spreadsheet. The student goes home and asks ChatGPT, which confidently invents credentials that don't exist and names colleges that don't offer the program.</p>
+<p>This is the state of career guidance for most students:</p>
+<ul>
+<li><strong>Scattered data.</strong> PDFs, spreadsheets, and institutional catalogs that don't talk to each other.</li>
+<li><strong>Cloud tools that track everything.</strong> The "free" AI chatbots collect conversations, build profiles, sell attention. A 16-year-old asking about career options becomes a data point.</li>
+<li><strong>Opaque recommendations.</strong> When an AI suggests a credential, there's no way to verify it against the official list. No citations, no audit trail.</li>
+<li><strong>Stale information.</strong> By the time a PDF makes it through the approval process, programs have changed, credentials have been added or retired, and new institutions have opened pathways.</li>
+</ul>
+<p>The result: students get bad data, families can't verify it, and counselors spend their time navigating bureaucracy instead of advising.</p>
+<hr />
+<h2>The World As It Could Be</h2>
+<p>Imagine a different tool. One that:</p>
+<ul>
+<li><strong>Runs locally.</strong> No accounts, no tracking, no cookies. Your questions stay on your device.</li>
+<li><strong>Shows its sources.</strong> Every answer cites the actual crosswalk data. Click through to see which programs at which institutions offer which credentials.</li>
+<li><strong>Is auditable.</strong> The entire database — 818 pathway connections across 48 CTE programs and 42 Maryland institutions — is open for inspection. Every credential maps to the MSDE-approved list.</li>
+<li><strong>Responds to feedback.</strong> When an educator says "you're missing Bowie State" or "that CTSO description isn't quite right," the fix ships in hours, not semesters.</li>
+<li><strong>Treats privacy as architecture, not policy.</strong> No login, no analytics, no third-party scripts. The privacy page isn't legal boilerplate — it's a technical audit showing exactly what the system does and doesn't collect.</li>
+</ul>
+<p>This is the Maryland CTE Crosswalk. And last week, we put it through the hardest test we could think of: we asked educators to break it.</p>
+<hr />
+<h2>The Insight</h2>
+<h3>The Data Model</h3>
+<p>The crosswalk maps the full landscape of Maryland CTE:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pathway connections</td>
+<td>818</td>
+</tr>
+<tr>
+<td>CTE programs</td>
+<td>48</td>
+</tr>
+<tr>
+<td>Maryland institutions</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Community colleges</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Universities</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Career clusters</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Industry-recognized credentials</td>
+<td>209</td>
+</tr>
+</tbody>
+</table>
+<p>Every row represents a real pathway: a high school CTE program, connected to a postsecondary institution, with the credentials a student can earn along the way. The composite key is <code>(cluster_code, hs_program, institution_name)</code> — no duplicates, no ghosts.</p>
+<h3>The Audit Methodology</h3>
+<p>The audit was straightforward:</p>
+<ol>
+<li><strong>Extract</strong> all unique IRCs from the database (183 at the time).</li>
+<li><strong>Scrape</strong> the official MSDE State-Approved List of Industry-Recognized Credentials — 210 credentials from the live page at <code>marylandpublicschools.org</code>.</li>
+<li><strong>Compare.</strong> Every one of our 183 credentials matched an MSDE-approved name. Zero unauthorized.</li>
+<li><strong>Identify gaps.</strong> 27 MSDE-approved credentials weren't yet in our crosswalk. One was an unclear placeholder ("AWS Certified Welding - BZ or NZ?"). We added the other 26.</li>
+</ol>
+<p>The result: 183 → 209 unique IRCs, still at 100% compliance. Every credential a student sees through the crosswalk is one the state has officially recognized.</p>
+<p>This matters because when a tool recommends a credential, a student might spend months preparing for it. Getting it wrong wastes their time and erodes trust in the system. Getting it right — and being able to <em>prove</em> it's right — is the minimum bar for responsible guidance.</p>
+<hr />
+<h2>The Path: One Building Session, 13 Feedback Items, 7 Commits</h2>
+<p>The most interesting part isn't the architecture — it's how fast the system responds to real feedback. Here's what happened in a single session when educators reviewed the crosswalk:</p>
+<h3>Commit 1: University coverage gaps</h3>
+<p><strong><code>717a1b8</code></strong> — <em>Add 3 university program gaps (Bowie State, Coppin State, JHU)</em></p>
+<p>Feedback: "Where's Bowie State? Where's Coppin State?" Two HBCUs and Johns Hopkins were missing from specific program pathways. This is exactly the kind of gap that erodes trust — if a student at a Title I school doesn't see their likely institutions represented, the tool feels like it wasn't built for them.</p>
+<h3>Commit 2: Remove non-Maryland CTSOs</h3>
+<p><strong><code>8e6eafd</code></strong> — <em>Remove non-MD CTSOs (DECA, HOSA, TSA, FCCLA) from prompts and tooltip</em></p>
+<p>Feedback: "DECA isn't a Maryland CTSO." Correct — Maryland has specific Career and Technical Student Organizations (SkillsUSA, FFA, FBLA). We had included national CTSOs that don't operate as Maryland-designated organizations. Removed from both the AI prompts and the UI tooltip.</p>
+<h3>Commit 3: Mobile-responsive stats bar</h3>
+<p><strong><code>e03a41e</code></strong> — <em>Make crosswalk stats bar mobile-responsive (feedback #10)</em></p>
+<p>A counselor pulled up the crosswalk on their phone during a student meeting. The stats bar — showing 818 connections, 42 institutions, 16 community colleges, 26 universities — was cut off on mobile. Fixed: the stats now wrap properly on small screens.</p>
+<h3>Commit 4: The IRC audit</h3>
+<p><strong><code>933f887</code></strong> — <em>Add 26 missing MSDE-approved IRCs across 9 programs (feedback #8)</em></p>
+<p>This was the big one. The audit compared our 183 unique IRCs against the 210 on the official MSDE list. Result:</p>
+<ul>
+<li><strong>0 unauthorized credentials</strong> in our database</li>
+<li><strong>27 MSDE-approved credentials</strong> not yet in our crosswalk</li>
+<li><strong>26 added</strong> across 9 programs (1 skipped as an unclear MSDE placeholder)</li>
+</ul>
+<p>The breakdown:<br />
+- Automotive Technology: +12 IRCs (ASE A-series full certifications)<br />
+- Medium-Heavy Truck Equipment: +3 (diesel, forklift, hazmat)<br />
+- 3D Animation Game Design: +3 (web animation, app development)<br />
+- Graphic Communications: +4 (web design, web development)<br />
+- Engineering: +3 (logistics, Onshape CAD)<br />
+- Machining: +3 (logistics, Onshape CAD)<br />
+- Certified Nursing Assistant: +1 (phlebotomy)<br />
+- Biomedical Science: +1 (phlebotomy)<br />
+- Emergency Medical Technician: +2 (paramedic certifications)</p>
+<h3>Commit 5: 3D Animation community college gaps</h3>
+<p><strong><code>c0f4acd</code></strong> — <em>Add 3 CC gaps to 3D Animation Game Design (feedback #5)</em></p>
+<p>Three community colleges offering relevant programs weren't in the 3D Animation pathway. Added.</p>
+<h3>Commit 6: CTSO terminology</h3>
+<p><strong><code>a9d46c6</code></strong> — <em>Add cocurricular/applied-learning terminology to CTSO descriptions (feedback #1)</em></p>
+<p>An educator noted that CTSOs are more accurately described as "cocurricular" and "applied learning" organizations, not just "student organizations." Language matters — these terms carry specific meaning in the CTE community and affect how the AI explains them to students.</p>
+<h3>Commit 7: The data foundation</h3>
+<p>Before the feedback session, we had already laid the groundwork with a significant data commit:</p>
+<p><strong><code>f30d94c</code></strong> — <em>Add 10 rows across agriculture, architecture, facilities, horticulture</em></p>
+<p>This and prior commits in the session added coverage for underrepresented programs — agriculture, architecture, facilities maintenance, horticulture — programs that serve students heading into essential trades.</p>
+<hr />
+<h2>The Architecture Behind the Audit</h2>
+<p>For the builders reading this, here's what makes the audit possible:</p>
+<p><strong>PostgreSQL with pgvector.</strong> The crosswalk data lives in a single <code>crosswalks</code> table. IRCs are stored as semicolon-separated strings in the <code>industry_credentials</code> column. This is intentionally simple — no credential-normalization microservice, no complex join tables. The data model is straightforward enough that a SQL query <em>is</em> the audit.</p>
+<p><strong>Local-first deployment.</strong> The entire stack — PostgreSQL, FastAPI backend, SvelteKit frontend — runs in Docker containers. No external dependencies, no cloud database, no API keys for the core crosswalk functionality. The RAG-powered chat uses a local embedding model.</p>
+<p><strong>Privacy as architecture.</strong> No user accounts. No cookies. No analytics scripts. No third-party resources. The privacy page includes a technical audit table showing every data flow in the system. When we say "your questions stay on your device," that's not a policy — it's the absence of any mechanism to collect them.</p>
+<p><strong>Feedback loop.</strong> Thumbs up/down on chat responses stores only the question-answer pair — no user identification. This creates an RLHF-style signal without surveillance.</p>
+<hr />
+<h2>Who This Is For</h2>
+<p><strong>Students and families.</strong> You can look up your CTE program, see which colleges connect to it, and know that every credential listed is MSDE-approved. No account needed, no data collected.</p>
+<p><strong>School counselors.</strong> A tool you can pull up during a student meeting — on your phone, on your desktop — that shows real pathway data with citations. When something is wrong, tell us and it gets fixed fast.</p>
+<p><strong>CTE administrators and educators.</strong> The crosswalk data is open. The audit methodology is documented. The commit history shows every change. Use it as a reference, point out gaps, help us get it right.</p>
+<p><strong>Builders.</strong> The stack is straightforward: PostgreSQL, FastAPI, SvelteKit, Docker. The interesting part isn't the technology — it's the methodology. Audit your AI's recommendations against authoritative sources. Make the audit reproducible. Ship the fixes fast.</p>
+<hr />
+<h2>The Invitation</h2>
+<p>The Maryland CTE Crosswalk is live. You can:</p>
+<ul>
+<li><strong>Browse the crosswalk</strong> — 818 pathway connections across 48 programs and 42 institutions</li>
+<li><strong>Ask the AI</strong> — grounded in the actual crosswalk data, with citations</li>
+<li><strong>Check our work</strong> — the commit history, the audit SQL, the MSDE comparison are all visible</li>
+<li><strong>Give feedback</strong> — every suggestion makes the data better</li>
+</ul>
+<p>The thesis is simple: career guidance tools should be auditable, private, and responsive to the communities they serve. The credential data should be verifiable against official sources. The feedback loop should be measured in hours, not semesters.</p>
+<p>We started with a question: <em>What if a career guidance AI had zero unauthorized credentials?</em></p>
+<p>The answer turned out to be a SQL query, an afternoon of commits, and a willingness to show the work.</p>
+<hr />
+<p><em>The Maryland CTE Crosswalk is a local-first, privacy-sovereign career pathway assistant. It maps Maryland high school CTE programs to postsecondary institutions and industry-recognized credentials using data from MSDE, community college catalogs, and university program listings.</em></p>
+<p><em>All 209 industry-recognized credentials have been audited against the MSDE State-Approved List. Zero unauthorized.</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#cte</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#education</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#local-first</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#privacy</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#maryland</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#open-source</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#audit</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-02-11T09:19:47.038129">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
