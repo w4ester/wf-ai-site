@@ -254,6 +254,104 @@
 
         <main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-02-11T09:19:47.038129">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">7 Commits, 1 Session: Building a Live Feedback Pipeline with AI</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-02-11::09:19</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>7 Commits, 1 Session: Building a Live Feedback Pipeline with AI</h1>
+<p><em>From empty scaffold to a live, passphrase-gated feedback loop — deployed on Cloudflare Workers, tracked in BEADS, mobile-audited, and favicon'd — in one AI-assisted build session.</em></p>
+<hr />
+<h2>Context</h2>
+<p>I'm building an <strong>AI-Aligned Lesson Builder</strong> for Maryland CS educators. The tool helps teachers create lessons that bridge the gap between Maryland's 2018 CS standards and the 2025 CSTA AI Learning Priorities — a gap where one set of standards mentions AI exactly once and the other defines 60+ AI learning outcomes.</p>
+<p>The product is a static PRD site today, hosted on GitHub Pages, with interactive Python playgrounds (Pyodide) and a Cloudflare Worker proxying Groq API calls. Think: a living document that's also a demo of what the agent will eventually build.</p>
+<p>But a document nobody can give feedback on is just a monologue. I needed a feedback loop — and I needed it today.</p>
+<h2>What We Built</h2>
+<p>Here's what went from idea to production in a single session, commit by commit.</p>
+<h3>1. The Feedback Pipeline (Form to KV to BEADS)</h3>
+<p>The core build: a passphrase-gated feedback form on the live site that routes through a Cloudflare Worker into KV storage, then gets pulled into a local BEADS issue tracker.</p>
+<p><strong>How it flows:</strong></p>
+<pre><code>User fills form on site
+  -&gt; Client-side SHA-256 passphrase check (human gate)
+  -&gt; POST /feedback to CF Worker
+  -&gt; Server-side passphrase validation
+  -&gt; PII auto-redaction (email, phone, SSN, credit card)
+  -&gt; Honeypot + timing gate (bot defense)
+  -&gt; Rate limiting (env-configurable)
+  -&gt; Store in KV as pending:{id}
+  -&gt; pull-feedback.sh pulls from KV
+  -&gt; bd create assigns a BEADS issue
+  -&gt; POST /feedback/ack marks items as processed
+</code></pre>
+<p>The passphrase gate is intentional. This is a dogfood tool for authorized reviewers — not a public comment box. The passphrase is shared in workshops and PD sessions. If you don't know it, you can't submit. Simple, no auth infrastructure required.</p>
+<p><strong>Why it matters for educators:</strong> When this tool goes live in workshops, facilitators and participating teachers can submit feedback directly from the page they're using. No context-switching to a separate form. No GitHub account needed. Just type and submit.</p>
+<h3>2. The bd Import Pivot</h3>
+<p>This was the session's best debugging story. The pull script originally used <code>bd import</code> to batch-load feedback items from a JSONL file. Three errors later, we'd learned that:</p>
+<ul>
+<li><strong>Type mismatch</strong>: The Worker stores priority as <code>"P2"</code> (string). BEADS expects an integer. JSON unmarshal failed.</li>
+<li><strong>Prefix mismatch</strong>: BEADS IDs follow a <code>project-prefix-number</code> pattern. Our feedback IDs (<code>fb20260211c8b</code>) don't have hyphens. Import rejected them.</li>
+<li><strong>Rename failed too</strong>: The <code>--rename-on-import</code> flag couldn't parse IDs without hyphens.</li>
+</ul>
+<p><strong>The fix:</strong> Replace the entire <code>bd import</code> approach with <code>bd create</code> per item, using <code>--external-ref</code> to preserve the original feedback ID as a cross-reference. BEADS assigns its own properly-prefixed ID. Clean separation of concerns.</p>
+<pre><code class="language-bash">BD_ID=$(bd create &quot;$TITLE&quot; \
+  -d &quot;$DESC&quot; \
+  -p &quot;$PRIORITY&quot; \
+  --external-ref &quot;$ID&quot; \
+  2&gt;&amp;1)
+</code></pre>
+<p>Sometimes the right fix isn't patching the integration — it's rethinking which tool owns which responsibility.</p>
+<h3>3. Mobile-First Audit &amp; Hamburger Nav</h3>
+<p>With the pipeline working, I audited the entire 2,400-line <code>index.html</code> at 375px (iPhone SE). Found and fixed:</p>
+<ul>
+<li><strong>A real bug</strong>: The error handler referenced <code>feedback-submit</code> but the button ID was <code>feedback-submit-btn</code>. When submission failed, the "Sending..." state never cleared.</li>
+<li><strong>Touch targets</strong>: Buttons were ~30px tall. WCAG minimum is 44px. Fixed across all interactive elements.</li>
+<li><strong>Focus-visible styles</strong>: Keyboard users couldn't see which element was focused. Added <code>:focus-visible</code> outlines.</li>
+<li><strong>Hamburger nav</strong>: Built a CSS-driven hamburger menu with proper <code>aria-expanded</code>, auto-close on link tap, and SVG icon swap. Hidden on desktop, visible on mobile.</li>
+</ul>
+<h3>4. Environment-Based Rate Limiting</h3>
+<p>The Worker's rate limiter was hardcoded to 20 requests per hour. Now it reads <code>RATE_LIMIT_PER_MINUTE</code> from the Cloudflare dashboard — changeable without redeploying. The error message is dynamic too, so operators see the actual limit.</p>
+<h3>5. The Favicon (Yes, It Counts)</h3>
+<p>A 404 in the console is a paper cut. An SVG favicon — blue rounded rect with "AI" text and a subtle network node — eliminates it and brands every browser tab. Seven lines of SVG, one <code>&lt;link&gt;</code> tag, zero build tools.</p>
+<h2>What We Learned</h2>
+<p><strong>Integration boundaries are where bugs live.</strong> The Worker stores data one way, BEADS expects it another way, and the pull script is the translation layer. Every type mismatch and format incompatibility surfaced at these seams. The lesson: test end-to-end early, not just each piece in isolation.</p>
+<p><strong>Env bindings beat hardcoded values.</strong> Moving the rate limit to an environment variable seems trivial, but it means operations changes don't require code changes. For a CF Worker, that's the difference between a dashboard toggle and a full <code>wrangler deploy</code>.</p>
+<p><strong>Mobile auditing catches real bugs.</strong> The feedback button ID mismatch was invisible on desktop (success path worked fine). It only mattered when an error occurred — and only became obvious when testing the full flow at mobile resolution where every UI state is more visible.</p>
+<h2>Challenges</h2>
+<p><strong>KV eventual consistency.</strong> After submitting feedback, the first pull returned zero items. A 3-second delay was needed. For a dogfood tool with low volume, this is fine. At scale, you'd want a webhook or polling approach.</p>
+<p><strong>BEADS JSONL isn't git-tracked by design.</strong> The <code>.gitignore</code> explicitly excludes <code>issues.jsonl</code> — it's local state, like a SQLite database. This means issue tracking is per-machine unless you use <code>bd sync</code>. Took a minute to understand why <code>git add</code> was being refused.</p>
+<p><strong>Single-file architecture has limits.</strong> The entire site is one 2,400-line <code>index.html</code>. Adding the hamburger nav meant weaving CSS, HTML, and JS into specific locations across the file. A component framework would help, but for a static GitHub Pages site with zero build step, the single-file approach keeps deployment trivial.</p>
+<h2>What's Next</h2>
+<ul>
+<li><strong>SvelteKit frontend</strong>: The scaffolded <code>frontend/</code> directory has PocketFlow agent nodes, WebLLM integration, and a Chat component — all dormant. Wiring these up is the next major milestone.</li>
+<li><strong>Standards crosswalk</strong>: The MSDE-to-CSTA mapping that powers the agent's lesson generation. Currently "Not Started" in the knowledge base table.</li>
+<li><strong>Workshop pilot</strong>: The feedback loop exists so real teachers can use the tool and tell us what's missing. Time to put it in front of people.</li>
+</ul>
+<h2>Try It Yourself</h2>
+<p>The live site is at <a href="https://w4ester.github.io/ai-workshop-cs/">w4ester.github.io/ai-workshop-cs</a>. The interactive Python playgrounds work on any device — no install, no login. If you're a Maryland CS educator or PD facilitator and want to try the feedback form, reach out for the passphrase.</p>
+<p>The code is open: <a href="https://github.com/w4ester/ai-workshop-cs">github.com/w4ester/ai-workshop-cs</a>.</p>
+<hr />
+<p><em>February 11, 2026 — Will F.</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#cloudflare-workers</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#dogfooding</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#ai-assisted-dev</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#education</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#feedback-loops</span>
+</div>
+</article>
+
+
     <!-- Post: Four Years of Local AI: From Experiment to Infrastructure -->
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-01-13T12:00:00">
     <div class="flex flex-col space-y-1.5 p-6">
