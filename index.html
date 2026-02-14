@@ -254,6 +254,101 @@
 
         <main id="main-content" class="space-y-6" role="main" aria-label="Blog posts">
 
+<article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-02-14T18:54:44.479573">
+    <div class="flex flex-col space-y-1.5 p-6">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-semibold leading-none tracking-tight text-lg font-mono group-hover:text-accent transition-colors">Three Deploy Bugs, One Friday: What Broke Between Local and Production</h3>
+            <span class="text-xs text-muted-foreground font-mono whitespace-nowrap">2026-02-14::18:54</span>
+        </div>
+    </div>
+    <div class="p-6 pt-0 text-muted-foreground prose post-content">
+        <h1>Three Deploy Bugs, One Friday: What Broke Between Local and Production</h1>
+<p><em>Everything worked locally. Then I deployed and learned three lessons about the gap between <code>docker compose up</code> and production.</em></p>
+<hr />
+<h2>Context</h2>
+<p>I'm building <a href="https://aiworkshop.edinfinite.com">AI Workshop CS</a>, a platform for Maryland CS educators to create AI-aligned lessons mapped to state standards. The stack is SvelteKit + FastAPI + PostgreSQL, deployed to an OrbStack VM via a custom zero-downtime deploy script.</p>
+<p>Last week I built a feedback loop: a modal in the nav, a FastAPI endpoint with five layers of spam prevention, PII redaction (emails, phone numbers, SSNs get scrubbed before storage), and automatic BEADS issue file creation. Everything committed, frontend builds clean, local Docker test passes.</p>
+<p>Time to ship.</p>
+<h2>Bug 1: The Invisible File</h2>
+<p><strong>Symptom:</strong> API container starts, immediately crashes. <code>ModuleNotFoundError: No module named 'deps'</code>.</p>
+<p><strong>Root cause:</strong> My deploy script syncs files to the remote box using an explicit tar file list:</p>
+<pre><code class="language-bash">tar -cf - \
+    backend/Dockerfile \
+    backend/main.py \
+    backend/config.py \
+    backend/routers/ \
+    backend/services/ \
+    | orb sh -c &quot;tar -xf - -C ${REMOTE_DIR}&quot;
+</code></pre>
+<p>The Dockerfile uses <code>COPY . .</code>, which grabs everything in the build context. Locally, <code>deps.py</code> is right there. But the deploy script never included it in the tar, so it never made it to the remote box.</p>
+<p><strong>Fix:</strong> Add <code>backend/deps.py</code> to the list.</p>
+<p><strong>Lesson:</strong> Explicit-include file lists are safe (no accidental secrets or <code>.env</code> files get synced), but they're also brittle. Every new file needs to be manually added. The failure mode is silent until runtime. If you use this pattern, consider a smoke test that imports your app module after deploy.</p>
+<h2>Bug 2: Wrong Filesystem</h2>
+<p><strong>Symptom:</strong> Migration script runs, <code>psql</code> reports "No such file or directory."</p>
+<p><strong>Root cause:</strong> The migration runner syncs SQL files to the host filesystem on the remote box, then runs:</p>
+<pre><code class="language-bash">docker exec ai-workshop-pgvector psql -U workshop -d ai_workshop \
+    -f /home/demo/apps/ai-workshop-cs/backend/migrations/001_feedback.sql
+</code></pre>
+<p>The <code>-f</code> flag tells psql to read a file. But <code>docker exec</code> runs inside the container, where that host path doesn't exist. The container has its own filesystem.</p>
+<p><strong>Fix:</strong> Pipe via stdin instead:</p>
+<pre><code class="language-bash">cat /host/path/to/migration.sql | docker exec -i container psql -U user -d db
+</code></pre>
+<p>The <code>-i</code> flag keeps stdin open so psql can read from the pipe.</p>
+<p><strong>Lesson:</strong> <code>docker exec</code> drops you inside the container. File paths that work on the host mean nothing there. Either mount the directory as a volume, or pipe content through stdin. I chose stdin because it requires zero changes to the container configuration.</p>
+<h2>Bug 3: The Protocol Betrayal</h2>
+<p><strong>Symptom:</strong> Click "Send Feedback" on the live HTTPS site. Browser blocks the request. Console says: <code>Mixed Content: requested an insecure resource 'http://aiworkshop.edinfinite.com/api/feedback/'</code>.</p>
+<p><strong>Root cause:</strong> Three things conspired:</p>
+<ol>
+<li>FastAPI has <code>redirect_slashes</code> enabled by default. The client sends <code>POST /api/feedback</code>, the route is <code>/api/feedback/</code>, so FastAPI returns a 307 redirect.</li>
+<li>Nginx proxies to the backend over plain HTTP internally (<code>proxy_pass http://api:8000</code>). FastAPI sees an HTTP request and generates an HTTP redirect URL.</li>
+<li>The browser sees an HTTPS page trying to follow an HTTP redirect and blocks it as mixed content.</li>
+</ol>
+<p>The standard fix is to pass <code>X-Forwarded-Proto</code> from nginx so the backend knows the original scheme was HTTPS. But that alone wasn't enough because uvicorn's <code>--forwarded-allow-ips</code> defaults to <code>127.0.0.1</code>, and nginx's requests come from the Docker bridge network (something like <code>172.18.0.x</code>). Uvicorn sees an untrusted IP and ignores the forwarded headers entirely.</p>
+<p><strong>Fix (belt and suspenders):</strong></p>
+<pre><code class="language-nginx"># nginx.conf
+proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<pre><code class="language-dockerfile"># Dockerfile
+CMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;, \
+     &quot;--forwarded-allow-ips&quot;, &quot;*&quot;]
+</code></pre>
+<pre><code class="language-javascript">// api.js - avoid the redirect entirely
+fetch(`/api/feedback/`, { method: 'POST', ... })
+//                   ^ trailing slash = no redirect needed
+</code></pre>
+<p><strong>Lesson:</strong> Behind a reverse proxy, every redirect is a potential protocol mismatch. The redirect itself is invisible to users. It worked locally because there's no HTTPS in dev. Three things need to align: nginx forwarding the scheme, uvicorn trusting the source IP, and ideally your client URLs matching the canonical route to avoid redirects altogether.</p>
+<h2>The Pattern</h2>
+<p>All three bugs share a root cause: <strong>things that are implicit locally become explicit in production</strong>.</p>
+<ul>
+<li>Locally, all files exist in the build context. In production, only what you sync exists.</li>
+<li>Locally, there's one filesystem. In production, every container has its own.</li>
+<li>Locally, there's no TLS termination. In production, the protocol changes between every hop.</li>
+</ul>
+<p>None of these bugs showed up in <code>docker compose up -d</code> on my laptop. They only appeared when the same code hit the real deployment pipeline with a reverse proxy, a remote VM, and HTTPS.</p>
+<h2>What's Next</h2>
+<p>The feedback loop is live. Maryland CS educators can now click "Feedback" in the nav, pick a type (suggestion, bug, question), and submit. Their message gets spam-checked, PII-scrubbed, stored in PostgreSQL, and turned into a BEADS issue file for triage. All running on a single OrbStack VM with zero-downtime deploys.</p>
+<p>Next up: making the AI lesson agent actually generate full lesson plans from the standards crosswalk data.</p>
+<hr />
+<p><em>February 2026. Built with SvelteKit, FastAPI, and a healthy respect for production environments.</em></p>
+        <div class="post-fade"></div>
+    </div>
+    <div class="px-6 pb-2">
+        <button class="read-more-btn" onclick="togglePost(this)">
+            <span>Continue reading...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+    </div>
+    <div class="px-6 pb-4 flex gap-2 flex-wrap">
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#deployment</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#docker</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#devops</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#fastapi</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#nginx</span>
+<span class="text-xs font-mono px-2 py-1 rounded bg-muted text-muted-foreground">#lessons-learned</span>
+</div>
+</article>
+
+
 <article class="group rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-accent/50 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;" data-date="2026-02-11T12:36:28.448133">
     <div class="flex flex-col space-y-1.5 p-6">
         <div class="flex justify-between items-start gap-4">
